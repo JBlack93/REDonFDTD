@@ -1,8 +1,7 @@
-#include <math.h>
+#include <cmath>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <boost/numeric/ublas/vector.hpp>
 #include "include/REDonFDTD/prototypes.hpp"
 #include "include/REDonFDTD/macroSetUp.hpp"
 #include "include/REDonFDTD/memAllocation.hpp"
@@ -122,19 +121,14 @@ void sourceFunction(Particle *p, Mesh *g)
 
 std::vector<double> eFieldProduced(Particle *p, double x, double y, double z)
 {
-    std::vector<double> gridRadius(3);
-    std::vector<double> sourceRadius(3);
-    std::vector<double> velocity(3);
-    std::vector<double> acceleration(3);
+  std::vector<double> gridRadius{x,y,z};
+  std::vector<double> sourceRadius{xPosition,yPosition,zPosition};
+  std::vector<double> velocity{xVelocity,yVelocity,zVelocity};
+  std::vector<double> acceleration{xAcceleration, yAcceleration, zAcceleration};
 
-    gridRadius = iniVector(x,y,z);
-    sourceRadius = iniVector(xPosition,yPosition,zPosition);
-    velocity   = iniVector(xVelocity,yVelocity,zVelocity);
-    acceleration = iniVector(xAcceleration, yAcceleration, zAcceleration);
-
-    std::vector<double> gridToSource{gridRadius[0]-sourceRadius[0],
-                                     gridRadius[1]-sourceRadius[1],
-                                     gridRadius[2]-sourceRadius[2]};
+  std::vector<double> gridToSource{gridRadius[0]-sourceRadius[0],
+                                   gridRadius[1]-sourceRadius[1],
+                                   gridRadius[2]-sourceRadius[2]};
 
     double gridToSourceMag = magnitude(gridToSource);                       //STILL NEED TO MAKE THIS EVALUATED AT RETARDED
     std::vector<double> dirU{c*gridToSource[0]/(gridToSourceMag) - velocity[0],
@@ -162,17 +156,14 @@ std::vector<double> eFieldProduced(Particle *p, double x, double y, double z)
 
 std::vector<double> bFieldProduced(Particle *p, std::vector<double> eField, double x, double y, double z)
 {
-    std::vector<double> gridRadius(3);
-    std::vector<double> sourceRadius(3);
-
-    gridRadius = iniVector(x,y,z);
-    sourceRadius = iniVector(xPosition,yPosition,zPosition);
-    std::vector<double> gridToSource{gridRadius[0] - sourceRadius[0],
-                                     gridRadius[1] - sourceRadius[1],
-                                     gridRadius[2] - sourceRadius[2]};
-    double gridToSourceMag = magnitude(gridToSource);
-    double factor = (1/(c*gridToSourceMag));
-    std::vector<double> bField = cross(gridToSource, eField);
-    std::for_each(bField.begin(),bField.end(),[&factor](double element){factor*element;});
-    return bField;
+  std::vector<double> gridRadius{x,y,z};
+  std::vector<double> sourceRadius{xPosition,yPosition,zPosition};
+  std::vector<double> gridToSource{gridRadius[0] - sourceRadius[0],
+                                   gridRadius[1] - sourceRadius[1],
+                                   gridRadius[2] - sourceRadius[2]};
+  double gridToSourceMag = magnitude(gridToSource);
+  double factor = (1/(c*gridToSourceMag));
+  std::vector<double> bField = cross(gridToSource, eField);
+  std::for_each(bField.begin(),bField.end(),[&factor](double element){factor*element;});
+  return bField;
 }

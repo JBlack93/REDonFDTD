@@ -1,7 +1,7 @@
 /* FUNCTION TO INITIALISE A HOMOGENEOUS 3D MESH */
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include "include/REDonFDTD/macroSetUp.hpp"
 #include "include/REDonFDTD/memAllocation.hpp"
 

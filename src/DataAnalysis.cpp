@@ -6,13 +6,6 @@
 #include <cmath>
 #include "include/REDonFDTD/macroSetUp.hpp"
 
-std::vector<double> iniVector(double x, double y,double z)
-{
-    std::vector<double> Vector(3);
-    Vector[0]=x; Vector[1]=y; Vector[2]=z;
-    return Vector;
-}
-
 std::vector<double> cross(std::vector<double> vector1, std::vector<double> vector2)
 {
     std::vector<double> vector3 (3);

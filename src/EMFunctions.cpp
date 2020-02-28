@@ -2,7 +2,7 @@
  * which therefore includes all the Electromagnetic effects
  */
 
-#include <math.h>
+#include <cmath>
 #include "include/REDonFDTD/prototypes.hpp"
 #include "include/REDonFDTD/macroSetUp.hpp"
 

@@ -109,10 +109,6 @@ std::vector<double> bFieldProduced(Particle *p, std::vector<double> eField, doub
 
 //! @{
 //DataAnalysis.cpp//
-/** @brief Completely unnecessary vector constructor???
- */
-[[deprecated("This function is just a 3Vector constructor? Why...?")]]
-std::vector<double> iniVector(double x, double y,double z);
 /** @brief Calculate the Cross product between two 3-vectors
  *  @param vector1      Vector1
  *  @param vector2      Vector2
