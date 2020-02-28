@@ -2,7 +2,7 @@
  * functions. Including writing to .txt files.
  */
 #include <boost/numeric/ublas/vector.hpp>
-#include "macroSetUp.hpp"
+#include "include/REDonFDTD/macroSetUp.hpp"
 
 using namespace boost::numeric::ublas;
 typedef boost::numeric::ublas::vector<double> vct;

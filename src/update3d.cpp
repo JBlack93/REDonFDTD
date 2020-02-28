@@ -1,7 +1,7 @@
 /* FUNCTIONS TO UPDATE THE FIELDS*/
 
-#include "macroSetUp.hpp"
 #include <stdio.h>
+#include "include/REDonFDTD/macroSetUp.hpp"
 
 
 /* update magnetic field */
@@ -100,6 +100,3 @@ void updateE(Mesh *g)
     return;
 
     }        /* end updateE() */
-
-
-

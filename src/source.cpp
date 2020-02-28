@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include "prototypes.hpp"
-#include "macroSetUp.hpp"
-#include "memAllocation.hpp"
 #include <boost/numeric/ublas/vector.hpp>
+#include "include/REDonFDTD/prototypes.hpp"
+#include "include/REDonFDTD/macroSetUp.hpp"
+#include "include/REDonFDTD/memAllocation.hpp"
 
 
 
@@ -174,4 +174,3 @@ vct bFieldProduced(Particle *p, vct eField, double x, double y, double z)
 
     return bField;
 }
-
