@@ -1,8 +1,6 @@
 /** @file meshInit.hpp
  *  @brief Contains the Mesh struct */
-#ifndef _MESH_INIT_H
-#define _MESH_INIT_H
-
+#pragma once
 //! @brief Mesh is the 4D space-time grid which contains both E and H fields.
 struct Mesh
 {
@@ -18,5 +16,3 @@ struct Mesh
 };
 
 typedef struct Mesh Mesh;
-
-#endif

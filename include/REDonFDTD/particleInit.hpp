@@ -1,7 +1,6 @@
 /** @file particleInit.hpp
  *  @brief Contains the Particle struct */
-#ifndef _PARTICLE_INIT_H
-#define _PARTICLE_INIT_H
+#pragma once
 
 //! @brief Particle struct contains all necessary information for updating the position of the particle.
 struct Particle
@@ -16,5 +15,3 @@ struct Particle
 
 
 typedef struct Particle Particle;
-
-#endif

@@ -1,8 +1,6 @@
 /** @file macroSetUp.hpp
  *  @brief macros that permit the Mesh struct to be specified */
-
-#ifndef _MACRO_SETUP_H
-#define _MACRO_SETUP_H
+#pragma once
 
 #include "include/REDonFDTD/meshInit.hpp"
 
@@ -190,5 +188,3 @@
 #define PrevGamma       prevGammaP(p)
 #define Gamma           gammaP(p)
 #define FutGamma        futGammaP(p)
-
-#endif

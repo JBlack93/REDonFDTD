@@ -1,9 +1,6 @@
 /** @file memAllocation.hpp
  *  @brief memory allocation macros */
-
-#ifndef _MEM_ALLOC_H
-#define _MEM_ALLOC_H
-
+#pragma once
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,9 +36,4 @@
        fprintf(stderr,                                              \
        "Allocation failed for " #PNTR ". Terminating...\n");        \
        exit(-1);                                                    \
-    }                                                               \
-
-
-
-
-#endif
+    }

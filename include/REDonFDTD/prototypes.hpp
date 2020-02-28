@@ -1,16 +1,16 @@
 /** @file prototypes.hpp
  *  @brief Generic header file with all function declarations */
+#pragma once
 
-#ifndef _PROTOTYPES_H
-#define _PROTOTYPES_H
-
-#include <boost/numeric/ublas/vector.hpp>
+#include <vector>
+#include <cmath>
+#include <algorithm>
 #include "include/REDonFDTD/meshInit.hpp"
 #include "include/REDonFDTD/particleInit.hpp"
 
-static double c = 2.99792458*pow(10,8);
-static double epsilon_0 = 8.85418782*pow(10,-12);
-static double Mu_0 = 4*M_PI*pow(10,-7);
+constexpr double c = 2.99792458*pow(10,8);
+constexpr double epsilon_0 = 8.85418782*pow(10,-12);
+constexpr double Mu_0 = 4*M_PI*pow(10,-7);
 
 //! @{
 // meshInit.cpp//
@@ -204,5 +204,3 @@ void timeAdvanceValues(Particle *p);
  */
 void halfTimeStep(Particle *p, Mesh *g);
 //! @}
-
-#endif
