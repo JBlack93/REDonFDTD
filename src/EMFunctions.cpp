@@ -6,8 +6,8 @@
 
 #include <math.h>
 #include <boost/numeric/ublas/vector.hpp>
-#include "prototypes.hpp"
-#include "macroSetUp.hpp"
+#include "include/REDonFDTD/prototypes.hpp"
+#include "include/REDonFDTD/macroSetUp.hpp"
 
 typedef boost::numeric::ublas::vector<double> vct;
 
@@ -136,7 +136,3 @@ void halfTimeStep(Particle *p, Mesh *g)
     }
     timeAdvanceValues(p);
 }
-
-
-
-

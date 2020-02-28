@@ -1,6 +1,6 @@
-#include "macroSetUp.hpp"
-#include "prototypes.hpp"
-#include "stdio.h"
+#include <stdio.h>
+#include "include/REDonFDTD/macroSetUp.hpp"
+#include "include/REDonFDTD/prototypes.hpp"
 
 static double cdtds, ppw = 0;
 
@@ -28,4 +28,3 @@ double ezInc(double time, double location)
     arg = arg * arg;
     return (1.0 - 2.0 * arg) * exp(-arg);         // amplitude of change in field due to source
 }
-

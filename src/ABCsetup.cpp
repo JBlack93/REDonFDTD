@@ -1,9 +1,9 @@
 /* The code used to implement a first-order ABC on each face of
  * the 3D domain.
  */
-#include "stdio.h"
-#include "memAllocation.hpp"
-#include "macroSetUp.hpp"
+#include <stdio.h>
+#include "include/REDonFDTD/memAllocation.hpp"
+#include "include/REDonFDTD/macroSetUp.hpp"
 
 /* Macros to access stored "old" value */
 #define Eyx0(N, P) eyx0[(N) * (SizeZ) + (P)]
@@ -190,4 +190,3 @@ void updateABC(Mesh *g)
     }
     return;
 }                   /* end updateABC() */
-

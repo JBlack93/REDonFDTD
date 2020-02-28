@@ -1,9 +1,9 @@
 /* FUNCTION TO INITIALISE A HOMOGENEOUS 3D MESH */
 
 #include <iostream>
-#include "macroSetUp.hpp"
-#include "memAllocation.hpp"
 #include <math.h>
+#include "include/REDonFDTD/macroSetUp.hpp"
+#include "include/REDonFDTD/memAllocation.hpp"
 
  /* function to initialise the mesh */
 void initialiseMesh(Mesh *g)

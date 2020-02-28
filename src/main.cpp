@@ -5,11 +5,11 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/geometry.hpp>
 
-#include "prototypes.hpp"
-#include "memAllocation.hpp"
-#include "macroSetUp.hpp"
-#include "particleInit.hpp"
-#include "meshInit.hpp"
+#include "include/REDonFDTD/prototypes.hpp"
+#include "include/REDonFDTD/memAllocation.hpp"
+#include "include/REDonFDTD/macroSetUp.hpp"
+#include "include/REDonFDTD/particleInit.hpp"
+#include "include/REDonFDTD/meshInit.hpp"
 
 
 typedef boost::numeric::ublas::vector<double> vct;
