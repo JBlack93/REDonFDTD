@@ -1,24 +1,21 @@
 /* This Header file contains all the necessary manipulation of data
  * functions. Including writing to .txt files.
  */
-#include <boost/numeric/ublas/vector.hpp>
+#include <fstream>
+#include <vector>
+#include <cmath>
 #include "include/REDonFDTD/macroSetUp.hpp"
 
-using namespace boost::numeric::ublas;
-typedef boost::numeric::ublas::vector<double> vct;
-
-#include <fstream>
-
-vct iniVector(double x, double y,double z)
+std::vector<double> iniVector(double x, double y,double z)
 {
-    vct Vector(3);
+    std::vector<double> Vector(3);
     Vector[0]=x; Vector[1]=y; Vector[2]=z;
     return Vector;
 }
 
-vct cross(vct vector1, vct vector2)
+std::vector<double> cross(std::vector<double> vector1, std::vector<double> vector2)
 {
-    vct vector3 (3);
+    std::vector<double> vector3 (3);
     vector3[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
     vector3[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
     vector3[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
@@ -26,36 +23,36 @@ vct cross(vct vector1, vct vector2)
     return vector3;
 }
 
-double dot(vct vector1, vct vector2)
+double dot(std::vector<double> vector1, std::vector<double> vector2)
 {
     float dotProduct=0;
     for (unsigned i=0; i< vector1.size(); i++)
         {
-        dotProduct += vector1(i)*vector2(i);
+        dotProduct += vector1[i]*vector2[i];
         }
 
     return dotProduct;
 
 }
 
-double magnitude(vct a)
+double magnitude(std::vector<double> a)
 {
     float mag;
-    mag = sqrt(pow(a[0],2)+pow(a[1],2)+pow(a[2],2));
+    mag = std::sqrt(dot(a,a));
     return mag;
 }
 
-vct norm(vct a)
+std::vector<double> norm(std::vector<double> a)
 {
     float aMag = magnitude(a);
     for (unsigned i = 0; i < a.size(); ++ i)
         {
-        a(i) = a(i)/aMag;
+        a[i] = a[i]/aMag;
         }
     return a;
 }
 
-void writeTo(vct position, float gamma, int mode)
+void writeTo(std::vector<double> position, float gamma, int mode)
 {
     using namespace std;
     ofstream myfile;

@@ -1,21 +1,12 @@
 /* 3D simulation with dipole source at center of mesh. */
 #include <iostream>
-#include <boost/numeric/ublas/vector.hpp>
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/io.hpp>
-#include <boost/geometry.hpp>
-
+#include <vector>
 #include "include/REDonFDTD/prototypes.hpp"
 #include "include/REDonFDTD/memAllocation.hpp"
 #include "include/REDonFDTD/macroSetUp.hpp"
 #include "include/REDonFDTD/particleInit.hpp"
 #include "include/REDonFDTD/meshInit.hpp"
 
-
-typedef boost::numeric::ublas::vector<double> vct;
-using namespace boost::numeric::ublas;
-
-//valgrind
 int main()
 {
     Mesh *g;

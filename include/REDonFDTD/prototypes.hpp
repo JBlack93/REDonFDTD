@@ -8,9 +8,6 @@
 #include "include/REDonFDTD/meshInit.hpp"
 #include "include/REDonFDTD/particleInit.hpp"
 
-typedef boost::numeric::ublas::vector<double> vct;
-using namespace boost::numeric::ublas;
-
 static double c = 2.99792458*pow(10,8);
 static double epsilon_0 = 8.85418782*pow(10,-12);
 static double Mu_0 = 4*M_PI*pow(10,-7);
@@ -98,7 +95,7 @@ void sourceFunction(Particle *p,Mesh *g);
     @param y        y-position of grid point
     @param z        z-position of grid point
  */
-vct eFieldProduced(Particle *p, double x, double y, double z);
+std::vector<double> eFieldProduced(Particle *p, double x, double y, double z);
 
 /** @brief Calculate the B-Field produced by Particle on a particular point in S-T
     @param p        Particle which we need to calculate effect of
@@ -107,7 +104,7 @@ vct eFieldProduced(Particle *p, double x, double y, double z);
     @param y        y-position of grid point
     @param z        z-position of grid point
  */
-vct bFieldProduced(Particle *p, vct eField, double x, double y, double z);
+std::vector<double> bFieldProduced(Particle *p, std::vector<double> eField, double x, double y, double z);
 //! @}
 
 //! @{
@@ -115,35 +112,35 @@ vct bFieldProduced(Particle *p, vct eField, double x, double y, double z);
 /** @brief Completely unnecessary vector constructor???
  */
 [[deprecated("This function is just a 3Vector constructor? Why...?")]]
-vct iniVector(double x, double y,double z);
+std::vector<double> iniVector(double x, double y,double z);
 /** @brief Calculate the Cross product between two 3-vectors
  *  @param vector1      Vector1
  *  @param vector2      Vector2
  *  @returns     Cross product of Vector1 x Vector2
  */
-vct cross(vct vector1, vct vector2);
+std::vector<double> cross(std::vector<double> vector1, std::vector<double> vector2);
 /** @brief Calculate the norm of a 3 vector
  *  @param a     Vector to calculate norm of
  *  @returns     Norm of a (||a||)
  */
-vct norm(vct a);
+std::vector<double> norm(std::vector<double> a);
 /** @brief Calculate the dot product between two 3-vectors
  *  @param vector1      Vector1
  *  @param vector2      Vector2
  *  @returns     dot product of Vector1 dot Vector2
  */
-double dot(vct vector1, vct vector2);
+double dot(std::vector<double> vector1, std::vector<double> vector2);
 /** @brief Calculate the magnitude of a 3 vector
  *  @param a     Vector to calculate magnitude of
  *  @returns     Magnitude of a (|a|)
  */
-double magnitude(vct a);
+double magnitude(std::vector<double> a);
 /** @brief Output particle position and gamma value
  *  @param position         Particle Position
  *  @param gamma            Particle Gamma
  *  @param mode             if ==0, truncate, else append
  */
-void writeTo(vct position, float gamma, int mode);
+void writeTo(std::vector<double> position, float gamma, int mode);
 /** @brief Output E-Field for a a particular time
  *  @param g                Mesh to be outputted
  *  @param mode             if ==0, truncate, else append
@@ -178,13 +175,13 @@ void newVelocityTaylor(Particle *p, Mesh *g);
  *  @param p        Particle on which an external force is acting
  *  @param force    External force on particle
  */
-void findAcceleration(Particle *p, vct force);
+void findAcceleration(Particle *p, std::vector<double> force);
 /** @brief Calculate Lorentz force felt by particle
  *  @param p        Particle which force will be calculated for
  *  @param g        Mesh in which particle lives
  *  @returns        Force felt by particle
  */
-vct lorentzForce(Particle *p, Mesh *g);
+std::vector<double> lorentzForce(Particle *p, Mesh *g);
 /** @brief Velocity after energy radiated
  *  @param p        Particle which will radiate energy
  *  @param powerRad Energy which is radiated away
@@ -194,7 +191,7 @@ void velocityAfterRad(Particle *p, double powerRad);
  *  @param velocity       Velocity to convert to gamma
  *  @returns              gamma which corresponds to velocity
  */
-double findGamma(vct velocity);
+double findGamma(std::vector<double> velocity);
 /** @brief Find energy radiated
  *  @param p        Particle which will radiate energy
  *  @returns        Energy which is radiated away

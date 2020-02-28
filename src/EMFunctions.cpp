@@ -3,12 +3,8 @@
  */
 
 #include <math.h>
-#include <boost/numeric/ublas/vector.hpp>
 #include "include/REDonFDTD/prototypes.hpp"
 #include "include/REDonFDTD/macroSetUp.hpp"
-
-typedef boost::numeric::ublas::vector<double> vct;
-
 
 void newPositionTaylor(Particle *p, Mesh *g)
 {
@@ -27,14 +23,14 @@ void newVelocityTaylor(Particle *p, Mesh *g)
 
 }
 
-void findAcceleration(Particle *p, vct force)
+void findAcceleration(Particle *p, std::vector<double> force)
 {
     xFutAcc = force[0]/(Mass*FutGamma);
     yFutAcc = force[1]/(Mass*FutGamma);
     zFutAcc = force[2]/(Mass*FutGamma);
 }
 
-double findGamma(vct velocity)
+double findGamma(std::vector<double> velocity)
 {
     double velMag = magnitude(velocity);
     double gamma = 1/(sqrt(1-pow(velMag/c,2)));
@@ -43,11 +39,10 @@ double findGamma(vct velocity)
 
 /* ELECTROMAGNETIC EFFECTS */
 
-vct lorentzForce(Particle *p, Mesh *g)
+std::vector<double> lorentzForce(Particle *p, Mesh *g)
 {
-    vct force(3);
-    vct velocity(3);
-    vct bField(3);
+    std::vector<double> velocity(3);
+    std::vector<double> bField(3);
     velocity[0] = xFutVel;
     velocity[1] = yFutVel;
     velocity[2] = zFutVel;
@@ -55,21 +50,21 @@ vct lorentzForce(Particle *p, Mesh *g)
     bField[1] = Hy((int) xFutPos, (int) yFutPos, (int) zFutPos);
     bField[2] = Hz((int) xFutPos, (int) yFutPos, (int) zFutPos);
 
-
-    force = cross(velocity, bField)*Charge*Mu_0;
-    return force;
+    std::vector<double> crossProduct = cross(velocity, bField);
+    std::for_each(crossProduct.begin(), crossProduct.end(), [& p](double a){a*(Charge)*(Mu_0);});
+    return crossProduct;
 }
 
 double powerRadiated(Particle *p)
 {
-    vct velocity(3);
-    vct acceleration(3);
+    std::vector<double> velocity(3);
+    std::vector<double> acceleration(3);
 
     velocity[0]     = xFutVel;    velocity[1]     = yFutVel;      velocity[2]     = zFutVel;
     acceleration[0] = xFutAcc;    acceleration[1] = yFutAcc;      acceleration[2] = zFutAcc;
 
     double coefficient = (Mu_0*pow(Charge,2)*pow(FutGamma,6))/(6*M_PI*c);
-    vct crossProd(3);
+    std::vector<double> crossProd(3);
     crossProd = cross(velocity,acceleration);
     double crossProdMag = magnitude(crossProd);
     double magTerm = pow(crossProdMag/c,2);
@@ -80,8 +75,8 @@ double powerRadiated(Particle *p)
 
 void velocityAfterRad(Particle *p, double powerRad)
 {
-    vct velocity(3);
-    vct acceleration(3);
+    std::vector<double> velocity(3);
+    std::vector<double> acceleration(3);
 
     velocity[0]     = xFutVel;     velocity[1]     = yFutVel;       velocity[2]     = zFutVel;
     acceleration[0] = xFutAcc;     acceleration[1] = yFutAcc;       acceleration[2] = zFutAcc;
@@ -91,11 +86,12 @@ void velocityAfterRad(Particle *p, double powerRad)
     double iniEnergy = Mass*pow(c,2)*FutGamma;
     double finalEnergy = iniEnergy - powerRad;//*TimeStep;
     double finalVelMag = c*(sqrt(1-pow(((Mass*pow(c,2))/finalEnergy),2)));
-    vct finalVelVector = velocity*finalVelMag/velMag;
 
-    xFutVel = finalVelVector[0];
-    yFutVel = finalVelVector[1];
-    zFutVel = finalVelVector[2];
+    std::for_each(velocity.begin(), velocity.end(), [&finalEnergy, &finalVelMag](double vel){vel*finalVelMag/finalVelMag;});
+
+    xFutVel = velocity[0];
+    yFutVel = velocity[1];
+    zFutVel = velocity[2];
     FutGamma = 1/(sqrt(1-pow(sqrt(pow(xFutVel,2)+pow(yFutVel,2)+pow(zFutVel,2))/c,2)));
     }
 
@@ -120,7 +116,7 @@ void halfTimeStep(Particle *p, Mesh *g)
     Time += TimeStep/2;
     newPositionTaylor(p, g);
     newVelocityTaylor(p, g);
-    vct force(3);
+    std::vector<double> force(3);
     force = lorentzForce(p, g);
     findAcceleration(p, force);
     double powerRad = powerRadiated(p);

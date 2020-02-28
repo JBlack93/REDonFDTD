@@ -100,8 +100,8 @@ void sourceFunction(Particle *p, Mesh *g)
             int b = 1+3*n;     // correspond to appropriate coordinates such
             int c = 2+3*m;     // that calculations can be done at all 8 points
 
-            vct eField(3);
-            vct bField(3);
+            std::vector<double> eField(3);
+            std::vector<double> bField(3);
             eField = eFieldProduced(p, coord(a), coord(b), coord(c));
             bField = bFieldProduced(p, eField, coord(a), coord(b), coord(c));
   /*          std::cout <<xPosition<<std::endl;
@@ -120,56 +120,59 @@ void sourceFunction(Particle *p, Mesh *g)
     }// amplitude of change in field due to source
 }
 
-vct eFieldProduced(Particle *p, double x, double y, double z)
+std::vector<double> eFieldProduced(Particle *p, double x, double y, double z)
 {
-    typedef boost::numeric::ublas::vector<double> vct;
-    using namespace boost::numeric::ublas;
-
-    vct gridRadius(3);
-    vct sourceRadius(3);
-    vct dirU(3);
-    vct gridToSource(3);
-    vct velocity(3);
-    vct acceleration(3);
+    std::vector<double> gridRadius(3);
+    std::vector<double> sourceRadius(3);
+    std::vector<double> velocity(3);
+    std::vector<double> acceleration(3);
 
     gridRadius = iniVector(x,y,z);
     sourceRadius = iniVector(xPosition,yPosition,zPosition);
     velocity   = iniVector(xVelocity,yVelocity,zVelocity);
     acceleration = iniVector(xAcceleration, yAcceleration, zAcceleration);
 
+    std::vector<double> gridToSource{gridRadius[0]-sourceRadius[0],
+                                     gridRadius[1]-sourceRadius[1],
+                                     gridRadius[2]-sourceRadius[2]};
 
-    gridToSource = gridRadius - sourceRadius;
     double gridToSourceMag = magnitude(gridToSource);                       //STILL NEED TO MAKE THIS EVALUATED AT RETARDED
-    dirU = c*gridToSource/(gridToSourceMag) - velocity;                     //TIME... NOT SURE YET.
+    std::vector<double> dirU{c*gridToSource[0]/(gridToSourceMag) - velocity[0],
+                             c*gridToSource[1]/(gridToSourceMag) - velocity[1],
+                             c*gridToSource[2]/(gridToSourceMag) - velocity[2]};
+
     double dotGridSourceU = dot(gridToSource, dirU);
 
 
     double prefactor = Charge/(4*M_PI*epsilon_0);
     double secondFactor = gridToSourceMag/(pow(dotGridSourceU/gridToSourceMag,3));
-    vct firstTerm(3);
-    firstTerm = (pow(c,2)-dot(velocity,velocity))*dirU;
-    vct secondTerm(3);
-    secondTerm = cross(gridToSource, cross(dirU, acceleration))/gridToSourceMag;
-    vct eField(3);
-    eField = prefactor*secondFactor*(firstTerm+secondTerm);
+    double firstTermFactor = (pow(c,2)-dot(velocity,velocity));
+    std::vector<double> firstTerm{firstTermFactor*dirU[0],
+                                  firstTermFactor*dirU[1],
+                                  firstTermFactor*dirU[2]};
+    std::vector<double> secondTerm = cross(gridToSource, cross(dirU, acceleration));
+    std::for_each(secondTerm.begin(),secondTerm.end(),[&gridToSourceMag](double element){element/gridToSourceMag;});
+    std::vector<double> eField{prefactor*secondFactor*(firstTerm[0]+secondTerm[0]),
+                               prefactor*secondFactor*(firstTerm[1]+secondTerm[1]),
+                               prefactor*secondFactor*(firstTerm[2]+secondTerm[2])};
     return eField;
 }
 
 
 
-vct bFieldProduced(Particle *p, vct eField, double x, double y, double z)
+std::vector<double> bFieldProduced(Particle *p, std::vector<double> eField, double x, double y, double z)
 {
-    vct bField(3);
-    vct gridRadius(3);
-    vct sourceRadius(3);
-    vct gridToSource(3);
+    std::vector<double> gridRadius(3);
+    std::vector<double> sourceRadius(3);
 
     gridRadius = iniVector(x,y,z);
     sourceRadius = iniVector(xPosition,yPosition,zPosition);
-    gridToSource = gridRadius - sourceRadius;
+    std::vector<double> gridToSource{gridRadius[0] - sourceRadius[0],
+                                     gridRadius[1] - sourceRadius[1],
+                                     gridRadius[2] - sourceRadius[2]};
     double gridToSourceMag = magnitude(gridToSource);
-
-    bField = (1/(c*gridToSourceMag))*(cross(gridToSource, eField));
-
+    double factor = (1/(c*gridToSourceMag));
+    std::vector<double> bField = cross(gridToSource, eField);
+    std::for_each(bField.begin(),bField.end(),[&factor](double element){factor*element;});
     return bField;
 }
