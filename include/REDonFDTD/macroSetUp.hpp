@@ -1,9 +1,11 @@
+/** @file macroSetUp.hpp
+ *  @brief macros that permit the Mesh struct to be specified */
+
 #ifndef _MACRO_SETUP_H
 #define _MACRO_SETUP_H
 
-#include "meshInit.hpp"
+#include "include/REDonFDTD/meshInit.hpp"
 
-/* macros that permit the "Mesh" to be specified */
 /* 3D mesh */
 #define HxG(g, M, N, P)    g->hx[((M) * (SizeYinMesh(g) - 1) + N) * (SizeZinMesh(g) - 1) + P]
 #define ChxhG(g, M, N, P)  g->chxh[((M) * (SizeYinMesh(g) - 1) + N) * (SizeZinMesh(g) - 1) + P]

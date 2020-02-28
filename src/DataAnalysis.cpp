@@ -9,7 +9,6 @@ typedef boost::numeric::ublas::vector<double> vct;
 
 #include <fstream>
 
-
 vct iniVector(double x, double y,double z)
 {
     vct Vector(3);

@@ -85,7 +85,6 @@ void findCell(Particle *p)
 
 /* Changes the the electric and magnetic field at 8 difference points based on
  * point paths movement through the mesh. Most key function in entire operation
- *
  */
 void sourceFunction(Particle *p, Mesh *g)
 {

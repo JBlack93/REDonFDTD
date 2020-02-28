@@ -1,10 +1,11 @@
-/* memory allocation macros */
+/** @file memAllocation.hpp
+ *  @brief memory allocation macros */
 
 #ifndef _MEM_ALLOC_H
 #define _MEM_ALLOC_H
 
 
-#include "stdio.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 #define ALLOC_1D(PNTR, NUM, TYPE)                              \

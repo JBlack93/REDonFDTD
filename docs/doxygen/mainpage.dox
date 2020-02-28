@@ -1,0 +1,17 @@
+/**
+ * @mainpage
+ *
+ * @section intro Introduction
+ *
+ * This project was originally coded as a part of [James
+ * Black](https://jamesblack.ddns.net)'s Master's Thesis. This was work
+ * done under the supervision of Dr. Jeppe Andersen in the Institute of
+ * Particle Physics Phenomenology. It is being ressurrected here, as an
+ * aide to learn CUDA with an example use case.
+ *
+ * REDonFDTD is an application of the finite difference method to a 4
+ * dimensional space time grid, which contains relativistically moving
+ * particles. This causes many non-trivial problems which are not
+ * normally encountered in regular FDTD implementations.
+ *
+ */

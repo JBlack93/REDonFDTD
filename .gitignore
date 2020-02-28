@@ -37,3 +37,7 @@ main
 
 # Saved state files
 *~
+
+# Doxygen Output
+docs/doxygen/html/
+docs/doxygen/latex/

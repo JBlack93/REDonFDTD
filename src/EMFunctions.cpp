@@ -1,8 +1,6 @@
 /* This Header File contains all the functions which call for global values
- * which therefore includes all the Electromagnetic f
+ * which therefore includes all the Electromagnetic effects
  */
-
-
 
 #include <math.h>
 #include <boost/numeric/ublas/vector.hpp>
@@ -12,13 +10,9 @@
 typedef boost::numeric::ublas::vector<double> vct;
 
 
-
-/* FUNCTIONS */
-
 void newPositionTaylor(Particle *p, Mesh *g)
 {
     xFutPos = xPosition + xVelocity*TimeStep + pow(TimeStep,2)*xAcceleration/2;
-
     yFutPos = yPosition + yVelocity*TimeStep + pow(TimeStep,2)*yAcceleration/2;
     zFutPos = zPosition + zVelocity*TimeStep + pow(TimeStep,2)*zAcceleration/2;
 }
