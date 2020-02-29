@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
-#include "include/REDonFDTD/macroSetUp.hpp"
-#include "include/REDonFDTD/prototypes.hpp"
+#include "REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/prototypes.hpp"
 
 static int temporalStride = -2, frameX = 0, frameY = 0, startTime;
 static char basename[80];

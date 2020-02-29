@@ -2,8 +2,8 @@
  * the 3D domain.
  */
 #include <stdio.h>
-#include "include/REDonFDTD/memAllocation.hpp"
-#include "include/REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/memAllocation.hpp"
+#include "REDonFDTD/macroSetUp.hpp"
 
 /* Macros to access stored "old" value */
 #define Eyx0(N, P) eyx0[(N) * (SizeZ) + (P)]

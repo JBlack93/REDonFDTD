@@ -1,7 +1,7 @@
 /* FUNCTIONS TO UPDATE THE FIELDS*/
 
 #include <stdio.h>
-#include "include/REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/macroSetUp.hpp"
 
 
 /* update magnetic field */

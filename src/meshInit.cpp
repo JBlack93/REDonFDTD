@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <cmath>
-#include "include/REDonFDTD/macroSetUp.hpp"
-#include "include/REDonFDTD/memAllocation.hpp"
+#include "REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/memAllocation.hpp"
 
  /* function to initialise the mesh */
 void initialiseMesh(Mesh *g)

@@ -1,11 +1,11 @@
 /* 3D simulation with dipole source at center of mesh. */
 #include <iostream>
 #include <vector>
-#include "include/REDonFDTD/prototypes.hpp"
-#include "include/REDonFDTD/memAllocation.hpp"
-#include "include/REDonFDTD/macroSetUp.hpp"
-#include "include/REDonFDTD/particleInit.hpp"
-#include "include/REDonFDTD/meshInit.hpp"
+#include "REDonFDTD/prototypes.hpp"
+#include "REDonFDTD/memAllocation.hpp"
+#include "REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/particleInit.hpp"
+#include "REDonFDTD/meshInit.hpp"
 
 int main()
 {

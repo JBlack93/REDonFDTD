@@ -2,7 +2,7 @@
  *  @brief macros that permit the Mesh struct to be specified */
 #pragma once
 
-#include "include/REDonFDTD/meshInit.hpp"
+#include "REDonFDTD/meshInit.hpp"
 
 /* 3D mesh */
 #define HxG(g, M, N, P)    g->hx[((M) * (SizeYinMesh(g) - 1) + N) * (SizeZinMesh(g) - 1) + P]

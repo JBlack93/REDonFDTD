@@ -5,8 +5,8 @@
 #include <vector>
 #include <cmath>
 #include <algorithm>
-#include "include/REDonFDTD/meshInit.hpp"
-#include "include/REDonFDTD/particleInit.hpp"
+#include "REDonFDTD/meshInit.hpp"
+#include "REDonFDTD/particleInit.hpp"
 
 constexpr double c = 2.99792458*pow(10,8);
 constexpr double epsilon_0 = 8.85418782*pow(10,-12);

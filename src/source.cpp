@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include "include/REDonFDTD/prototypes.hpp"
-#include "include/REDonFDTD/macroSetUp.hpp"
-#include "include/REDonFDTD/memAllocation.hpp"
+#include "REDonFDTD/prototypes.hpp"
+#include "REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/memAllocation.hpp"
 
 
 

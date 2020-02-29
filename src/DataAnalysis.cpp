@@ -4,7 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
-#include "include/REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/macroSetUp.hpp"
 
 std::vector<double> cross(std::vector<double> vector1, std::vector<double> vector2)
 {

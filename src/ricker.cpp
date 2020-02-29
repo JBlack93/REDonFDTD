@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "include/REDonFDTD/macroSetUp.hpp"
-#include "include/REDonFDTD/prototypes.hpp"
+#include "REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/prototypes.hpp"
 
 static double cdtds, ppw = 0;
 

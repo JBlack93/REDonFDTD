@@ -3,8 +3,8 @@
  */
 
 #include <cmath>
-#include "include/REDonFDTD/prototypes.hpp"
-#include "include/REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/prototypes.hpp"
+#include "REDonFDTD/macroSetUp.hpp"
 
 void newPositionTaylor(Particle *p, Mesh *g)
 {
