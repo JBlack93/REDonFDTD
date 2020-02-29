@@ -51,7 +51,7 @@ std::vector<double> lorentzForce(Particle *p, Mesh *g)
     bField[2] = Hz((int) xFutPos, (int) yFutPos, (int) zFutPos);
 
     std::vector<double> crossProduct = cross(velocity, bField);
-    std::for_each(crossProduct.begin(), crossProduct.end(), [& p](double a){a*(Charge)*(Mu_0);});
+    std::for_each(crossProduct.begin(), crossProduct.end(), [& p](double & a){a*=(Charge)*(Mu_0);});
     return crossProduct;
 }
 
@@ -87,7 +87,7 @@ void velocityAfterRad(Particle *p, double powerRad)
     double finalEnergy = iniEnergy - powerRad;//*TimeStep;
     double finalVelMag = c*(sqrt(1-pow(((Mass*pow(c,2))/finalEnergy),2)));
 
-    std::for_each(velocity.begin(), velocity.end(), [&finalEnergy, &finalVelMag](double vel){vel*finalVelMag/finalVelMag;});
+    std::for_each(velocity.begin(), velocity.end(), [&velMag, &finalVelMag](double & vel){vel*=finalVelMag/velMag;});
 
     xFutVel = velocity[0];
     yFutVel = velocity[1];

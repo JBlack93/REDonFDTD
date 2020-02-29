@@ -145,7 +145,7 @@ std::vector<double> eFieldProduced(Particle *p, double x, double y, double z)
                                   firstTermFactor*dirU[1],
                                   firstTermFactor*dirU[2]};
     std::vector<double> secondTerm = cross(gridToSource, cross(dirU, acceleration));
-    std::for_each(secondTerm.begin(),secondTerm.end(),[&gridToSourceMag](double element){element/gridToSourceMag;});
+    std::for_each(secondTerm.begin(),secondTerm.end(),[&gridToSourceMag](double & element){element/=gridToSourceMag;});
     std::vector<double> eField{prefactor*secondFactor*(firstTerm[0]+secondTerm[0]),
                                prefactor*secondFactor*(firstTerm[1]+secondTerm[1]),
                                prefactor*secondFactor*(firstTerm[2]+secondTerm[2])};
@@ -164,6 +164,6 @@ std::vector<double> bFieldProduced(Particle *p, std::vector<double> eField, doub
   double gridToSourceMag = magnitude(gridToSource);
   double factor = (1/(c*gridToSourceMag));
   std::vector<double> bField = cross(gridToSource, eField);
-  std::for_each(bField.begin(),bField.end(),[&factor](double element){factor*element;});
+  std::for_each(bField.begin(),bField.end(),[&factor](double & element){element*=factor;});
   return bField;
 }
