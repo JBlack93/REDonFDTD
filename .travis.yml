@@ -1,6 +1,11 @@
 language: cpp
-os: linux
-compiler: gcc
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
 
 script:
   - mkdir -p build && cd build
