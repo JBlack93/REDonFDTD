@@ -4,8 +4,7 @@
 #include "REDonFDTD/macroSetUp.hpp"
 #include "REDonFDTD/prototypes.hpp"
 
-static int temporalStride = -2, frameX = 0, frameY = 0, startTime;
-static char basename[80];
+static int temporalStride = -2, startTime;
 
 void initialiseSlice(Mesh *g)
 {
@@ -40,15 +39,12 @@ void Slice(Mesh *g)
     float dim1, dim2, temp;
 
     /* ensure temporal stride set to a reasonable value */
-    if (temporalStride == -1)
-    {
-        return;
-    }
+    if (temporalStride == -1)   return;
 
     if (temporalStride < -1)
     {
         fprintf(stderr,
-        "snapshot3d: initialiseSnapshot must be called before snapshot.\n"
+        "Slice: initialiseSlice must be called before Slice.\n"
         "Temporal stride must be set to positive value.\n");
         exit(-1);
     }
@@ -70,9 +66,9 @@ void Slice(Mesh *g)
         writeSingleValue(TimeStep, "dimensions1.txt", 1);
         /* write remaining data */
         mm = (SizeX - 1) / 2;
-        for (pp = 0; pp < SizeZ; pp++)
+        for (pp = 0; pp < SizeZ; ++pp)
         {
-            for (nn = 0; nn < SizeY; nn++)
+            for (nn = 0; nn < SizeY; ++nn)
             {
                 temp = (float)Ex(mm, nn, pp);         // store data as a float
                 writeSingleValue(temp, "ExYZ.txt", 1);  // write out float value
@@ -91,9 +87,9 @@ void Slice(Mesh *g)
     writeSingleValue(TimeStep, "dimensions2.txt", 1);
     /* write remaining data */
     nn = SizeY / 2;
-    for (pp = 0; pp < SizeZ; pp++)
+    for (pp = 0; pp < SizeZ; ++pp)
     {
-        for (mm = 0; mm < SizeX - 1; mm++)
+        for (mm = 0; mm < SizeX - 1; ++mm)
         {
             temp = (float)Ex(mm, nn, pp);         // store data as a float
             writeSingleValue(temp, "ExXZ.txt", 1);   // write the float

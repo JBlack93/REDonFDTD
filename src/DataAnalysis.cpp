@@ -18,14 +18,13 @@ std::vector<double> cross(std::vector<double> vector1, std::vector<double> vecto
 
 double dot(std::vector<double> vector1, std::vector<double> vector2)
 {
-    float dotProduct=0;
-    for (unsigned i=0; i< vector1.size(); i++)
-        {
-        dotProduct += vector1[i]*vector2[i];
-        }
+  float dotProduct=0;
+  for (size_t i=0; i< vector1.size(); ++i)
+  {
+    dotProduct += vector1[i]*vector2[i];
+  }
 
-    return dotProduct;
-
+  return dotProduct;
 }
 
 double magnitude(std::vector<double> a)
@@ -38,9 +37,9 @@ double magnitude(std::vector<double> a)
 std::vector<double> norm(std::vector<double> a)
 {
     float aMag = magnitude(a);
-    for (unsigned i = 0; i < a.size(); ++ i)
+    for (size_t i = 0; i < a.size(); ++i)
         {
-        a[i] = a[i]/aMag;
+          a[i] = a[i]/aMag;
         }
     return a;
 }
@@ -88,19 +87,19 @@ void writeEField(Mesh *g, int mode)
 
     if (mode == 0)   {  myfile.open("Ex.txt", ios::trunc);  }
     else             {  myfile.open("Ex.txt", ios::app);    }
-    for (signed i=0; i < (SizeX-1)*SizeY*SizeZ;i++)
+    for (signed i=0; i < (SizeX-1)*SizeY*SizeZ;++i)
     {             myfile << g->ex[i] << "\n";               }
     myfile.close();
 
     if (mode == 0)   {  myfile.open("Ey.txt", ios::trunc);  }
     else             {  myfile.open("Ey.txt", ios::app);    }
-    for (signed i=0; i< (SizeX)*(SizeY-1)*SizeZ;i++)
+    for (signed i=0; i< (SizeX)*(SizeY-1)*SizeZ;++i)
     {             myfile << g->ey[i] << "\n";               }
     myfile.close();
 
     if (mode == 0)   {  myfile.open("Ez.txt", ios::trunc);  }
     else             {  myfile.open("Ez.txt", ios::app);    }
-    for (signed i=0; i< (SizeX)*(SizeY)*(SizeZ-1);i++)
+    for (signed i=0; i< (SizeX)*(SizeY)*(SizeZ-1);++i)
     {             myfile << g->ez[i] << "\n";               }
     myfile.close();
 }
@@ -112,19 +111,19 @@ void writeHField(Mesh *g, int mode)
 
     if (mode == 0)   {  myfile.open("Hx.txt", ios::trunc);  }
     else             {  myfile.open("Hx.txt", ios::app);    }
-    for (unsigned i=0; i< (SizeX-1)*SizeY*SizeZ;i++)
+    for (int i=0; i< (SizeX-1)*SizeY*SizeZ;++i)
     {             myfile << g->hx[i] << "\n";               }
     myfile.close();
 
     if (mode == 0)   {  myfile.open("Hy.txt", ios::trunc);  }
     else             {  myfile.open("Hy.txt", ios::app);    }
-    for (unsigned i=0; i< (SizeX)*(SizeY-1)*SizeZ;i++)
+    for (int i=0; i< (SizeX)*(SizeY-1)*SizeZ;++i)
     {             myfile << g->hy[i] << "\n";               }
     myfile.close();
 
     if (mode == 0)   {  myfile.open("Hz.txt", ios::trunc);  }
     else             {  myfile.open("Hz.txt", ios::app);    }
-    for (unsigned i=0; i< (SizeX)*(SizeY)*(SizeZ-1);i++)
+    for (int i=0; i< (SizeX)*(SizeY)*(SizeZ-1);++i)
     {             myfile << g->hz[i] << "\n";               }
     myfile.close();
 }

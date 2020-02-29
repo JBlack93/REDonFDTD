@@ -60,18 +60,18 @@ void updateABC(Mesh *g)
 
     /* ABC at "x0" */
     mm = 0;
-    for (nn = 0; nn < SizeY - 1; nn++)
+    for (nn = 0; nn < SizeY - 1; ++nn)
     {
-        for (pp = 0; pp < SizeZ; pp++)
+        for (pp = 0; pp < SizeZ; ++pp)
         {
             Ey(mm, nn, pp) = Eyx0(nn, pp) +
                              abccoef * (Ey(mm + 1, nn, pp) - Ey(mm, nn, pp));
             Eyx0(nn, pp) = Ey(mm + 1, nn, pp);
         }
     }
-    for (nn = 0; nn < SizeY; nn++)
+    for (nn = 0; nn < SizeY; ++nn)
     {
-        for (pp = 0; pp < SizeZ - 1; pp++)
+        for (pp = 0; pp < SizeZ - 1; ++pp)
         {
             Ez(mm, nn, pp) = Ezx0(nn, pp) +
                              abccoef * (Ez(mm + 1, nn, pp) - Ez(mm, nn, pp));
@@ -82,18 +82,18 @@ void updateABC(Mesh *g)
     /* ABC at "x1" */
     mm = SizeX - 1;
 
-    for (nn = 0; nn < SizeY - 1; nn++)
+    for (nn = 0; nn < SizeY - 1; ++nn)
     {
-        for (pp = 0; pp < SizeZ; pp++)
+        for (pp = 0; pp < SizeZ; ++pp)
         {
             Ey(mm, nn, pp) = Eyx1(nn, pp) +
                              abccoef * (Ey(mm - 1, nn, pp) - Ey(mm, nn, pp));
             Eyx1(nn, pp) = Ey(mm - 1, nn, pp);
         }
     }
-    for (nn = 0; nn < SizeY; nn++)
+    for (nn = 0; nn < SizeY; ++nn)
     {
-        for (pp = 0; pp < SizeZ - 1; pp++)
+        for (pp = 0; pp < SizeZ - 1; ++pp)
         {
             Ez(mm, nn, pp) = Ezx1(nn, pp) +
                              abccoef * (Ez(mm - 1, nn, pp) - Ez(mm, nn, pp));
@@ -105,9 +105,9 @@ void updateABC(Mesh *g)
 
     /* ABC at "y0" */
     nn = 0;
-    for (mm = 0; mm < SizeX - 1; mm++)
+    for (mm = 0; mm < SizeX - 1; ++mm)
     {
-        for (pp = 0; pp < SizeZ; pp++)
+        for (pp = 0; pp < SizeZ; ++pp)
         {
             Ex(mm, nn, pp) = Exy0(mm, pp) +
                              abccoef * (Ex(mm, nn + 1, pp) - Ex(mm, nn, pp));
@@ -115,9 +115,9 @@ void updateABC(Mesh *g)
         }
     }
 
-    for (mm = 0; mm < SizeX; mm++)
+    for (mm = 0; mm < SizeX; ++mm)
     {
-        for (pp = 0; pp < SizeZ - 1; pp++)
+        for (pp = 0; pp < SizeZ - 1; ++pp)
         {
             Ez(mm, nn, pp) = Ezy0(mm, pp) +
                              abccoef * (Ez(mm, nn + 1, pp) - Ez(mm, nn, pp));
@@ -128,18 +128,18 @@ void updateABC(Mesh *g)
 
     /* ABC at "y1" */
     nn = SizeY - 1;
-    for (mm = 0; mm < SizeX - 1; mm++)
+    for (mm = 0; mm < SizeX - 1; ++mm)
     {
-        for (pp = 0; pp < SizeZ; pp++)
+        for (pp = 0; pp < SizeZ; ++pp)
         {
             Ex(mm, nn, pp) = Exy1(mm, pp) +
                              abccoef * (Ex(mm, nn - 1, pp) - Ex(mm, nn, pp));
             Exy1(mm, pp) = Ex(mm, nn - 1, pp);
         }
     }
-    for (mm = 0; mm < SizeX; mm++)
+    for (mm = 0; mm < SizeX; ++mm)
     {
-        for (pp = 0; pp < SizeZ - 1; pp++)
+        for (pp = 0; pp < SizeZ - 1; ++pp)
         {
             Ez(mm, nn, pp) = Ezy1(mm, pp) +
                              abccoef * (Ez(mm, nn - 1, pp) - Ez(mm, nn, pp));
@@ -149,18 +149,18 @@ void updateABC(Mesh *g)
 
     /* ABC at "z0" (bottom) */
     pp = 0;
-    for (mm = 0; mm < SizeX - 1; mm++)
+    for (mm = 0; mm < SizeX - 1; ++mm)
     {
-        for (nn = 0; nn < SizeY; nn++)
+        for (nn = 0; nn < SizeY; ++nn)
         {
             Ex(mm, nn, pp) = Exz0(mm, nn) +
                              abccoef * (Ex(mm, nn, pp + 1) - Ex(mm, nn, pp));
             Exz0(mm, nn) = Ex(mm, nn, pp + 1);
         }
     }
-    for (mm = 0; mm < SizeX; mm++)
+    for (mm = 0; mm < SizeX; ++mm)
     {
-        for (nn = 0; nn < SizeY - 1; nn++)
+        for (nn = 0; nn < SizeY - 1; ++nn)
         {
         Ey(mm, nn, pp) = Eyz0(mm, nn) +
                          abccoef * (Ey(mm, nn, pp + 1) - Ey(mm, nn, pp));
@@ -170,18 +170,18 @@ void updateABC(Mesh *g)
 
     /* ABC at "z1" (top) */
     pp = SizeZ - 1;
-    for (mm = 0; mm < SizeX - 1; mm++)
+    for (mm = 0; mm < SizeX - 1; ++mm)
     {
-        for (nn = 0; nn < SizeY; nn++)
+        for (nn = 0; nn < SizeY; ++nn)
         {
             Ex(mm, nn, pp) = Exz1(mm, nn) +
                              abccoef * (Ex(mm, nn, pp - 1) - Ex(mm, nn, pp));
             Exz1(mm, nn) = Ex(mm, nn, pp - 1);
         }
     }
-    for (mm = 0; mm < SizeX; mm++)
+    for (mm = 0; mm < SizeX; ++mm)
     {
-        for (nn = 0; nn < SizeY - 1; nn++)
+        for (nn = 0; nn < SizeY - 1; ++nn)
         {
             Ey(mm, nn, pp) = Eyz1(mm, nn) +
                              abccoef * (Ey(mm, nn, pp - 1) - Ey(mm, nn, pp));

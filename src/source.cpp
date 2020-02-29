@@ -6,10 +6,6 @@
 #include "REDonFDTD/macroSetUp.hpp"
 #include "REDonFDTD/memAllocation.hpp"
 
-
-
-static double cdtds;
-
 /* initialize source-function variables */
 void initialiseSource(Particle *p, Mesh *g)
 {
@@ -88,11 +84,11 @@ void findCell(Particle *p)
 void sourceFunction(Particle *p, Mesh *g)
 {
     findCell(p);
-    for (unsigned i=0; i<2; i++)
+    for (unsigned i=0; i<2; ++i)
     {
-        for (unsigned n=0; n<2; n++)
+        for (unsigned n=0; n<2; ++n)
         {
-            for (unsigned m=0; m<2; m++)
+            for (unsigned m=0; m<2; ++m)
             {
 
             int a = 3*i;       // Simply labels of the coordinate array which
@@ -130,28 +126,26 @@ std::vector<double> eFieldProduced(Particle *p, double x, double y, double z)
                                    gridRadius[1]-sourceRadius[1],
                                    gridRadius[2]-sourceRadius[2]};
 
-    double gridToSourceMag = magnitude(gridToSource);                       //STILL NEED TO MAKE THIS EVALUATED AT RETARDED
-    std::vector<double> dirU{c*gridToSource[0]/(gridToSourceMag) - velocity[0],
-                             c*gridToSource[1]/(gridToSourceMag) - velocity[1],
-                             c*gridToSource[2]/(gridToSourceMag) - velocity[2]};
+  double gridToSourceMag = magnitude(gridToSource);                       //STILL NEED TO MAKE THIS EVALUATED AT RETARDED
+  std::vector<double> dirU{c*gridToSource[0]/(gridToSourceMag) - velocity[0],
+                           c*gridToSource[1]/(gridToSourceMag) - velocity[1],
+                           c*gridToSource[2]/(gridToSourceMag) - velocity[2]};
 
-    double dotGridSourceU = dot(gridToSource, dirU);
+  double dotGridSourceU = dot(gridToSource, dirU);
 
-
-    double prefactor = Charge/(4*M_PI*epsilon_0);
-    double secondFactor = gridToSourceMag/(pow(dotGridSourceU/gridToSourceMag,3));
-    double firstTermFactor = (pow(c,2)-dot(velocity,velocity));
-    std::vector<double> firstTerm{firstTermFactor*dirU[0],
-                                  firstTermFactor*dirU[1],
-                                  firstTermFactor*dirU[2]};
-    std::vector<double> secondTerm = cross(gridToSource, cross(dirU, acceleration));
-    std::for_each(secondTerm.begin(),secondTerm.end(),[&gridToSourceMag](double & element){element/=gridToSourceMag;});
-    std::vector<double> eField{prefactor*secondFactor*(firstTerm[0]+secondTerm[0]),
-                               prefactor*secondFactor*(firstTerm[1]+secondTerm[1]),
-                               prefactor*secondFactor*(firstTerm[2]+secondTerm[2])};
-    return eField;
+  double prefactor = Charge/(4*M_PI*epsilon_0);
+  double secondFactor = gridToSourceMag/(pow(dotGridSourceU/gridToSourceMag,3));
+  double firstTermFactor = (pow(c,2)-dot(velocity,velocity));
+  std::vector<double> firstTerm{firstTermFactor*dirU[0],
+                                firstTermFactor*dirU[1],
+                                firstTermFactor*dirU[2]};
+  std::vector<double> secondTerm = cross(gridToSource, cross(dirU, acceleration));
+  std::for_each(secondTerm.begin(),secondTerm.end(),[&gridToSourceMag](double & element){element/=gridToSourceMag;});
+  std::vector<double> eField{prefactor*secondFactor*(firstTerm[0]+secondTerm[0]),
+                             prefactor*secondFactor*(firstTerm[1]+secondTerm[1]),
+                             prefactor*secondFactor*(firstTerm[2]+secondTerm[2])};
+  return eField;
 }
-
 
 
 std::vector<double> bFieldProduced(Particle *p, std::vector<double> eField, double x, double y, double z)

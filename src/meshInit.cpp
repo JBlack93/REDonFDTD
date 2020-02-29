@@ -41,11 +41,11 @@ void initialiseMesh(Mesh *g)
 
 
     /* set electric-field update coefficients */
-    for (mm = 0; mm < SizeX - 1; mm++)
+    for (mm = 0; mm < SizeX - 1; ++mm)
     {
-       for (nn = 0; nn < SizeY; nn++)
+       for (nn = 0; nn < SizeY; ++nn)
         {
-            for (pp = 0; pp < SizeZ; pp++)
+            for (pp = 0; pp < SizeZ; ++pp)
             {
                 Cexe(mm, nn, pp) = 1.0;
                 Cexh(mm, nn, pp) = Cdtds * imp0;
@@ -55,9 +55,9 @@ void initialiseMesh(Mesh *g)
 
     for (mm = 0; mm < SizeX; mm++)
     {
-        for (nn = 0; nn < SizeY - 1; nn++)
+        for (nn = 0; nn < SizeY - 1; ++nn)
         {
-            for (pp = 0; pp < SizeZ; pp++)
+            for (pp = 0; pp < SizeZ; ++pp)
             {
                 Ceye(mm, nn, pp) = 1.0;
                 Ceyh(mm, nn, pp) = Cdtds * imp0;
@@ -66,11 +66,11 @@ void initialiseMesh(Mesh *g)
     }
 
 
-    for (mm = 0; mm < SizeX; mm++)
+    for (mm = 0; mm < SizeX; ++mm)
     {
-        for (nn = 0; nn < SizeY; nn++)
+        for (nn = 0; nn < SizeY; ++nn)
         {
-            for (pp = 0; pp < SizeZ - 1; pp++)
+            for (pp = 0; pp < SizeZ - 1; ++pp)
             {
                 Ceze(mm, nn, pp) = 1.0;
                 Cezh(mm, nn, pp) = Cdtds * imp0;
@@ -79,11 +79,11 @@ void initialiseMesh(Mesh *g)
     }
 
     /* set magnetic-field update coefficients */
-    for (mm = 0; mm < SizeX; mm++)
+    for (mm = 0; mm < SizeX; ++mm)
     {
-        for (nn = 0; nn < SizeY - 1; nn++)
+        for (nn = 0; nn < SizeY - 1; ++nn)
         {
-            for (pp = 0; pp < SizeZ - 1; pp++)
+            for (pp = 0; pp < SizeZ - 1; ++pp)
             {
                 Chxh(mm, nn, pp) = 1.0;
                 Chxe(mm, nn, pp) = Cdtds / imp0;
@@ -91,11 +91,11 @@ void initialiseMesh(Mesh *g)
         }
     }
 
-    for (mm = 0; mm < SizeX - 1; mm++)
+    for (mm = 0; mm < SizeX - 1; ++mm)
     {
-        for (nn = 0; nn < SizeY; nn++)
+        for (nn = 0; nn < SizeY; ++nn)
         {
-            for (pp = 0; pp < SizeZ - 1; pp++)
+            for (pp = 0; pp < SizeZ - 1; ++pp)
             {
                 Chyh(mm, nn, pp) = 1.0;
                 Chye(mm, nn, pp) = Cdtds / imp0;
@@ -103,11 +103,11 @@ void initialiseMesh(Mesh *g)
         }
     }
 
-    for (mm = 0; mm < SizeX - 1; mm++)
+    for (mm = 0; mm < SizeX - 1; ++mm)
     {
-        for (nn = 0; nn < SizeY - 1; nn++)
+        for (nn = 0; nn < SizeY - 1; ++nn)
         {
-            for (pp = 0; pp < SizeZ; pp++)
+            for (pp = 0; pp < SizeZ; ++pp)
             {
                 Chzh(mm, nn, pp) = 1.0;
                 Chze(mm, nn, pp) = Cdtds / imp0;
