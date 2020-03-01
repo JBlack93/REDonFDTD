@@ -8,26 +8,29 @@
 
 void newPositionTaylor(Particle *p, Mesh *g)
 {
-    xFutPos = xPosition + xVelocity*TimeStep + pow(TimeStep,2)*xAcceleration/2;
-    yFutPos = yPosition + yVelocity*TimeStep + pow(TimeStep,2)*yAcceleration/2;
-    zFutPos = zPosition + zVelocity*TimeStep + pow(TimeStep,2)*zAcceleration/2;
+  p->futPos[0] = p->position[0] + (p->velocity[0])*(g->timeStep) +
+                 pow(g->timeStep,2)*(p->acceleration[0])/2;
+  p->futPos[1] = p->position[1] + (p->velocity[1])*(g->timeStep) +
+                 pow(g->timeStep,2)*(p->acceleration[1])/2;
+  p->futPos[2] = p->position[2] + (p->velocity[2])*(g->timeStep) +
+                 pow(g->timeStep,2)*(p->acceleration[2])/2;
 }
 
 void newVelocityTaylor(Particle *p, Mesh *g)
 {
-
-    xFutVel = xVelocity + TimeStep*xAcceleration;
-    yFutVel = yVelocity + TimeStep*yAcceleration;
-    zFutVel = zVelocity + TimeStep*zAcceleration;
-    FutGamma = 1/(sqrt(1-pow(sqrt(pow(xFutVel,2)+pow(yFutVel,2)+pow(zFutVel,2))/c,2)));
-
+  p->futVel[0] = p->velocity[0] + (g->timeStep)*(p->acceleration[0]);
+  p->futVel[1] = p->velocity[1] + (g->timeStep)*(p->acceleration[1]);
+  p->futVel[2] = p->velocity[2] + (g->timeStep)*(p->acceleration[2]);
+  p->futGamma = 1/(sqrt(1-pow(sqrt(pow(p->futVel[0],2)+
+                                   pow(p->futVel[1],2)+
+                                   pow(p->futVel[2],2))/c,2)));
 }
 
 void findAcceleration(Particle *p, std::vector<double> force)
 {
-    xFutAcc = force[0]/(Mass*FutGamma);
-    yFutAcc = force[1]/(Mass*FutGamma);
-    zFutAcc = force[2]/(Mass*FutGamma);
+  p->futAcc[0] = force[0]/((p->mass)*(p->futGamma));
+  p->futAcc[1] = force[1]/((p->mass)*(p->futGamma));
+  p->futAcc[2] = force[2]/((p->mass)*(p->futGamma));
 }
 
 double findGamma(std::vector<double> velocity)
@@ -41,23 +44,24 @@ double findGamma(std::vector<double> velocity)
 
 std::vector<double> lorentzForce(Particle *p, Mesh *g)
 {
-  std::vector<double> velocity{xFutVel, yFutVel, zFutVel};
+  std::vector<double> velocity{p->futVel[0], p->futVel[1], p->futVel[2]};
   std::vector<double> bField(3);
-  bField[0] = Hx((int) xFutPos, (int) yFutPos, (int) zFutPos)+5;
-  bField[1] = Hy((int) xFutPos, (int) yFutPos, (int) zFutPos);
-  bField[2] = Hz((int) xFutPos, (int) yFutPos, (int) zFutPos);
+  bField[0] = Hx((int) p->futPos[0], (int) p->futPos[1], (int) p->futPos[2])+5;
+  bField[1] = Hy((int) p->futPos[0], (int) p->futPos[1], (int) p->futPos[2]);
+  bField[2] = Hz((int) p->futPos[0], (int) p->futPos[1], (int) p->futPos[2]);
 
   std::vector<double> crossProduct = cross(velocity, bField);
-  std::for_each(crossProduct.begin(), crossProduct.end(), [& p](double & a){a*=(Charge)*(Mu_0);});
+  std::for_each(crossProduct.begin(), crossProduct.end(),
+                [& p](double & a){a*=(p->charge)*(Mu_0);});
   return crossProduct;
 }
 
 double powerRadiated(Particle *p)
 {
-  std::vector<double> velocity{xFutVel, yFutVel, zFutVel};
-  std::vector<double> acceleration{xFutAcc, yFutAcc, zFutAcc};
+  std::vector<double> velocity{p->futVel[0], p->futVel[1], p->futVel[2]};
+  std::vector<double> acceleration{p->futAcc[0], p->futAcc[1], p->futAcc[2]};
 
-  double coefficient = (Mu_0*pow(Charge,2)*pow(FutGamma,6))/(6*M_PI*c);
+  double coefficient = (Mu_0*pow(p->charge,2)*pow((p->futGamma),6))/(6*M_PI*c);
   std::vector<double> crossProd(3);
   crossProd = cross(velocity,acceleration);
   double crossProdMag = magnitude(crossProd);
@@ -69,41 +73,58 @@ double powerRadiated(Particle *p)
 
 void velocityAfterRad(Particle *p, double powerRad)
 {
-  std::vector<double> velocity{xFutVel, yFutVel, zFutVel};
-  std::vector<double> acceleration{xFutAcc, yFutAcc, zFutAcc};
+  std::vector<double> velocity{p->futVel[0], p->futVel[1], p->futVel[2]};
+  std::vector<double> acceleration{p->futAcc[0], p->futAcc[1], p->futAcc[2]};
 
   double velMag = magnitude(velocity);
-  double iniEnergy = Mass*pow(c,2)*FutGamma;
+  double iniEnergy = (p->mass)*pow(c,2)*(p->futGamma);
   double finalEnergy = iniEnergy - powerRad;//*TimeStep;
-  double finalVelMag = c*(sqrt(1-pow(((Mass*pow(c,2))/finalEnergy),2)));
+  double finalVelMag = c*(sqrt(1-pow((((p->mass)*pow(c,2))/finalEnergy),2)));
 
-  std::for_each(velocity.begin(), velocity.end(),[&velMag,&finalVelMag](double & vel){vel*=finalVelMag/velMag;});
+  std::for_each(velocity.begin(), velocity.end(),
+                [&velMag,&finalVelMag](double & vel){vel*=finalVelMag/velMag;});
 
-  xFutVel = velocity[0];
-  yFutVel = velocity[1];
-  zFutVel = velocity[2];
-  FutGamma = 1/(sqrt(1-pow(sqrt(pow(xFutVel,2)+pow(yFutVel,2)+pow(zFutVel,2))/c,2)));
+  p->futVel[0] = velocity[0];
+  p->futVel[1] = velocity[1];
+  p->futVel[2] = velocity[2];
+  p->futGamma = 1/(sqrt(1-pow(sqrt(pow(p->futVel[0],2)+pow(p->futVel[1],2)+
+                                   pow(p->futVel[2],2))/c,2)));
 }
 
 
 void timeAdvanceValues(Particle *p)
 {
-    xPrevPos  = xPosition;      yPrevPos  = yPosition;     zPrevPos  = zPosition;
-    xPosition = xFutPos;        yPosition = yFutPos;       zPosition = zFutPos;
+    p->prevPos[0]  = p->position[0];
+    p->prevPos[1]  = p->position[1];
+    p->prevPos[2]  = p->position[2];
 
-    xPrevVel  = xVelocity;      yPrevVel  = yVelocity;     zPrevVel  = zVelocity;
-    xVelocity = xFutVel;        yVelocity = yFutVel;       zVelocity = zFutVel;
+    p->position[0] = p->futPos[0];
+    p->position[1] = p->futPos[1];
+    p->position[2] = p->futPos[2];
 
-    xPrevAcc      = xAcceleration;    yPrevAcc      = yAcceleration;     zPrevAcc      = zAcceleration;
-    xAcceleration = xFutAcc;          yAcceleration = yFutAcc;           zAcceleration = zFutAcc;
+    p->prevVel[0]  = p->velocity[0];
+    p->prevVel[1]  = p->velocity[1];
+    p->prevVel[2]  = p->velocity[2];
 
-    PrevGamma = Gamma;
-    Gamma = FutGamma;
+    p->velocity[0] = p->futVel[0];
+    p->velocity[1] = p->futVel[1];
+    p->velocity[2] = p->futVel[2];
+
+    p->prevAcc[0] = p->acceleration[0];
+    p->prevAcc[1] = p->acceleration[1];
+    p->prevAcc[2] = p->acceleration[2];
+
+    p->acceleration[0] = p->futAcc[0];
+    p->acceleration[1] = p->futAcc[1];
+    p->acceleration[2] = p->futAcc[2];
+
+    p->prevGamma = p->gamma;
+    p->gamma = p->futGamma;
 }
 
 void halfTimeStep(Particle *p, Mesh *g)
 {
-    Time += TimeStep/2;
+    g->time += g->timeStep/2;
     newPositionTaylor(p, g);
     newVelocityTaylor(p, g);
     std::vector<double> force = lorentzForce(p, g);

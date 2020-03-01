@@ -22,7 +22,7 @@ int main()
 
 
     /* do time stepping */
-    for (Time = 0; Time < MaxTime; Time = Time)
+    for (g->time = 0; g->time < g->maxTime; g->time = g->time)
     {
         updateH(g);             // update magnetic fields in mesh
         halfTimeStep(p, g);

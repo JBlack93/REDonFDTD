@@ -87,19 +87,19 @@ void writeEField(Mesh *g, int mode)
 
     if (mode == 0)   {  myfile.open("Ex.txt", ios::trunc);  }
     else             {  myfile.open("Ex.txt", ios::app);    }
-    for (signed i=0; i < (SizeX-1)*SizeY*SizeZ;++i)
+    for (signed i=0; i < (g->sizeX-1)*(g->sizeY)*(g->sizeZ);++i)
     {             myfile << g->ex[i] << "\n";               }
     myfile.close();
 
     if (mode == 0)   {  myfile.open("Ey.txt", ios::trunc);  }
     else             {  myfile.open("Ey.txt", ios::app);    }
-    for (signed i=0; i< (SizeX)*(SizeY-1)*SizeZ;++i)
+    for (signed i=0; i< (g->sizeX)*(g->sizeY-1)*(g->sizeZ);++i)
     {             myfile << g->ey[i] << "\n";               }
     myfile.close();
 
     if (mode == 0)   {  myfile.open("Ez.txt", ios::trunc);  }
     else             {  myfile.open("Ez.txt", ios::app);    }
-    for (signed i=0; i< (SizeX)*(SizeY)*(SizeZ-1);++i)
+    for (signed i=0; i< (g->sizeX)*(g->sizeY)*(g->sizeZ-1);++i)
     {             myfile << g->ez[i] << "\n";               }
     myfile.close();
 }
@@ -111,19 +111,19 @@ void writeHField(Mesh *g, int mode)
 
     if (mode == 0)   {  myfile.open("Hx.txt", ios::trunc);  }
     else             {  myfile.open("Hx.txt", ios::app);    }
-    for (int i=0; i< (SizeX-1)*SizeY*SizeZ;++i)
+    for (int i=0; i< (g->sizeX-1)*(g->sizeY)*(g->sizeZ);++i)
     {             myfile << g->hx[i] << "\n";               }
     myfile.close();
 
     if (mode == 0)   {  myfile.open("Hy.txt", ios::trunc);  }
     else             {  myfile.open("Hy.txt", ios::app);    }
-    for (int i=0; i< (SizeX)*(SizeY-1)*SizeZ;++i)
+    for (int i=0; i< (g->sizeX)*(g->sizeY-1)*(g->sizeZ);++i)
     {             myfile << g->hy[i] << "\n";               }
     myfile.close();
 
     if (mode == 0)   {  myfile.open("Hz.txt", ios::trunc);  }
     else             {  myfile.open("Hz.txt", ios::app);    }
-    for (int i=0; i< (SizeX)*(SizeY)*(SizeZ-1);++i)
+    for (int i=0; i< (g->sizeX)*(g->sizeY)*(g->sizeZ-1);++i)
     {             myfile << g->hz[i] << "\n";               }
     myfile.close();
 }

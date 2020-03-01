@@ -11,57 +11,57 @@ void initialiseSource(Particle *p, Mesh *g)
 {
 
     ALLOC_1D(p->prevPos,3,double)
-    xPrevPos = (double) (SizeX-1)/2;
-    yPrevPos = (double) (SizeY/2)-0.5;
-    zPrevPos = (double) (SizeZ/2)-0.5;
+    p->prevPos[0] = (double) (g->sizeX-1)/2;
+    p->prevPos[1] = (double) (g->sizeY/2)-0.5;
+    p->prevPos[2] = (double) (g->sizeZ/2)-0.5;
     ALLOC_1D(p->prevVel,3,double)
-    xPrevVel = 0;
-    yPrevVel = 0;
-    zPrevVel = 0;
+    p->prevVel[0] = 0;
+    p->prevVel[1] = 0;
+    p->prevVel[2] = 0;
     ALLOC_1D(p->prevAcc,3,double)
-    xPrevAcc = 0;
-    yPrevAcc = 0;
-    zPrevAcc = 0;
+    p->prevAcc[0] = 0;
+    p->prevAcc[1] = 0;
+    p->prevAcc[2] = 0;
 
     ALLOC_1D(p->position,3,double)
-    xPosition = (double) (SizeX-1)/2-0.05;
-    yPosition = (double) SizeY/2-0.05;
-    zPosition = (double) SizeZ/2-0.05;
+    p->position[0] = (double) (g->sizeX-1)/2-0.05;
+    p->position[1] = (double) g->sizeY/2-0.05;
+    p->position[2] = (double) g->sizeZ/2-0.05;
     ALLOC_1D(p->velocity,3,double)
-    xVelocity = 0;
-    yVelocity = 0.999*c;
-    zVelocity = 0;
+    p->velocity[0] = 0;
+    p->velocity[1] = 0.999*c;
+    p->velocity[2] = 0;
     ALLOC_1D(p->acceleration,3,double)
-    xAcceleration = 0;
-    yAcceleration = 0;
-    zAcceleration = 0;
+    p->acceleration[0] = 0;
+    p->acceleration[1] = 0;
+    p->acceleration[2] = 0;
 
     ALLOC_1D(p->futPos,3,double)
-    xFutPos = 0;
-    yFutPos = 0;
-    zFutPos = 0;
+    p->futPos[0] = 0;
+    p->futPos[1] = 0;
+    p->futPos[2] = 0;
     ALLOC_1D(p->futVel,3,double)
-    xFutVel = 0;
-    yFutVel = 0;
-    zFutVel = 0;
+    p->futVel[0] = 0;
+    p->futVel[1] = 0;
+    p->futVel[2] = 0;
     ALLOC_1D(p->futAcc,3,double)
-    xFutAcc = 0;
-    yFutAcc = 0;
-    zFutAcc = 0;
+    p->futAcc[0] = 0;
+    p->futAcc[1] = 0;
+    p->futAcc[2] = 0;
 
     ALLOC_1D(p->coordinates,6,int)
-    coord(0) =  floor(xPosition);        // Set the array element to the lower x coordinate
-    coord(1) =  floor(yPosition);        // Set the array element to the lower y coordinate
-    coord(2) =  floor(zPosition);        // Set the array element to the lower z coordinate
-    coord(3) =  ceil(xPosition);         // Set the array element to the higher x coordinate
-    coord(4) =  ceil(yPosition);         // Set the array element to the higher y coordinate
-    coord(5) =  ceil(zPosition);         // Set the array element to the higher z coordinate
+    p->coordinates[0] =  floor(p->position[0]);        // Set the array element to the lower x coordinate
+    p->coordinates[1] =  floor(p->position[1]);        // Set the array element to the lower y coordinate
+    p->coordinates[2] =  floor(p->position[2]);        // Set the array element to the lower z coordinate
+    p->coordinates[3] =  ceil(p->position[0]);         // Set the array element to the higher x coordinate
+    p->coordinates[4] =  ceil(p->position[1]);         // Set the array element to the higher y coordinate
+    p->coordinates[5] =  ceil(p->position[2]);         // Set the array element to the higher z coordinate
 
-    Mass = 1.67262178*pow(10,-27);
-    Charge = 1.6*pow(10,-19);
-    PrevGamma = 1;
-    Gamma = 1;
-    FutGamma = 1;
+    p->mass = 1.67262178*pow(10,-27);
+    p->charge = 1.6*pow(10,-19);
+    p->prevGamma = 1;
+    p->gamma = 1;
+    p->futGamma = 1;
 }
 
 /* Calculate the 6 points on the axes which produce
@@ -69,14 +69,13 @@ void initialiseSource(Particle *p, Mesh *g)
  */
 void findCell(Particle *p)
 {
-    coord(0) = floor(xPosition);    // These are the lower values
-    coord(1) = floor(yPosition);    // of the coordinates in the cell
-    coord(2) = floor(zPosition);    // which the particle resides in
-
-    coord(3) = ceil(xPosition);     // These are the higher values
-    coord(4) = ceil(yPosition);     // of the coordinates in the cell
-    coord(5) = ceil(zPosition);     // which the particle resides in
-    }
+    p->coordinates[0] = floor(p->position[0]);    // These are the lower values
+    p->coordinates[1] = floor(p->position[1]);    // of the coordinates in the cell
+    p->coordinates[2] = floor(p->position[2]);    // which the particle resides in
+    p->coordinates[3] = ceil(p->position[0]);     // These are the higher values
+    p->coordinates[4] = ceil(p->position[1]);     // of the coordinates in the cell
+    p->coordinates[5] = ceil(p->position[2]);     // which the particle resides in
+}
 
 /* Changes the the electric and magnetic field at 8 difference points based on
  * point paths movement through the mesh. Most key function in entire operation
@@ -97,18 +96,18 @@ void sourceFunction(Particle *p, Mesh *g)
 
             std::vector<double> eField(3);
             std::vector<double> bField(3);
-            eField = eFieldProduced(p, coord(a), coord(b), coord(c));
-            bField = bFieldProduced(p, eField, coord(a), coord(b), coord(c));
-  /*          std::cout <<xPosition<<std::endl;
+            eField = eFieldProduced(p, p->coordinates[a], p->coordinates[b], p->coordinates[c]);
+            bField = bFieldProduced(p, eField, p->coordinates[a], p->coordinates[b], p->coordinates[c]);
+  /*        std::cout <<xPosition<<std::endl;
             std::cout <<(SizeX-1)/2-0.05<<std::endl;
             std::cout <<coord(a)<<std::endl;
-  */        Ex(coord(a), coord(b), coord(c)) += eField[0];      // Calculation of the effect which
-            Ey(coord(a), coord(b), coord(c)) += eField[1];      // charged particle has on each of
-            Ez(coord(a), coord(b), coord(c)) += eField[2];      // directions of E-Field
+  */        Ex(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += eField[0];      // Calculation of the effect which
+            Ey(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += eField[1];      // charged particle has on each of
+            Ez(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += eField[2];      // directions of E-Field
 
-            Hx(coord(a), coord(b), coord(c)) += bField[0]/Mu_0;      // Calculation of the effect which
-            Hy(coord(a), coord(b), coord(c)) += bField[1]/Mu_0;      // charged particle has on each of
-            Hz(coord(a), coord(b), coord(c)) += bField[2]/Mu_0;      // these directions of the H-Field
+            Hx(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += bField[0]/Mu_0;      // Calculation of the effect which
+            Hy(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += bField[1]/Mu_0;      // charged particle has on each of
+            Hz(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += bField[2]/Mu_0;      // these directions of the H-Field
 
             }
         }
@@ -118,9 +117,9 @@ void sourceFunction(Particle *p, Mesh *g)
 std::vector<double> eFieldProduced(Particle *p, double x, double y, double z)
 {
   std::vector<double> gridRadius{x,y,z};
-  std::vector<double> sourceRadius{xPosition,yPosition,zPosition};
-  std::vector<double> velocity{xVelocity,yVelocity,zVelocity};
-  std::vector<double> acceleration{xAcceleration, yAcceleration, zAcceleration};
+  std::vector<double> sourceRadius{p->position[0],p->position[1],p->position[2]};
+  std::vector<double> velocity{p->velocity[0],p->velocity[1],p->velocity[2]};
+  std::vector<double> acceleration{p->acceleration[0], p->acceleration[1], p->acceleration[2]};
 
   std::vector<double> gridToSource{gridRadius[0]-sourceRadius[0],
                                    gridRadius[1]-sourceRadius[1],
@@ -133,14 +132,15 @@ std::vector<double> eFieldProduced(Particle *p, double x, double y, double z)
 
   double dotGridSourceU = dot(gridToSource, dirU);
 
-  double prefactor = Charge/(4*M_PI*epsilon_0);
+  double prefactor = (p->charge)/(4*M_PI*epsilon_0);
   double secondFactor = gridToSourceMag/(pow(dotGridSourceU/gridToSourceMag,3));
   double firstTermFactor = (pow(c,2)-dot(velocity,velocity));
   std::vector<double> firstTerm{firstTermFactor*dirU[0],
                                 firstTermFactor*dirU[1],
                                 firstTermFactor*dirU[2]};
   std::vector<double> secondTerm = cross(gridToSource, cross(dirU, acceleration));
-  std::for_each(secondTerm.begin(),secondTerm.end(),[&gridToSourceMag](double & element){element/=gridToSourceMag;});
+  std::for_each(secondTerm.begin(),secondTerm.end(),
+                [&gridToSourceMag](double & element){element/=gridToSourceMag;});
   std::vector<double> eField{prefactor*secondFactor*(firstTerm[0]+secondTerm[0]),
                              prefactor*secondFactor*(firstTerm[1]+secondTerm[1]),
                              prefactor*secondFactor*(firstTerm[2]+secondTerm[2])};
@@ -148,10 +148,11 @@ std::vector<double> eFieldProduced(Particle *p, double x, double y, double z)
 }
 
 
-std::vector<double> bFieldProduced(Particle *p, std::vector<double> eField, double x, double y, double z)
+std::vector<double> bFieldProduced(Particle *p, std::vector<double> eField,
+                                   double x, double y, double z)
 {
   std::vector<double> gridRadius{x,y,z};
-  std::vector<double> sourceRadius{xPosition,yPosition,zPosition};
+  std::vector<double> sourceRadius{p->position[0],p->position[1],p->position[2]};
   std::vector<double> gridToSource{gridRadius[0] - sourceRadius[0],
                                    gridRadius[1] - sourceRadius[1],
                                    gridRadius[2] - sourceRadius[2]};

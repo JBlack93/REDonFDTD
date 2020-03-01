@@ -9,7 +9,7 @@ void initialiseEzInc(Mesh *g)
 {
     printf("Enter the points per wavelength for Ricker source: ");
     scanf(" %lf", &ppw);
-    cdtds = Cdtds;
+    cdtds = g->cdtds;
 }
 
 /* calculate source function at given time and location */
