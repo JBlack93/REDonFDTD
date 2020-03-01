@@ -10,4 +10,5 @@ compiler:
 script:
   - mkdir -p build && cd build
   - cmake -DCMAKE_BUILD_TYPE=Debug ..
-  - make -j $(nproc)
+  - make -j
+  - ctest -j -V

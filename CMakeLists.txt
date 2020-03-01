@@ -42,6 +42,11 @@ set(REDonFDTD_INCLUDE_DIR
 file(GLOB src_files src/*.cpp)
 file(GLOB header_files include/REDonFDTD/*.hpp)
 
+set(tst_dir "${CMAKE_CURRENT_SOURCE_DIR}/t")
+add_test(
+  NAME BasicRegression
+  COMMAND ${tst_dir}/regression.sh ${tst_dir} dimExpected.txt ExXZExpected.txt
+)
 add_executable(REDonFDTD_exe src/bin/REDonFDTD.cpp ${src_files} ${header_files})
 set_target_properties(REDonFDTD_exe PROPERTIES OUTPUT_NAME "REDonFDTD")
 target_include_directories(REDonFDTD_exe PUBLIC ${REDonFDTD_INCLUDE_DIR})
@@ -58,3 +63,10 @@ add_custom_command(TARGET REDonFDTD_exe POST_BUILD
 
 install(FILES ${REDonFDTD_headers} DESTINATION ${INSTALL_INCLUDE_DIR})
 install(TARGETS REDonFDTD_exe DESTINATION ${INSTALL_BIN_DIR})
+
+## tests (prevent testing if current project is a subproject)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+  enable_testing()
+  include(CTest)
+  set(include_tests TRUE)
+endif()
