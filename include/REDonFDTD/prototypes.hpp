@@ -8,9 +8,9 @@
 #include "REDonFDTD/meshInit.hpp"
 #include "REDonFDTD/particleInit.hpp"
 
-constexpr double c = 2.99792458*pow(10,8);
-constexpr double epsilon_0 = 8.85418782*pow(10,-12);
-constexpr double Mu_0 = 4*M_PI*pow(10,-7);
+const static double c = 2.99792458*pow(10,8);
+const static double epsilon_0 = 8.85418782*pow(10,-12);
+const static double Mu_0 = 4*M_PI*pow(10,-7);
 
 //! @{
 // meshInit.cpp//
