@@ -3,7 +3,6 @@
 #include <vector>
 #include "REDonFDTD/prototypes.hpp"
 #include "REDonFDTD/memAllocation.hpp"
-#include "REDonFDTD/macroSetUp.hpp"
 #include "REDonFDTD/particleInit.hpp"
 #include "REDonFDTD/meshInit.hpp"
 

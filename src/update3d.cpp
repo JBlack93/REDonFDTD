@@ -1,7 +1,7 @@
 /* FUNCTIONS TO UPDATE THE FIELDS*/
 
 #include <stdio.h>
-#include "REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/meshInit.hpp"
 
 
 /* update magnetic field */
@@ -14,9 +14,9 @@ void updateH(Mesh *g)
         {
             for (pp = 0; pp < g->sizeZ - 1; ++pp)
             {
-                Hx(mm, nn, pp) = Chxh(mm, nn, pp) * Hx(mm, nn, pp) +
-                                 Chxe(mm, nn, pp) * ((Ey(mm, nn, pp + 1) - Ey(mm, nn, pp)) -
-                                 (Ez(mm, nn + 1, pp) - Ez(mm, nn, pp)));
+                g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] = g->chxh[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] * g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] +
+                                 g->chxe[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] * ((g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp+1] - g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp]) -
+                                 (g->ez[(mm*g->sizeY+nn+1)*(g->sizeZ-1)+pp] - g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp]));
             }
         }
     }
@@ -27,9 +27,9 @@ void updateH(Mesh *g)
         {
             for (pp = 0; pp < g->sizeZ - 1; ++pp)
             {
-                Hy(mm, nn, pp) = Chyh(mm, nn, pp) * Hy(mm, nn, pp) +
-                                 Chye(mm, nn, pp) * ((Ez(mm + 1, nn, pp) - Ez(mm, nn, pp)) -
-                                 (Ex(mm, nn, pp + 1) - Ex(mm, nn, pp)));
+                g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] = g->chyh[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] * g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] +
+                  g->chye[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] * ((g->ez[((mm+1)*g->sizeY+nn)*(g->sizeZ-1)+pp] - g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp]) -
+                                 (g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp+1] - g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp]));
             }
         }
     }
@@ -39,9 +39,9 @@ void updateH(Mesh *g)
         {
             for (pp = 0; pp < g->sizeZ; ++pp)
             {
-                Hz(mm, nn, pp) = Chzh(mm, nn, pp) * Hz(mm, nn, pp) +
-                                 Chze(mm, nn, pp) * ((Ex(mm, nn + 1, pp) - Ex(mm, nn, pp)) -
-                                 (Ey(mm + 1, nn, pp) - Ey(mm, nn, pp)));
+                g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] = g->chzh[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] * g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] +
+                  g->chze[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] * ((g->ex[(mm*g->sizeY+nn+1)*g->sizeZ+pp] - g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp]) -
+                                                     (g->ey[((mm+1)*(g->sizeY-1)+nn)*g->sizeZ+pp] - g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp]));
             }
         }
     }
@@ -64,9 +64,9 @@ void updateE(Mesh *g)
         {
             for (pp = 1; pp < g->sizeZ - 1; ++pp)
             {
-                Ex(mm, nn, pp) = Cexe(mm, nn, pp) * Ex(mm, nn, pp) +
-                                     Cexh(mm, nn, pp) * ((Hz(mm, nn, pp) - Hz(mm, nn - 1, pp)) -
-                                     (Hy(mm, nn, pp) - Hy(mm, nn, pp - 1)));
+                g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp] = g->cexe[(mm*g->sizeY+nn)*g->sizeZ+pp] * g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp] +
+                                     g->cexh[(mm*g->sizeY+nn)*g->sizeZ+pp] * ((g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] - g->hz[(mm*(g->sizeY-1)+nn-1)*g->sizeZ+pp]) -
+                                     (g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] - g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp-1]));
             }
         }
     }
@@ -77,9 +77,9 @@ void updateE(Mesh *g)
         {
             for (pp = 1; pp < g->sizeZ - 1; ++pp)
             {
-                Ey(mm, nn, pp) = Ceye(mm, nn, pp) * Ey(mm, nn, pp) +
-                                     Ceyh(mm, nn, pp) * ((Hx(mm, nn, pp) - Hx(mm, nn, pp - 1)) -
-                                     (Hz(mm, nn, pp) - Hz(mm - 1, nn, pp)));
+                g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] = g->ceye[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] * g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] +
+                  g->ceyh[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] * ((g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] - (g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+(pp-1)]) -
+                                       (g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] - g->hz[((mm-1)*(g->sizeY-1)+nn)*g->sizeZ+pp])));
             }
         }
     }
@@ -90,9 +90,9 @@ void updateE(Mesh *g)
         {
             for (pp = 0; pp < g->sizeZ - 1; ++pp)
             {
-                Ez(mm, nn, pp) = Ceze(mm, nn, pp) * Ez(mm, nn, pp) +
-                                     Cezh(mm, nn, pp) * ((Hy(mm, nn, pp) - Hy(mm - 1, nn, pp)) -
-                                     (Hx(mm, nn, pp) - Hx(mm, nn - 1, pp)));
+                g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] = g->ceze[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] * g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] +
+                  g->cezh[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] * ((g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] - g->hy[((mm-1)*g->sizeY+nn)*(g->sizeZ-1)+pp]) -
+                                     (g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] - g->hx[(mm*(g->sizeY-1)+nn-1)*(g->sizeZ-1)+pp]));
             }
         }
     }

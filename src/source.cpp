@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <iostream>
 #include "REDonFDTD/prototypes.hpp"
-#include "REDonFDTD/macroSetUp.hpp"
 #include "REDonFDTD/memAllocation.hpp"
 
 /* initialize source-function variables */
@@ -101,13 +100,20 @@ void sourceFunction(Particle *p, Mesh *g)
   /*        std::cout <<xPosition<<std::endl;
             std::cout <<(SizeX-1)/2-0.05<<std::endl;
             std::cout <<coord(a)<<std::endl;
-  */        Ex(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += eField[0];      // Calculation of the effect which
-            Ey(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += eField[1];      // charged particle has on each of
-            Ez(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += eField[2];      // directions of E-Field
+  */
+            g->ex[(p->coordinates[a] * g->sizeY + p->coordinates[b]) *
+                  g->sizeZ + p->coordinates[c]] += eField[0];      // Calculation of the effect which
+            g->ey[(p->coordinates[a] * (g->sizeY - 1) + p->coordinates[b]) *
+                  g->sizeZ + p->coordinates[c]]+= eField[1];      // charged particle has on each of
+            g->ez[(p->coordinates[a] * g->sizeY + p->coordinates[b]) *
+                  (g->sizeZ - 1) + p->coordinates[c]]+= eField[2];      // directions of E-Field
 
-            Hx(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += bField[0]/Mu_0;      // Calculation of the effect which
-            Hy(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += bField[1]/Mu_0;      // charged particle has on each of
-            Hz(p->coordinates[a], p->coordinates[b], p->coordinates[c]) += bField[2]/Mu_0;      // these directions of the H-Field
+            g->hx[(p->coordinates[a] * (g->sizeY - 1) + p->coordinates[b]) *
+                    (g->sizeZ - 1) + p->coordinates[c]]+= bField[0]/Mu_0;      // Calculation of the effect which
+            g->hy[(p->coordinates[a] * g->sizeY + p->coordinates[b]) *
+                  (g->sizeZ - 1) + p->coordinates[c]]+= bField[1]/Mu_0;      // charged particle has on each of
+            g->hz[(p->coordinates[a] * (g->sizeY - 1) + p->coordinates[b]) *
+                      g->sizeZ + p->coordinates[c]]  += bField[2]/Mu_0;      // these directions of the H-Field
 
             }
         }

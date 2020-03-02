@@ -3,7 +3,7 @@
  */
 #include <stdio.h>
 #include "REDonFDTD/memAllocation.hpp"
-#include "REDonFDTD/macroSetUp.hpp"
+#include "REDonFDTD/meshInit.hpp"
 
 /* Macros to access stored "old" value */
 #define Eyx0(N, P) eyx0[(N) * (g->sizeZ)     + (P)]
@@ -64,18 +64,23 @@ void updateABC(Mesh *g)
     {
         for (pp = 0; pp < g->sizeZ; ++pp)
         {
-            Ey(mm, nn, pp) = Eyx0(nn, pp) +
-                             abccoef * (Ey(mm + 1, nn, pp) - Ey(mm, nn, pp));
-            Eyx0(nn, pp) = Ey(mm + 1, nn, pp);
+          g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp] =
+                     eyx0[nn*(g->sizeZ)+pp] + abccoef *
+            (g->ey[((mm+1) * (g->sizeY - 1) + nn) * g->sizeZ + pp] -
+             g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp]);
+
+          eyx0[nn*(g->sizeZ)+pp] = g->ey[((mm+1) * (g->sizeY - 1) + nn) * g->sizeZ + pp];
         }
     }
     for (nn = 0; nn < g->sizeY; ++nn)
     {
         for (pp = 0; pp < g->sizeZ - 1; ++pp)
         {
-            Ez(mm, nn, pp) = Ezx0(nn, pp) +
-                             abccoef * (Ez(mm + 1, nn, pp) - Ez(mm, nn, pp));
-            Ezx0(nn, pp) = Ez(mm + 1, nn, pp);
+          g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp] =
+              ezx0[nn*(g->sizeZ-1)+pp] + abccoef *
+             (g->ez[((mm+1)*(g->sizeY)+nn)*(g->sizeZ-1)+pp] -
+              g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp]);
+            ezx0[nn*(g->sizeZ-1)+pp] = g->ez[((mm+1)*(g->sizeY)+nn)*(g->sizeZ-1)+pp];
         }
     }
 
@@ -86,22 +91,24 @@ void updateABC(Mesh *g)
     {
         for (pp = 0; pp < g->sizeZ; ++pp)
         {
-            Ey(mm, nn, pp) = Eyx1(nn, pp) +
-                             abccoef * (Ey(mm - 1, nn, pp) - Ey(mm, nn, pp));
-            Eyx1(nn, pp) = Ey(mm - 1, nn, pp);
+          g->ey[(mm*(g->sizeY-1)+nn)*(g->sizeZ)+pp] =
+            eyx1[nn*(g->sizeZ)+pp] + abccoef *
+            (g->ey[((mm-1)*(g->sizeY-1)+nn)*(g->sizeZ)+pp] -
+             g->ey[(mm*(g->sizeY-1)+nn)*(g->sizeZ)+pp]);
+            eyx1[nn*(g->sizeZ)+pp] = g->ey[((mm-1)*(g->sizeY-1)+nn)*(g->sizeZ)+pp];
         }
     }
     for (nn = 0; nn < g->sizeY; ++nn)
     {
         for (pp = 0; pp < g->sizeZ - 1; ++pp)
         {
-            Ez(mm, nn, pp) = Ezx1(nn, pp) +
-                             abccoef * (Ez(mm - 1, nn, pp) - Ez(mm, nn, pp));
-            Ezx1(nn, pp) = Ez(mm - 1, nn, pp);
+          g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp] =
+              ezx1[nn*(g->sizeZ-1)+pp] + abccoef *
+            (g->ez[((mm-1)*(g->sizeY)+nn)*(g->sizeZ-1)+pp] -
+             g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp]);
+            ezx1[nn*(g->sizeZ-1)+pp] = g->ez[((mm-1)*(g->sizeY)+nn)*(g->sizeZ-1)+pp];
         }
     }
-
-
 
     /* ABC at "y0" */
     nn = 0;
@@ -109,9 +116,11 @@ void updateABC(Mesh *g)
     {
         for (pp = 0; pp < g->sizeZ; ++pp)
         {
-            Ex(mm, nn, pp) = Exy0(mm, pp) +
-                             abccoef * (Ex(mm, nn + 1, pp) - Ex(mm, nn, pp));
-            Exy0(mm, pp) = Ex(mm, nn + 1, pp);
+          g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp] =
+              exy0[mm*(g->sizeZ)+pp] + abccoef *
+           (g->ex[(mm*(g->sizeY)+nn+1)*(g->sizeZ)+pp] -
+            g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp]);
+            exy0[mm*(g->sizeZ)+pp] = g->ex[(mm*(g->sizeY)+nn+1)*(g->sizeZ)+pp];
         }
     }
 
@@ -119,9 +128,11 @@ void updateABC(Mesh *g)
     {
         for (pp = 0; pp < g->sizeZ - 1; ++pp)
         {
-            Ez(mm, nn, pp) = Ezy0(mm, pp) +
-                             abccoef * (Ez(mm, nn + 1, pp) - Ez(mm, nn, pp));
-            Ezy0(mm, pp) = Ez(mm, nn + 1, pp);
+          g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp] =
+            ezy0[mm*(g->sizeZ-1)+pp] + abccoef *
+            (g->ez[(mm*(g->sizeY)+nn+1)*(g->sizeZ-1)+pp] -
+             g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp]);
+            ezy0[mm*(g->sizeZ-1)+pp] = g->ez[(mm*(g->sizeY)+nn+1)*(g->sizeZ-1)+pp];
         }
     }
 
@@ -132,18 +143,22 @@ void updateABC(Mesh *g)
     {
         for (pp = 0; pp < g->sizeZ; ++pp)
         {
-            Ex(mm, nn, pp) = Exy1(mm, pp) +
-                             abccoef * (Ex(mm, nn - 1, pp) - Ex(mm, nn, pp));
-            Exy1(mm, pp) = Ex(mm, nn - 1, pp);
+          g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp] =
+              exy1[mm*(g->sizeZ)+pp] + abccoef *
+            (g->ex[(mm*(g->sizeY)+nn-1)*(g->sizeZ)+pp] -
+             g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp]);
+            exy1[mm*(g->sizeZ)+pp] = g->ex[(mm*(g->sizeY)+nn-1)*(g->sizeZ)+pp];
         }
     }
     for (mm = 0; mm < g->sizeX; ++mm)
     {
         for (pp = 0; pp < g->sizeZ - 1; ++pp)
         {
-            Ez(mm, nn, pp) = Ezy1(mm, pp) +
-                             abccoef * (Ez(mm, nn - 1, pp) - Ez(mm, nn, pp));
-            Ezy1(mm, pp) = Ez(mm, nn - 1, pp);
+          g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp] =
+            ezy1[mm*(g->sizeZ-1)+pp] + abccoef *
+            (g->ez[(mm*(g->sizeY)+nn-1)*(g->sizeZ-1)+pp] -
+             g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp]);
+            ezy1[mm*(g->sizeZ-1)+pp] = g->ez[(mm*(g->sizeY)+nn-1)*(g->sizeZ-1)+pp];
         }
     }
 
@@ -153,18 +168,22 @@ void updateABC(Mesh *g)
     {
         for (nn = 0; nn < g->sizeY; ++nn)
         {
-            Ex(mm, nn, pp) = Exz0(mm, nn) +
-                             abccoef * (Ex(mm, nn, pp + 1) - Ex(mm, nn, pp));
-            Exz0(mm, nn) = Ex(mm, nn, pp + 1);
+            g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp] =
+              exz0[mm*(g->sizeY)+nn] + abccoef *
+              (g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp+1] -
+               g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp]);
+            exz0[mm*(g->sizeY)+nn] = g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp+1];
         }
     }
     for (mm = 0; mm < g->sizeX; ++mm)
     {
         for (nn = 0; nn < g->sizeY - 1; ++nn)
         {
-        Ey(mm, nn, pp) = Eyz0(mm, nn) +
-                         abccoef * (Ey(mm, nn, pp + 1) - Ey(mm, nn, pp));
-        Eyz0(mm, nn) = Ey(mm, nn, pp + 1);
+          g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp] =
+            eyz0[mm*(g->sizeY-1)+nn] + abccoef *
+            (g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp+1] -
+             g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp]);
+        eyz0[mm*(g->sizeY-1)+nn] = g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp+1];
         }
     }
 
@@ -174,18 +193,22 @@ void updateABC(Mesh *g)
     {
         for (nn = 0; nn < g->sizeY; ++nn)
         {
-            Ex(mm, nn, pp) = Exz1(mm, nn) +
-                             abccoef * (Ex(mm, nn, pp - 1) - Ex(mm, nn, pp));
-            Exz1(mm, nn) = Ex(mm, nn, pp - 1);
+            g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp] =
+              exz1[mm*(g->sizeY)+nn] + abccoef *
+              (g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp-1] -
+               g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp]);
+            exz1[mm*(g->sizeY)+nn] = g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp-1];
         }
     }
     for (mm = 0; mm < g->sizeX; ++mm)
     {
         for (nn = 0; nn < g->sizeY - 1; ++nn)
         {
-            Ey(mm, nn, pp) = Eyz1(mm, nn) +
-                             abccoef * (Ey(mm, nn, pp - 1) - Ey(mm, nn, pp));
-            Eyz1(mm, nn) = Ey(mm, nn, pp - 1);
+            g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp] =
+              eyz1[mm*(g->sizeY - 1)+nn] + abccoef *
+              (g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp-1] -
+               g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp]);
+            eyz1[mm*(g->sizeY - 1)+nn] = g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp-1];
         }
     }
     return;

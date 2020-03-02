@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
-#include "REDonFDTD/macroSetUp.hpp"
 #include "REDonFDTD/prototypes.hpp"
 
 static int temporalStride = -2, startTime;
@@ -70,7 +69,7 @@ void Slice(Mesh *g)
         {
             for (nn = 0; nn < g->sizeY; ++nn)
             {
-                temp = (float)Ex(mm, nn, pp);         // store data as a float
+              temp = (float) g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp];         // store data as a float
                 writeSingleValue(temp, "ExYZ.txt", 1);  // write out float value
             }
         }
@@ -91,7 +90,7 @@ void Slice(Mesh *g)
     {
         for (mm = 0; mm < g->sizeX - 1; ++mm)
         {
-            temp = (float)Ex(mm, nn, pp);         // store data as a float
+            temp = (float) g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp];         // store data as a float
             writeSingleValue(temp, "ExXZ.txt", 1);   // write the float
         }
     }

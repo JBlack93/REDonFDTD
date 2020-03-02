@@ -4,7 +4,6 @@
 
 #include <cmath>
 #include "REDonFDTD/prototypes.hpp"
-#include "REDonFDTD/macroSetUp.hpp"
 
 void newPositionTaylor(Particle *p, Mesh *g)
 {
@@ -46,9 +45,10 @@ std::vector<double> lorentzForce(Particle *p, Mesh *g)
 {
   std::vector<double> velocity{p->futVel[0], p->futVel[1], p->futVel[2]};
   std::vector<double> bField(3);
-  bField[0] = Hx((int) p->futPos[0], (int) p->futPos[1], (int) p->futPos[2])+5;
-  bField[1] = Hy((int) p->futPos[0], (int) p->futPos[1], (int) p->futPos[2]);
-  bField[2] = Hz((int) p->futPos[0], (int) p->futPos[1], (int) p->futPos[2]);
+
+  bField[0] = g->hx[(((int) p->futPos[0])*(g->sizeY-1)+((int) p->futPos[1]))*(g->sizeZ-1)+((int) p->futPos[2])]+5;
+  bField[1] = g->hy[(((int) p->futPos[0])*(g->sizeY)+((int) p->futPos[1]))*(g->sizeZ-1)+((int) p->futPos[2])];
+  bField[2] = g->hz[(((int) p->futPos[0])*(g->sizeY-1)+((int) p->futPos[1]))*(g->sizeZ)+((int) p->futPos[2])];
 
   std::vector<double> crossProduct = cross(velocity, bField);
   std::for_each(crossProduct.begin(), crossProduct.end(),

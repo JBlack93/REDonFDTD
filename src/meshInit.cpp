@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <cmath>
-#include "REDonFDTD/macroSetUp.hpp"
 #include "REDonFDTD/memAllocation.hpp"
+#include "REDonFDTD/meshInit.hpp"
 
  /* function to initialise the mesh */
 void initialiseMesh(Mesh *g)
@@ -47,8 +47,8 @@ void initialiseMesh(Mesh *g)
         {
             for (pp = 0; pp < g->sizeZ; ++pp)
             {
-                Cexe(mm, nn, pp) = 1.0;
-                Cexh(mm, nn, pp) = g->cdtds * imp0;
+              g->cexe[(mm * (g->sizeY) + nn) * g->sizeZ + pp] = 1.0;
+              g->cexh[(mm * (g->sizeY) + nn) * g->sizeZ + pp] = g->cdtds * imp0;
             }
         }
     }
@@ -59,8 +59,8 @@ void initialiseMesh(Mesh *g)
         {
             for (pp = 0; pp < g->sizeZ; ++pp)
             {
-                Ceye(mm, nn, pp) = 1.0;
-                Ceyh(mm, nn, pp) = g->cdtds * imp0;
+                g->ceye[(mm*(g->sizeY - 1) + nn) * g->sizeZ + pp] = 1.0;
+                g->ceyh[(mm*(g->sizeY - 1) + nn) * g->sizeZ + pp] = g->cdtds * imp0;
             }
         }
     }
@@ -72,8 +72,8 @@ void initialiseMesh(Mesh *g)
         {
             for (pp = 0; pp < g->sizeZ - 1; ++pp)
             {
-                Ceze(mm, nn, pp) = 1.0;
-                Cezh(mm, nn, pp) = g->cdtds * imp0;
+              g->ceze[(mm * (g->sizeY) + nn) * (g->sizeZ - 1) + pp] = 1.0;
+              g->cezh[(mm * (g->sizeY) + nn) * (g->sizeZ - 1) + pp] = g->cdtds * imp0;
             }
         }
     }
@@ -85,8 +85,8 @@ void initialiseMesh(Mesh *g)
         {
             for (pp = 0; pp < g->sizeZ - 1; ++pp)
             {
-                Chxh(mm, nn, pp) = 1.0;
-                Chxe(mm, nn, pp) = g->cdtds / imp0;
+                g->chxh[(mm * (g->sizeY - 1) + nn) * (g->sizeZ - 1) + pp] = 1.0;
+                g->chxe[(mm * (g->sizeY - 1) + nn) * (g->sizeZ - 1) + pp] = g->cdtds / imp0;
             }
         }
     }
@@ -97,8 +97,8 @@ void initialiseMesh(Mesh *g)
         {
             for (pp = 0; pp < g->sizeZ - 1; ++pp)
             {
-                Chyh(mm, nn, pp) = 1.0;
-                Chye(mm, nn, pp) = g->cdtds / imp0;
+                g->chyh[(mm * g->sizeY + nn) * (g->sizeZ - 1) + pp] = 1.0;
+                g->chye[(mm * g->sizeY + nn) * (g->sizeZ - 1) + pp] = g->cdtds / imp0;
             }
         }
     }
@@ -109,8 +109,8 @@ void initialiseMesh(Mesh *g)
         {
             for (pp = 0; pp < g->sizeZ; ++pp)
             {
-                Chzh(mm, nn, pp) = 1.0;
-                Chze(mm, nn, pp) = g->cdtds / imp0;
+                g->chzh[(mm * (g->sizeY - 1) + nn) * g->sizeZ + pp] = 1.0;
+                g->chze[(mm * (g->sizeY - 1) + nn) * g->sizeZ + pp] = g->cdtds / imp0;
             }
         }
     }
