@@ -3,23 +3,7 @@
  */
 #include <stdio.h>
 #include "REDonFDTD/memAllocation.hpp"
-#include "REDonFDTD/macroSetUp.hpp"
-
-/* Macros to access stored "old" value */
-#define Eyx0(N, P) eyx0[(N) * (SizeZ) + (P)]
-#define Ezx0(N, P) ezx0[(N) * (SizeZ - 1) + (P)]
-#define Eyx1(N, P) eyx1[(N) * (SizeZ) + (P)]
-#define Ezx1(N, P) ezx1[(N) * (SizeZ - 1) + (P)]
-
-#define Exy0(M, P) exy0[(M) * (SizeZ) + (P)]
-#define Ezy0(M, P) ezy0[(M) * (SizeZ - 1) + (P)]
-#define Exy1(M, P) exy1[(M) * (SizeZ) + (P)]
-#define Ezy1(M, P) ezy1[(M) * (SizeZ - 1) + (P)]
-
-#define Exz0(M, N) exz0[(M) * (SizeY) + (N)]
-#define Eyz0(M, N) eyz0[(M) * (SizeY - 1) + (N)]
-#define Exz1(M, N) exz1[(M) * (SizeY) + (N)]
-#define Eyz1(M, N) eyz1[(M) * (SizeY - 1) + (N)]
+#include "REDonFDTD/meshInit.hpp"
 
 /* global variables not visible outside of this package */
 static double abccoef = 0.0;
@@ -30,23 +14,23 @@ static double *exy0, *exy1, *exz0, *exz1,
 /* abc initialization function */
 void initialiseABC(Mesh *g)
 {
-    abccoef = (Cdtds - 1.0) / (Cdtds + 1.0);
+    abccoef = (g->cdtds - 1.0) / (g->cdtds + 1.0);
 
     /* allocate memory for ABC arrays */
-    ALLOC_2D(eyx0, SizeY - 1, SizeZ, double);
-    ALLOC_2D(ezx0, SizeY, SizeZ - 1, double);
-    ALLOC_2D(eyx1, SizeY - 1, SizeZ, double);
-    ALLOC_2D(ezx1, SizeY, SizeZ - 1, double);
+    eyx0 = ALLOC_2D(eyx0, g->sizeY - 1, g->sizeZ);
+    ezx0 = ALLOC_2D(ezx0, g->sizeY,     g->sizeZ-1);
+    eyx1 = ALLOC_2D(eyx1, g->sizeY - 1, g->sizeZ);
+    ezx1 = ALLOC_2D(ezx1, g->sizeY,     g->sizeZ-1);
 
-    ALLOC_2D(exy0, SizeX - 1, SizeZ, double);
-    ALLOC_2D(ezy0, SizeX, SizeZ - 1, double);
-    ALLOC_2D(exy1, SizeX - 1, SizeZ, double);
-    ALLOC_2D(ezy1, SizeX, SizeZ - 1, double);
+    exy0 = ALLOC_2D(exy0, g->sizeX - 1, g->sizeZ);
+    ezy0 = ALLOC_2D(ezy0, g->sizeX,     g->sizeZ-1);
+    exy1 = ALLOC_2D(exy1, g->sizeX - 1, g->sizeZ);
+    ezy1 = ALLOC_2D(ezy1, g->sizeX,     g->sizeZ-1);
 
-    ALLOC_2D(exz0, SizeX - 1, SizeY, double);
-    ALLOC_2D(eyz0, SizeX, SizeY - 1, double);
-    ALLOC_2D(exz1, SizeX - 1, SizeY, double);
-    ALLOC_2D(eyz1, SizeX, SizeY - 1, double);
+    exz0 = ALLOC_2D(exz0, g->sizeX - 1, g->sizeY);
+    eyz0 = ALLOC_2D(eyz0, g->sizeX,     g->sizeY-1);
+    exz1 = ALLOC_2D(exz1, g->sizeX - 1, g->sizeY);
+    eyz1 = ALLOC_2D(eyz1, g->sizeX,     g->sizeY-1);
 
     return;
 } /* end initialiseABC() */
@@ -60,132 +44,155 @@ void updateABC(Mesh *g)
 
     /* ABC at "x0" */
     mm = 0;
-    for (nn = 0; nn < SizeY - 1; ++nn)
+    for (nn = 0; nn < g->sizeY - 1; ++nn)
     {
-        for (pp = 0; pp < SizeZ; ++pp)
+        for (pp = 0; pp < g->sizeZ; ++pp)
         {
-            Ey(mm, nn, pp) = Eyx0(nn, pp) +
-                             abccoef * (Ey(mm + 1, nn, pp) - Ey(mm, nn, pp));
-            Eyx0(nn, pp) = Ey(mm + 1, nn, pp);
+          g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp] =
+                     eyx0[nn*(g->sizeZ)+pp] + abccoef *
+            (g->ey[((mm+1) * (g->sizeY - 1) + nn) * g->sizeZ + pp] -
+             g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp]);
+
+          eyx0[nn*(g->sizeZ)+pp] = g->ey[((mm+1) * (g->sizeY - 1) + nn) * g->sizeZ + pp];
         }
     }
-    for (nn = 0; nn < SizeY; ++nn)
+    for (nn = 0; nn < g->sizeY; ++nn)
     {
-        for (pp = 0; pp < SizeZ - 1; ++pp)
+        for (pp = 0; pp < g->sizeZ - 1; ++pp)
         {
-            Ez(mm, nn, pp) = Ezx0(nn, pp) +
-                             abccoef * (Ez(mm + 1, nn, pp) - Ez(mm, nn, pp));
-            Ezx0(nn, pp) = Ez(mm + 1, nn, pp);
+          g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp] =
+              ezx0[nn*(g->sizeZ-1)+pp] + abccoef *
+             (g->ez[((mm+1)*(g->sizeY)+nn)*(g->sizeZ-1)+pp] -
+              g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp]);
+            ezx0[nn*(g->sizeZ-1)+pp] = g->ez[((mm+1)*(g->sizeY)+nn)*(g->sizeZ-1)+pp];
         }
     }
 
     /* ABC at "x1" */
-    mm = SizeX - 1;
+    mm = g->sizeX - 1;
 
-    for (nn = 0; nn < SizeY - 1; ++nn)
+    for (nn = 0; nn < g->sizeY - 1; ++nn)
     {
-        for (pp = 0; pp < SizeZ; ++pp)
+        for (pp = 0; pp < g->sizeZ; ++pp)
         {
-            Ey(mm, nn, pp) = Eyx1(nn, pp) +
-                             abccoef * (Ey(mm - 1, nn, pp) - Ey(mm, nn, pp));
-            Eyx1(nn, pp) = Ey(mm - 1, nn, pp);
+          g->ey[(mm*(g->sizeY-1)+nn)*(g->sizeZ)+pp] =
+            eyx1[nn*(g->sizeZ)+pp] + abccoef *
+            (g->ey[((mm-1)*(g->sizeY-1)+nn)*(g->sizeZ)+pp] -
+             g->ey[(mm*(g->sizeY-1)+nn)*(g->sizeZ)+pp]);
+            eyx1[nn*(g->sizeZ)+pp] = g->ey[((mm-1)*(g->sizeY-1)+nn)*(g->sizeZ)+pp];
         }
     }
-    for (nn = 0; nn < SizeY; ++nn)
+    for (nn = 0; nn < g->sizeY; ++nn)
     {
-        for (pp = 0; pp < SizeZ - 1; ++pp)
+        for (pp = 0; pp < g->sizeZ - 1; ++pp)
         {
-            Ez(mm, nn, pp) = Ezx1(nn, pp) +
-                             abccoef * (Ez(mm - 1, nn, pp) - Ez(mm, nn, pp));
-            Ezx1(nn, pp) = Ez(mm - 1, nn, pp);
+          g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp] =
+              ezx1[nn*(g->sizeZ-1)+pp] + abccoef *
+            (g->ez[((mm-1)*(g->sizeY)+nn)*(g->sizeZ-1)+pp] -
+             g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp]);
+            ezx1[nn*(g->sizeZ-1)+pp] = g->ez[((mm-1)*(g->sizeY)+nn)*(g->sizeZ-1)+pp];
         }
     }
-
-
 
     /* ABC at "y0" */
     nn = 0;
-    for (mm = 0; mm < SizeX - 1; ++mm)
+    for (mm = 0; mm < g->sizeX - 1; ++mm)
     {
-        for (pp = 0; pp < SizeZ; ++pp)
+        for (pp = 0; pp < g->sizeZ; ++pp)
         {
-            Ex(mm, nn, pp) = Exy0(mm, pp) +
-                             abccoef * (Ex(mm, nn + 1, pp) - Ex(mm, nn, pp));
-            Exy0(mm, pp) = Ex(mm, nn + 1, pp);
+          g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp] =
+              exy0[mm*(g->sizeZ)+pp] + abccoef *
+           (g->ex[(mm*(g->sizeY)+nn+1)*(g->sizeZ)+pp] -
+            g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp]);
+            exy0[mm*(g->sizeZ)+pp] = g->ex[(mm*(g->sizeY)+nn+1)*(g->sizeZ)+pp];
         }
     }
 
-    for (mm = 0; mm < SizeX; ++mm)
+    for (mm = 0; mm < g->sizeX; ++mm)
     {
-        for (pp = 0; pp < SizeZ - 1; ++pp)
+        for (pp = 0; pp < g->sizeZ - 1; ++pp)
         {
-            Ez(mm, nn, pp) = Ezy0(mm, pp) +
-                             abccoef * (Ez(mm, nn + 1, pp) - Ez(mm, nn, pp));
-            Ezy0(mm, pp) = Ez(mm, nn + 1, pp);
+          g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp] =
+            ezy0[mm*(g->sizeZ-1)+pp] + abccoef *
+            (g->ez[(mm*(g->sizeY)+nn+1)*(g->sizeZ-1)+pp] -
+             g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp]);
+            ezy0[mm*(g->sizeZ-1)+pp] = g->ez[(mm*(g->sizeY)+nn+1)*(g->sizeZ-1)+pp];
         }
     }
 
 
     /* ABC at "y1" */
-    nn = SizeY - 1;
-    for (mm = 0; mm < SizeX - 1; ++mm)
+    nn = g->sizeY - 1;
+    for (mm = 0; mm < g->sizeX - 1; ++mm)
     {
-        for (pp = 0; pp < SizeZ; ++pp)
+        for (pp = 0; pp < g->sizeZ; ++pp)
         {
-            Ex(mm, nn, pp) = Exy1(mm, pp) +
-                             abccoef * (Ex(mm, nn - 1, pp) - Ex(mm, nn, pp));
-            Exy1(mm, pp) = Ex(mm, nn - 1, pp);
+          g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp] =
+              exy1[mm*(g->sizeZ)+pp] + abccoef *
+            (g->ex[(mm*(g->sizeY)+nn-1)*(g->sizeZ)+pp] -
+             g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp]);
+            exy1[mm*(g->sizeZ)+pp] = g->ex[(mm*(g->sizeY)+nn-1)*(g->sizeZ)+pp];
         }
     }
-    for (mm = 0; mm < SizeX; ++mm)
+    for (mm = 0; mm < g->sizeX; ++mm)
     {
-        for (pp = 0; pp < SizeZ - 1; ++pp)
+        for (pp = 0; pp < g->sizeZ - 1; ++pp)
         {
-            Ez(mm, nn, pp) = Ezy1(mm, pp) +
-                             abccoef * (Ez(mm, nn - 1, pp) - Ez(mm, nn, pp));
-            Ezy1(mm, pp) = Ez(mm, nn - 1, pp);
+          g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp] =
+            ezy1[mm*(g->sizeZ-1)+pp] + abccoef *
+            (g->ez[(mm*(g->sizeY)+nn-1)*(g->sizeZ-1)+pp] -
+             g->ez[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+pp]);
+            ezy1[mm*(g->sizeZ-1)+pp] = g->ez[(mm*(g->sizeY)+nn-1)*(g->sizeZ-1)+pp];
         }
     }
 
     /* ABC at "z0" (bottom) */
     pp = 0;
-    for (mm = 0; mm < SizeX - 1; ++mm)
+    for (mm = 0; mm < g->sizeX - 1; ++mm)
     {
-        for (nn = 0; nn < SizeY; ++nn)
+        for (nn = 0; nn < g->sizeY; ++nn)
         {
-            Ex(mm, nn, pp) = Exz0(mm, nn) +
-                             abccoef * (Ex(mm, nn, pp + 1) - Ex(mm, nn, pp));
-            Exz0(mm, nn) = Ex(mm, nn, pp + 1);
+            g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp] =
+              exz0[mm*(g->sizeY)+nn] + abccoef *
+              (g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp+1] -
+               g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp]);
+            exz0[mm*(g->sizeY)+nn] = g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp+1];
         }
     }
-    for (mm = 0; mm < SizeX; ++mm)
+    for (mm = 0; mm < g->sizeX; ++mm)
     {
-        for (nn = 0; nn < SizeY - 1; ++nn)
+        for (nn = 0; nn < g->sizeY - 1; ++nn)
         {
-        Ey(mm, nn, pp) = Eyz0(mm, nn) +
-                         abccoef * (Ey(mm, nn, pp + 1) - Ey(mm, nn, pp));
-        Eyz0(mm, nn) = Ey(mm, nn, pp + 1);
+          g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp] =
+            eyz0[mm*(g->sizeY-1)+nn] + abccoef *
+            (g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp+1] -
+             g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp]);
+        eyz0[mm*(g->sizeY-1)+nn] = g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp+1];
         }
     }
 
     /* ABC at "z1" (top) */
-    pp = SizeZ - 1;
-    for (mm = 0; mm < SizeX - 1; ++mm)
+    pp = g->sizeZ - 1;
+    for (mm = 0; mm < g->sizeX - 1; ++mm)
     {
-        for (nn = 0; nn < SizeY; ++nn)
+        for (nn = 0; nn < g->sizeY; ++nn)
         {
-            Ex(mm, nn, pp) = Exz1(mm, nn) +
-                             abccoef * (Ex(mm, nn, pp - 1) - Ex(mm, nn, pp));
-            Exz1(mm, nn) = Ex(mm, nn, pp - 1);
+            g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp] =
+              exz1[mm*(g->sizeY)+nn] + abccoef *
+              (g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp-1] -
+               g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp]);
+            exz1[mm*(g->sizeY)+nn] = g->ex[(mm*(g->sizeY)+nn)*(g->sizeZ)+pp-1];
         }
     }
-    for (mm = 0; mm < SizeX; ++mm)
+    for (mm = 0; mm < g->sizeX; ++mm)
     {
-        for (nn = 0; nn < SizeY - 1; ++nn)
+        for (nn = 0; nn < g->sizeY - 1; ++nn)
         {
-            Ey(mm, nn, pp) = Eyz1(mm, nn) +
-                             abccoef * (Ey(mm, nn, pp - 1) - Ey(mm, nn, pp));
-            Eyz1(mm, nn) = Ey(mm, nn, pp - 1);
+            g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp] =
+              eyz1[mm*(g->sizeY - 1)+nn] + abccoef *
+              (g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp-1] -
+               g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp]);
+            eyz1[mm*(g->sizeY - 1)+nn] = g->ey[((mm) * (g->sizeY - 1) + nn) * g->sizeZ + pp-1];
         }
     }
     return;

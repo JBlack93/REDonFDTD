@@ -3,7 +3,6 @@
 #include <vector>
 #include "REDonFDTD/prototypes.hpp"
 #include "REDonFDTD/memAllocation.hpp"
-#include "REDonFDTD/macroSetUp.hpp"
 #include "REDonFDTD/particleInit.hpp"
 #include "REDonFDTD/meshInit.hpp"
 
@@ -12,8 +11,8 @@ int main()
     Mesh *g;
     Particle *p;
 
-    ALLOC_1D(g, 1, Mesh);       // allocate memory for mesh
-    ALLOC_1D(p, 1, Particle);
+    g = ALLOC_1D(g, 1);       // allocate memory for mesh
+    p = ALLOC_1D(p, 1);
 
     initialiseMesh(g);          // initialise 3D mesh
     initialiseABC(g);           // initialise ABC
@@ -22,7 +21,7 @@ int main()
 
 
     /* do time stepping */
-    for (Time = 0; Time < MaxTime; Time = Time)
+    for (g->time = 0; g->time < g->maxTime; g->time = g->time)
     {
         updateH(g);             // update magnetic fields in mesh
         halfTimeStep(p, g);

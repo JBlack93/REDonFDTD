@@ -1,39 +1,29 @@
 /** @file memAllocation.hpp
- *  @brief memory allocation macros */
+ *  @brief memory allocation functions */
 #pragma once
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ALLOC_1D(PNTR, NUM, TYPE)                              \
-    PNTR = (TYPE *)calloc(NUM, sizeof(TYPE));                  \
-    if (!PNTR)                                                 \
-    {                                                          \
-        perror("ALLOC_1D");                                    \
-        fprintf(stderr,                                        \
-        "Allocation failed for " #PNTR ". Terminating...\n");  \
-        exit(-1);                                              \
-    }
 
-
-
-#define ALLOC_2D(PNTR, NUMX, NUMY, TYPE)                       \
-   PNTR = (TYPE *)calloc((NUMX) * (NUMY), sizeof(TYPE));       \
-    if (!PNTR)                                                 \
-    {                                                          \
-        perror("ALLOC_2D");                                    \
-        fprintf(stderr,                                        \
-        "Allocation failed for " #PNTR ". Terminating...\n");  \
-        exit(-1);                                              \
-    }
-
-
-#define ALLOC_3D(PNTR, NUMX, NUMY, NUMZ, TYPE)                      \
-   PNTR = (TYPE *)calloc((NUMX) * (NUMY) * (NUMZ), sizeof(TYPE));   \
-    if (!PNTR)                                                      \
-    {                                                               \
-       perror("ALLOC_3D");                                          \
-       fprintf(stderr,                                              \
-       "Allocation failed for " #PNTR ". Terminating...\n");        \
-       exit(-1);                                                    \
-    }
+/** @brief deprecated allocation function. Replace with class constructor
+ */
+template<class T>
+[[deprecated]] inline T* ALLOC_1D(T* ptr, int x){
+  ptr = static_cast<T*>(calloc(x, sizeof(T)));
+  return ptr;
+}
+/** @brief deprecated allocation function. Replace with class constructor
+ */
+template<class T>
+[[deprecated]] inline T* ALLOC_2D(T* ptr, int x , int y){
+  ptr = static_cast<T*>(calloc(x*y, sizeof(T)));
+  return ptr;
+}
+/** @brief deprecated allocation function. Replace with class constructor
+ */
+template<class T>
+[[deprecated]] inline T* ALLOC_3D(T* ptr, int x, int y, int z){
+  ptr = static_cast<T*>(calloc(x*y*z, sizeof(T)));
+  return ptr;
+}
