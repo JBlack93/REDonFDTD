@@ -9,46 +9,46 @@
 void initialiseSource(Particle *p, Mesh *g)
 {
 
-    ALLOC_1D(p->prevPos,3,double)
+    p->prevPos = ALLOC_1D(p->prevPos,3);
     p->prevPos[0] = (double) (g->sizeX-1)/2;
     p->prevPos[1] = (double) (g->sizeY/2)-0.5;
     p->prevPos[2] = (double) (g->sizeZ/2)-0.5;
-    ALLOC_1D(p->prevVel,3,double)
+    p->prevVel = ALLOC_1D(p->prevVel,3);
     p->prevVel[0] = 0;
     p->prevVel[1] = 0;
     p->prevVel[2] = 0;
-    ALLOC_1D(p->prevAcc,3,double)
+    p->prevAcc = ALLOC_1D(p->prevAcc,3);
     p->prevAcc[0] = 0;
     p->prevAcc[1] = 0;
     p->prevAcc[2] = 0;
 
-    ALLOC_1D(p->position,3,double)
+    p->position = ALLOC_1D(p->position,3);
     p->position[0] = (double) (g->sizeX-1)/2-0.05;
     p->position[1] = (double) g->sizeY/2-0.05;
     p->position[2] = (double) g->sizeZ/2-0.05;
-    ALLOC_1D(p->velocity,3,double)
+    p->velocity = ALLOC_1D(p->velocity,3);
     p->velocity[0] = 0;
     p->velocity[1] = 0.999*c;
     p->velocity[2] = 0;
-    ALLOC_1D(p->acceleration,3,double)
+    p->acceleration = ALLOC_1D(p->acceleration,3);
     p->acceleration[0] = 0;
     p->acceleration[1] = 0;
     p->acceleration[2] = 0;
 
-    ALLOC_1D(p->futPos,3,double)
+    p->futPos = ALLOC_1D(p->futPos,3);
     p->futPos[0] = 0;
     p->futPos[1] = 0;
     p->futPos[2] = 0;
-    ALLOC_1D(p->futVel,3,double)
+    p->futVel = ALLOC_1D(p->futVel,3);
     p->futVel[0] = 0;
     p->futVel[1] = 0;
     p->futVel[2] = 0;
-    ALLOC_1D(p->futAcc,3,double)
+    p->futAcc = ALLOC_1D(p->futAcc,3);
     p->futAcc[0] = 0;
     p->futAcc[1] = 0;
     p->futAcc[2] = 0;
 
-    ALLOC_1D(p->coordinates,6,int)
+    p->coordinates = ALLOC_1D(p->coordinates,6);
     p->coordinates[0] =  floor(p->position[0]);        // Set the array element to the lower x coordinate
     p->coordinates[1] =  floor(p->position[1]);        // Set the array element to the lower y coordinate
     p->coordinates[2] =  floor(p->position[2]);        // Set the array element to the lower z coordinate

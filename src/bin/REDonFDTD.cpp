@@ -11,8 +11,8 @@ int main()
     Mesh *g;
     Particle *p;
 
-    ALLOC_1D(g, 1, Mesh);       // allocate memory for mesh
-    ALLOC_1D(p, 1, Particle);
+    g = ALLOC_1D(g, 1);       // allocate memory for mesh
+    p = ALLOC_1D(p, 1);
 
     initialiseMesh(g);          // initialise 3D mesh
     initialiseABC(g);           // initialise ABC

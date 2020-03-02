@@ -18,26 +18,26 @@ void initialiseMesh(Mesh *g)
     g->cdtds = 1.0 / sqrt(3.0);          // Courant number
 
         /* memory allocation */
-    ALLOC_3D(g->hx,   g->sizeX,     g->sizeY - 1, g->sizeZ - 1, double);
-    ALLOC_3D(g->chxh, g->sizeX,     g->sizeY - 1, g->sizeZ - 1, double);
-    ALLOC_3D(g->chxe, g->sizeX,     g->sizeY - 1, g->sizeZ - 1, double);
-    ALLOC_3D(g->hy,   g->sizeX - 1, g->sizeY,     g->sizeZ - 1, double);
-    ALLOC_3D(g->chyh, g->sizeX - 1, g->sizeY,     g->sizeZ - 1, double);
-    ALLOC_3D(g->chye, g->sizeX - 1, g->sizeY,     g->sizeZ - 1, double);
-    ALLOC_3D(g->hz,   g->sizeX - 1, g->sizeY - 1, g->sizeZ,     double);
-    ALLOC_3D(g->chzh, g->sizeX - 1, g->sizeY - 1, g->sizeZ,     double);
-    ALLOC_3D(g->chze, g->sizeX - 1, g->sizeY - 1, g->sizeZ,     double);
+    g->hx = ALLOC_3D(g->hx,   g->sizeX,     g->sizeY - 1, g->sizeZ - 1);
+    g->chxh = ALLOC_3D(g->chxh, g->sizeX,     g->sizeY - 1, g->sizeZ - 1);
+    g->chxe = ALLOC_3D(g->chxe, g->sizeX,     g->sizeY - 1, g->sizeZ - 1);
+    g->hy = ALLOC_3D(g->hy,   g->sizeX - 1, g->sizeY,     g->sizeZ - 1);
+    g->chyh = ALLOC_3D(g->chyh, g->sizeX - 1, g->sizeY,     g->sizeZ - 1);
+    g->chye = ALLOC_3D(g->chye, g->sizeX - 1, g->sizeY,     g->sizeZ - 1);
+    g->hz = ALLOC_3D(g->hz,   g->sizeX - 1, g->sizeY - 1, g->sizeZ);
+    g->chzh = ALLOC_3D(g->chzh, g->sizeX - 1, g->sizeY - 1, g->sizeZ);
+    g->chze = ALLOC_3D(g->chze, g->sizeX - 1, g->sizeY - 1, g->sizeZ);
 
 
-    ALLOC_3D(g->ex,   g->sizeX - 1, g->sizeY,     g->sizeZ,     double);
-    ALLOC_3D(g->cexe, g->sizeX - 1, g->sizeY,     g->sizeZ,     double);
-    ALLOC_3D(g->cexh, g->sizeX - 1, g->sizeY,     g->sizeZ,     double);
-    ALLOC_3D(g->ey,   g->sizeX,     g->sizeY - 1, g->sizeZ,     double);
-    ALLOC_3D(g->ceye, g->sizeX,     g->sizeY - 1, g->sizeZ,     double);
-    ALLOC_3D(g->ceyh, g->sizeX,     g->sizeY - 1, g->sizeZ,     double);
-    ALLOC_3D(g->ez,   g->sizeX,     g->sizeY,     g->sizeZ - 1, double);
-    ALLOC_3D(g->ceze, g->sizeX,     g->sizeY,     g->sizeZ - 1, double);
-    ALLOC_3D(g->cezh, g->sizeX,     g->sizeY,     g->sizeZ - 1, double);
+    g->ex = ALLOC_3D(g->ex,   g->sizeX - 1, g->sizeY,     g->sizeZ);
+    g->cexe = ALLOC_3D(g->cexe, g->sizeX - 1, g->sizeY,     g->sizeZ);
+    g->cexh = ALLOC_3D(g->cexh, g->sizeX - 1, g->sizeY,     g->sizeZ);
+    g->ey = ALLOC_3D(g->ey,   g->sizeX,     g->sizeY - 1, g->sizeZ);
+    g->ceye = ALLOC_3D(g->ceye, g->sizeX,     g->sizeY - 1, g->sizeZ);
+    g->ceyh = ALLOC_3D(g->ceyh, g->sizeX,     g->sizeY - 1, g->sizeZ);
+    g->ez = ALLOC_3D(g->ez,   g->sizeX,     g->sizeY,     g->sizeZ - 1);
+    g->ceze = ALLOC_3D(g->ceze, g->sizeX,     g->sizeY,     g->sizeZ - 1);
+    g->cezh = ALLOC_3D(g->cezh, g->sizeX,     g->sizeY,     g->sizeZ - 1);
 
 
     /* set electric-field update coefficients */

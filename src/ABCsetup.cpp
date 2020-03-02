@@ -5,22 +5,6 @@
 #include "REDonFDTD/memAllocation.hpp"
 #include "REDonFDTD/meshInit.hpp"
 
-/* Macros to access stored "old" value */
-#define Eyx0(N, P) eyx0[(N) * (g->sizeZ)     + (P)]
-#define Ezx0(N, P) ezx0[(N) * (g->sizeZ - 1) + (P)]
-#define Eyx1(N, P) eyx1[(N) * (g->sizeZ)     + (P)]
-#define Ezx1(N, P) ezx1[(N) * (g->sizeZ - 1) + (P)]
-
-#define Exy0(M, P) exy0[(M) * (g->sizeZ)     + (P)]
-#define Ezy0(M, P) ezy0[(M) * (g->sizeZ - 1) + (P)]
-#define Exy1(M, P) exy1[(M) * (g->sizeZ)     + (P)]
-#define Ezy1(M, P) ezy1[(M) * (g->sizeZ - 1) + (P)]
-
-#define Exz0(M, N) exz0[(M) * (g->sizeY)     + (N)]
-#define Eyz0(M, N) eyz0[(M) * (g->sizeY - 1) + (N)]
-#define Exz1(M, N) exz1[(M) * (g->sizeY)     + (N)]
-#define Eyz1(M, N) eyz1[(M) * (g->sizeY - 1) + (N)]
-
 /* global variables not visible outside of this package */
 static double abccoef = 0.0;
 static double *exy0, *exy1, *exz0, *exz1,
@@ -33,20 +17,20 @@ void initialiseABC(Mesh *g)
     abccoef = (g->cdtds - 1.0) / (g->cdtds + 1.0);
 
     /* allocate memory for ABC arrays */
-    ALLOC_2D(eyx0, g->sizeY - 1, g->sizeZ,     double);
-    ALLOC_2D(ezx0, g->sizeY,     g->sizeZ - 1, double);
-    ALLOC_2D(eyx1, g->sizeY - 1, g->sizeZ,     double);
-    ALLOC_2D(ezx1, g->sizeY,     g->sizeZ - 1, double);
+    eyx0 = ALLOC_2D(eyx0, g->sizeY - 1, g->sizeZ);
+    ezx0 = ALLOC_2D(ezx0, g->sizeY,     g->sizeZ-1);
+    eyx1 = ALLOC_2D(eyx1, g->sizeY - 1, g->sizeZ);
+    ezx1 = ALLOC_2D(ezx1, g->sizeY,     g->sizeZ-1);
 
-    ALLOC_2D(exy0, g->sizeX - 1, g->sizeZ,     double);
-    ALLOC_2D(ezy0, g->sizeX,     g->sizeZ - 1, double);
-    ALLOC_2D(exy1, g->sizeX - 1, g->sizeZ,     double);
-    ALLOC_2D(ezy1, g->sizeX,     g->sizeZ - 1, double);
+    exy0 = ALLOC_2D(exy0, g->sizeX - 1, g->sizeZ);
+    ezy0 = ALLOC_2D(ezy0, g->sizeX,     g->sizeZ-1);
+    exy1 = ALLOC_2D(exy1, g->sizeX - 1, g->sizeZ);
+    ezy1 = ALLOC_2D(ezy1, g->sizeX,     g->sizeZ-1);
 
-    ALLOC_2D(exz0, g->sizeX - 1, g->sizeY,     double);
-    ALLOC_2D(eyz0, g->sizeX,     g->sizeY - 1, double);
-    ALLOC_2D(exz1, g->sizeX - 1, g->sizeY,     double);
-    ALLOC_2D(eyz1, g->sizeX,     g->sizeY - 1, double);
+    exz0 = ALLOC_2D(exz0, g->sizeX - 1, g->sizeY);
+    eyz0 = ALLOC_2D(eyz0, g->sizeX,     g->sizeY-1);
+    exz1 = ALLOC_2D(exz1, g->sizeX - 1, g->sizeY);
+    eyz1 = ALLOC_2D(eyz1, g->sizeX,     g->sizeY-1);
 
     return;
 } /* end initialiseABC() */
