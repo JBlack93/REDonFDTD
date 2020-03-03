@@ -3,7 +3,7 @@
 #include <cstdio>
 #include "REDonFDTD/mesh.hpp"
 
-Mesh::Mesh(){
+REDonFDTD::Mesh::Mesh(){
   double imp0 = 377.0;
   int mm, nn, pp;
   this->sizeX = 51;                       // size of domain
@@ -96,33 +96,33 @@ Mesh::Mesh(){
 }          /* end Mesh() */
 
 /* update magnetic field */
-void Mesh::updateH(Mesh *g){
+void REDonFDTD::Mesh::updateH(){
   int mm, nn, pp;
-  for (mm = 0; mm < g->sizeX; ++mm){
-    for (nn = 0; nn < g->sizeY - 1; ++nn){
-      for (pp = 0; pp < g->sizeZ - 1; ++pp){
-        g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] = g->chxh[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] * g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] +
-          g->chxe[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] * ((g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp+1] - g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp]) -
-                                                           (g->ez[(mm*g->sizeY+nn+1)*(g->sizeZ-1)+pp] - g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp]));
+  for (mm = 0; mm < this->sizeX; ++mm){
+    for (nn = 0; nn < this->sizeY - 1; ++nn){
+      for (pp = 0; pp < this->sizeZ - 1; ++pp){
+        this->hx[(mm*(this->sizeY-1)+nn)*(this->sizeZ-1)+pp] = this->chxh[(mm*(this->sizeY-1)+nn)*(this->sizeZ-1)+pp] * this->hx[(mm*(this->sizeY-1)+nn)*(this->sizeZ-1)+pp] +
+          this->chxe[(mm*(this->sizeY-1)+nn)*(this->sizeZ-1)+pp] * ((this->ey[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp+1] - this->ey[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp]) -
+                                                           (this->ez[(mm*this->sizeY+nn+1)*(this->sizeZ-1)+pp] - this->ez[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp]));
       }
     }
   }
 
-  for (mm = 0; mm < g->sizeX - 1; ++mm){
-    for (nn = 0; nn < g->sizeY; ++nn){
-      for (pp = 0; pp < g->sizeZ - 1; ++pp){
-        g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] = g->chyh[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] * g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] +
-          g->chye[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] * ((g->ez[((mm+1)*g->sizeY+nn)*(g->sizeZ-1)+pp] - g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp]) -
-                                                       (g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp+1] - g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp]));
+  for (mm = 0; mm < this->sizeX - 1; ++mm){
+    for (nn = 0; nn < this->sizeY; ++nn){
+      for (pp = 0; pp < this->sizeZ - 1; ++pp){
+        this->hy[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp] = this->chyh[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp] * this->hy[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp] +
+          this->chye[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp] * ((this->ez[((mm+1)*this->sizeY+nn)*(this->sizeZ-1)+pp] - this->ez[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp]) -
+                                                       (this->ex[(mm*this->sizeY+nn)*this->sizeZ+pp+1] - this->ex[(mm*this->sizeY+nn)*this->sizeZ+pp]));
       }
     }
   }
-  for (mm = 0; mm < g->sizeX - 1; ++mm){
-    for (nn = 0; nn < g->sizeY - 1; ++nn){
-      for (pp = 0; pp < g->sizeZ; ++pp){
-        g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] = g->chzh[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] * g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] +
-          g->chze[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] * ((g->ex[(mm*g->sizeY+nn+1)*g->sizeZ+pp] - g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp]) -
-                                                       (g->ey[((mm+1)*(g->sizeY-1)+nn)*g->sizeZ+pp] - g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp]));
+  for (mm = 0; mm < this->sizeX - 1; ++mm){
+    for (nn = 0; nn < this->sizeY - 1; ++nn){
+      for (pp = 0; pp < this->sizeZ; ++pp){
+        this->hz[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp] = this->chzh[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp] * this->hz[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp] +
+          this->chze[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp] * ((this->ex[(mm*this->sizeY+nn+1)*this->sizeZ+pp] - this->ex[(mm*this->sizeY+nn)*this->sizeZ+pp]) -
+                                                       (this->ey[((mm+1)*(this->sizeY-1)+nn)*this->sizeZ+pp] - this->ey[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp]));
       }
     }
   }
@@ -131,35 +131,35 @@ void Mesh::updateH(Mesh *g){
 
 
 /* update electric field */
-void Mesh::updateE(Mesh *g){
+void REDonFDTD::Mesh::updateE(){
   int mm, nn, pp;
 
-  for (mm = 0; mm < g->sizeX - 1; ++mm){
-    for (nn = 1; nn < g->sizeY - 1; ++nn){
-      for (pp = 1; pp < g->sizeZ - 1; ++pp){
-        g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp] = g->cexe[(mm*g->sizeY+nn)*g->sizeZ+pp] * g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp] +
-          g->cexh[(mm*g->sizeY+nn)*g->sizeZ+pp] * ((g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] - g->hz[(mm*(g->sizeY-1)+nn-1)*g->sizeZ+pp]) -
-                                                   (g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] - g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp-1]));
+  for (mm = 0; mm < this->sizeX - 1; ++mm){
+    for (nn = 1; nn < this->sizeY - 1; ++nn){
+      for (pp = 1; pp < this->sizeZ - 1; ++pp){
+        this->ex[(mm*this->sizeY+nn)*this->sizeZ+pp] = this->cexe[(mm*this->sizeY+nn)*this->sizeZ+pp] * this->ex[(mm*this->sizeY+nn)*this->sizeZ+pp] +
+          this->cexh[(mm*this->sizeY+nn)*this->sizeZ+pp] * ((this->hz[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp] - this->hz[(mm*(this->sizeY-1)+nn-1)*this->sizeZ+pp]) -
+                                                   (this->hy[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp] - this->hy[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp-1]));
       }
     }
   }
 
-  for (mm = 1; mm < g->sizeX - 1; ++mm){
-    for (nn = 0; nn < g->sizeY - 1; ++nn){
-      for (pp = 1; pp < g->sizeZ - 1; ++pp){
-        g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] = g->ceye[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] * g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] +
-          g->ceyh[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] * ((g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] - (g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+(pp-1)]) -
-                                                        (g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] - g->hz[((mm-1)*(g->sizeY-1)+nn)*g->sizeZ+pp])));
+  for (mm = 1; mm < this->sizeX - 1; ++mm){
+    for (nn = 0; nn < this->sizeY - 1; ++nn){
+      for (pp = 1; pp < this->sizeZ - 1; ++pp){
+        this->ey[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp] = this->ceye[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp] * this->ey[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp] +
+          this->ceyh[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp] * ((this->hx[(mm*(this->sizeY-1)+nn)*(this->sizeZ-1)+pp] - (this->hx[(mm*(this->sizeY-1)+nn)*(this->sizeZ-1)+(pp-1)]) -
+                                                        (this->hz[(mm*(this->sizeY-1)+nn)*this->sizeZ+pp] - this->hz[((mm-1)*(this->sizeY-1)+nn)*this->sizeZ+pp])));
       }
     }
   }
 
-  for (mm = 1; mm < g->sizeX - 1; ++mm){
-    for (nn = 1; nn < g->sizeY - 1; ++nn){
-      for (pp = 0; pp < g->sizeZ - 1; ++pp){
-        g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] = g->ceze[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] * g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] +
-          g->cezh[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] * ((g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] - g->hy[((mm-1)*g->sizeY+nn)*(g->sizeZ-1)+pp]) -
-                                                       (g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] - g->hx[(mm*(g->sizeY-1)+nn-1)*(g->sizeZ-1)+pp]));
+  for (mm = 1; mm < this->sizeX - 1; ++mm){
+    for (nn = 1; nn < this->sizeY - 1; ++nn){
+      for (pp = 0; pp < this->sizeZ - 1; ++pp){
+        this->ez[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp] = this->ceze[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp] * this->ez[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp] +
+          this->cezh[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp] * ((this->hy[(mm*this->sizeY+nn)*(this->sizeZ-1)+pp] - this->hy[((mm-1)*this->sizeY+nn)*(this->sizeZ-1)+pp]) -
+                                                       (this->hx[(mm*(this->sizeY-1)+nn)*(this->sizeZ-1)+pp] - this->hx[(mm*(this->sizeY-1)+nn-1)*(this->sizeZ-1)+pp]));
       }
     }
   }

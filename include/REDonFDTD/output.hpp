@@ -6,29 +6,37 @@
 
 #include "REDonFDTD/mesh.hpp"
 
-void writeTo(std::vector<double> position, float gamma, int mode);
+namespace REDonFDTD {
+
+/** @brief Output particle position and gamma value
+ *  @param position         Particle Position
+ *  @param gamma            Particle Gamma
+ *  @param mode             if ==0, truncate, else append
+ */
+  void writeTo(std::vector<double> position, float gamma, int mode);
 /** @brief Output E-Field for a a particular time
  *  @param g                Mesh to be outputted
  *  @param mode             if ==0, truncate, else append
  */
-void writeEField(Mesh *g, int mode);
+  void writeEField(Mesh *g, int mode);
 /** @brief Output H-Field for a a particular time
  *  @param g                Mesh to be outputted
  *  @param mode             if ==0, truncate, else append
  */
-void writeHField(Mesh *g, int mode);
+  void writeHField(Mesh *g, int mode);
 /** @brief Output generic float value to a specified file
  *  @param value         Value to be outputted
  *  @param filename      File to be outputted to
  *  @param mode          if ==0, truncate, else append
  */
-void writeSingleValue(float value, const char* filename, int mode);
+  void writeSingleValue(float value, const char* filename, int mode);
 
 /** @brief Initialise basic output
  *  @param g        Space-time mesh to output
  */
-void initialiseSlice(Mesh *g);
+  void initialiseSlice(Mesh *g);
 /** @brief Output slice
  *  @param g        Space-time mesh to output
  */
-void Slice(Mesh *g);
+  void Slice(Mesh *g);
+}

@@ -12,7 +12,7 @@ static double *exy0, *exy1, *exz0, *exz1,
   *ezx0, *ezx1, *ezy0, *ezy1;
 
 /* abc initialization function */
-void initialiseABC(Mesh *g)
+void REDonFDTD::initialiseABC(Mesh *g)
 {
   abccoef = (g->cdtds - 1.0) / (g->cdtds + 1.0);
 
@@ -35,10 +35,8 @@ void initialiseABC(Mesh *g)
   return;
 } /* end initialiseABC() */
 
-
-
 /* function that applies ABC -- called once per time step */
-void updateABC(Mesh *g)
+void REDonFDTD::updateABC(Mesh *g)
 {
   int mm, nn, pp;
 

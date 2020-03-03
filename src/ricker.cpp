@@ -5,14 +5,14 @@
 static double cdtds, ppw = 0;
 
 /* initialize source-function variables */
-void initialiseEzInc(Mesh *g){
+void REDonFDTD::initialiseEzInc(Mesh *g){
   printf("Enter the points per wavelength for Ricker source: ");
   scanf(" %lf", &ppw);
   cdtds = g->cdtds;
 }
 
 /* calculate source function at given time and location */
-double ezInc(double time, double location){
+double REDonFDTD::ezInc(double time, double location){
   double arg;
   if (ppw <= 0)
   {

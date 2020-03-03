@@ -7,59 +7,7 @@
 
 /* ELECTROMAGNETIC EFFECTS */
 
-std::vector<double> lorentzForce(Particle *p, Mesh *g)
-{
-  std::vector<double> velocity{p->futVel[0], p->futVel[1], p->futVel[2]};
-  std::vector<double> bField(3);
-
-  bField[0] = g->hx[(((int) p->futPos[0])*(g->sizeY-1)+((int) p->futPos[1]))*(g->sizeZ-1)+((int) p->futPos[2])]+5;
-  bField[1] = g->hy[(((int) p->futPos[0])*(g->sizeY)+((int) p->futPos[1]))*(g->sizeZ-1)+((int) p->futPos[2])];
-  bField[2] = g->hz[(((int) p->futPos[0])*(g->sizeY-1)+((int) p->futPos[1]))*(g->sizeZ)+((int) p->futPos[2])];
-
-  std::vector<double> crossProduct = manip::cross(velocity, bField);
-  std::for_each(crossProduct.begin(), crossProduct.end(),
-                [& p, &g](double & a){a*=(p->charge)*(g->Mu_0);});
-  return crossProduct;
-}
-
-double powerRadiated(Particle *p, Mesh * g)
-{
-  std::vector<double> velocity{p->futVel[0], p->futVel[1], p->futVel[2]};
-  std::vector<double> acceleration{p->futAcc[0], p->futAcc[1], p->futAcc[2]};
-
-  double coefficient = (g->Mu_0*pow(p->charge,2)*pow((p->futGamma),6))/(6*M_PI*(g->c));
-  std::vector<double> crossProd(3);
-  crossProd = manip::cross(velocity,acceleration);
-  double crossProdMag = manip::magnitude(crossProd);
-  double magTerm = pow(crossProdMag/(g->c),2);
-  double accSquared = manip::dot(acceleration, acceleration);
-  double powerRad = coefficient*(accSquared - magTerm);
-  return powerRad;
-}
-
-void velocityAfterRad(Particle *p, Mesh *g, double powerRad)
-{
-  std::vector<double> velocity{p->futVel[0], p->futVel[1], p->futVel[2]};
-  std::vector<double> acceleration{p->futAcc[0], p->futAcc[1], p->futAcc[2]};
-
-  double velMag = manip::magnitude(velocity);
-  double iniEnergy = (p->mass)*pow((g->c),2)*(p->futGamma);
-  double finalEnergy = iniEnergy - powerRad;//*TimeStep;
-  double finalVelMag = g->c*(sqrt(1-pow((((p->mass)*pow((g->c),2))/finalEnergy),2)));
-
-  std::for_each(velocity.begin(), velocity.end(),
-                [&velMag,&finalVelMag](double & vel){vel*=finalVelMag/velMag;});
-
-  p->futVel[0] = velocity[0];
-  p->futVel[1] = velocity[1];
-  p->futVel[2] = velocity[2];
-  p->futGamma = 1/(sqrt(1-pow(sqrt(pow(p->futVel[0],2)+pow(p->futVel[1],2)+
-                                   pow(p->futVel[2],2))/(g->c),2)));
-}
-
-
-void timeAdvanceValues(Particle *p)
-{
+void REDonFDTD::timeAdvanceValues(Particle *p){
   p->prevPos[0]  = p->position[0];
   p->prevPos[1]  = p->position[1];
   p->prevPos[2]  = p->position[2];
@@ -88,14 +36,13 @@ void timeAdvanceValues(Particle *p)
   p->gamma = p->futGamma;
 }
 
-void halfTimeStep(Particle *p, Mesh *g)
-{
+void REDonFDTD::halfTimeStep(Particle *p, Mesh *g){
   g->time += g->timeStep/2;
   p->newPositionTaylor(g);
   p->newVelocityTaylor(g);
-  std::vector<double> force = lorentzForce(p, g);
+  std::vector<double> force = p->lorentzForce(g);
   p->findAcceleration(force);
-  double powerRad = powerRadiated(p, g);
-  if (powerRad !=0)   velocityAfterRad(p, g, powerRad);
+  double powerRad = p->powerRadiated(g);
+  if (powerRad !=0)   p->velocityAfterRad(g, powerRad);
   timeAdvanceValues(p);
 }

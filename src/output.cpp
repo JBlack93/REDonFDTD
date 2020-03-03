@@ -4,9 +4,11 @@
 
 #include "REDonFDTD/output.hpp"
 
+using namespace std;
+
 static int temporalStride = -2, startTime;
 
-void writeTo(std::vector<double> position, float gamma, int mode)
+void REDonFDTD::writeTo(std::vector<double> position, float gamma, int mode)
 {
   using namespace std;
   ofstream myfile;
@@ -32,9 +34,7 @@ void writeTo(std::vector<double> position, float gamma, int mode)
   myfile.close();
 }
 
-void writeSingleValue(float value, const char* filename, int mode)
-{
-  using namespace std;
+void REDonFDTD::writeSingleValue(float value, const char* filename, int mode){
   ofstream myfile;
   if (mode == 0)   {  myfile.open(filename, ios::trunc);  }
   else             {  myfile.open(filename, ios::app);    }
@@ -42,9 +42,7 @@ void writeSingleValue(float value, const char* filename, int mode)
   myfile.close();
 }
 
-void writeEField(Mesh *g, int mode)
-{
-  using namespace std;
+void REDonFDTD::writeEField(Mesh *g, int mode){
   ofstream myfile;
 
   if (mode == 0)   {  myfile.open("Ex.txt", ios::trunc);  }
@@ -66,9 +64,7 @@ void writeEField(Mesh *g, int mode)
   myfile.close();
 }
 
-void writeHField(Mesh *g, int mode)
-{
-  using namespace std;
+void REDonFDTD::writeHField(Mesh *g, int mode){
   ofstream myfile;
 
   if (mode == 0)   {  myfile.open("Hx.txt", ios::trunc);  }
@@ -91,8 +87,7 @@ void writeHField(Mesh *g, int mode)
 }
 
 
-void initialiseSlice(Mesh *g)
-{
+void REDonFDTD::initialiseSlice(Mesh *g){
   int choice;
   printf("Do you want 2D slices of the 3D grid? (1=yes, 0=no) ");
   scanf("%d", &choice);
@@ -115,9 +110,7 @@ void initialiseSlice(Mesh *g)
 
 
 
-void Slice(Mesh *g)
-{
-  using namespace std;
+void REDonFDTD::Slice(Mesh *g){
   ofstream myfile;
 
   int mm, nn, pp;

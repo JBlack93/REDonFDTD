@@ -8,6 +8,8 @@
 #include "REDonFDTD/output.hpp"
 #include "REDonFDTD/EMfunctions.hpp"
 
+using namespace REDonFDTD;
+
 int main()
 {
   Mesh * g = new Mesh;
@@ -20,9 +22,9 @@ int main()
   /* do time stepping */
   for (g->time = 0; g->time < g->maxTime; g->time = g->time)
   {
-    g->updateH(g);             // update magnetic fields in mesh
+    g->updateH();             // update magnetic fields in mesh
     halfTimeStep(p, g);
-    g->updateE(g);             // update electric fields in mesh
+    g->updateE();             // update electric fields in mesh
     //halfTimeStep(p, g);
     p->sourceFunction(g);   // produce effects of source on local fields.
     updateABC(g);           // apply ABCs

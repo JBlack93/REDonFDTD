@@ -4,12 +4,15 @@
 
 #include "REDonFDTD/mesh.hpp"
 
+namespace REDonFDTD {
+
 /** @brief initialize ricker source-function variables
  *  @param g       Space-time Mesh in which source will be present
  */
-void initialiseEzInc(Mesh *g);
+  void initialiseEzInc(Mesh *g);
 /** @brief calculate source function at given time and location
  *  @param time       Time at which source function calculated
  *  @param location   Location at which source function calculated
  */
-double ezInc(double time, double location);
+  double ezInc(double time, double location);
+}
