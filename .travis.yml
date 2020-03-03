@@ -7,6 +7,10 @@ compiler:
   - gcc
   - clang
 
+jobs:
+  allow_failures:
+    os: osx
+
 script:
   - mkdir -p build && cd build
   - cmake -DCMAKE_BUILD_TYPE=Debug ..

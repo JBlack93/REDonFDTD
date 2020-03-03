@@ -5,12 +5,9 @@
 #include <vector>
 #include <cmath>
 #include <algorithm>
-#include "REDonFDTD/meshInit.hpp"
 #include "REDonFDTD/particleInit.hpp"
+#include "REDonFDTD/meshInit.hpp"
 
-const static double c = 2.99792458*pow(10,8);
-const static double epsilon_0 = 8.85418782*pow(10,-12);
-const static double Mu_0 = 4*M_PI*pow(10,-7);
 
 //! @{
 // meshInit.cpp//
@@ -74,37 +71,34 @@ double ezInc(double time, double location);
 //source.cpp//
 
 /** @brief Calculate the 6 points on the axes which give closest grid points
-    @param p      For which location needs to be found
+ *  @param p      For which location needs to be found
  */
 void findCell(Particle *p);
-/** @brief initialize source-function variables
-    @param p       Particle which is generating source
- *  @param g       Space-time Mesh in which source will be present
- */
-void initialiseSource(Particle *p, Mesh *g);
 
 /** @brief Calculate effect Particle has on neighbouring Mesh Points
-    @param p        Particle which we need to calculate effect of
-    @param g        Mesh upon which the particle's effects are felt
+ *  @param p        Particle which we need to calculate effect of
+ *  @param g        Mesh upon which the particle's effects are felt
  */
 void sourceFunction(Particle *p,Mesh *g);
 
 /** @brief Calculate the E-Field produced by Particle on a particular point in S-T
-    @param p        Particle which we need to calculate effect of
-    @param x        x-position of grid point
-    @param y        y-position of grid point
-    @param z        z-position of grid point
+ *  @param p        Particle which we need to calculate effect of
+ *  @param g        Mesh upon which the particle's effects are felt
+ *  @param x        x-position of grid point
+ *  @param y        y-position of grid point
+ *  @param z        z-position of grid point
  */
-std::vector<double> eFieldProduced(Particle *p, double x, double y, double z);
+std::vector<double> eFieldProduced(Particle *p, Mesh *g, double x, double y, double z);
 
 /** @brief Calculate the B-Field produced by Particle on a particular point in S-T
     @param p        Particle which we need to calculate effect of
+ *  @param g        Mesh upon which the particle's effects are felt
     @param eField   Corresponding Electric Field
     @param x        x-position of grid point
     @param y        y-position of grid point
     @param z        z-position of grid point
  */
-std::vector<double> bFieldProduced(Particle *p, std::vector<double> eField, double x, double y, double z);
+std::vector<double> bFieldProduced(Particle *p, Mesh* g, std::vector<double> eField, double x, double y, double z);
 //! @}
 
 //! @{
@@ -182,7 +176,7 @@ std::vector<double> lorentzForce(Particle *p, Mesh *g);
  *  @param p        Particle which will radiate energy
  *  @param powerRad Energy which is radiated away
  */
-void velocityAfterRad(Particle *p, double powerRad);
+void velocityAfterRad(Particle *p, Mesh *g, double powerRad);
 /** @brief Calculate gamma from a velocity
  *  @param velocity       Velocity to convert to gamma
  *  @returns              gamma which corresponds to velocity
@@ -192,7 +186,7 @@ double findGamma(std::vector<double> velocity);
  *  @param p        Particle which will radiate energy
  *  @returns        Energy which is radiated away
  */
-double powerRadiated(Particle *p);
+double powerRadiated(Particle *p, Mesh *g);
 
 /** @brief Update values of a particle at the end of a timestep
  *  @param p        Particle to be updated

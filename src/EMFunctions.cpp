@@ -22,7 +22,7 @@ void newVelocityTaylor(Particle *p, Mesh *g)
   p->futVel[2] = p->velocity[2] + (g->timeStep)*(p->acceleration[2]);
   p->futGamma = 1/(sqrt(1-pow(sqrt(pow(p->futVel[0],2)+
                                    pow(p->futVel[1],2)+
-                                   pow(p->futVel[2],2))/c,2)));
+                                   pow(p->futVel[2],2))/(g->c),2)));
 }
 
 void findAcceleration(Particle *p, std::vector<double> force)
@@ -32,10 +32,10 @@ void findAcceleration(Particle *p, std::vector<double> force)
   p->futAcc[2] = force[2]/((p->mass)*(p->futGamma));
 }
 
-double findGamma(std::vector<double> velocity)
+double findGamma(std::vector<double> velocity, Mesh * g)
 {
     double velMag = magnitude(velocity);
-    double gamma = 1/(sqrt(1-pow(velMag/c,2)));
+    double gamma = 1/(sqrt(1-pow(velMag/(g->c),2)));
     return gamma;
 }
 
@@ -52,34 +52,34 @@ std::vector<double> lorentzForce(Particle *p, Mesh *g)
 
   std::vector<double> crossProduct = cross(velocity, bField);
   std::for_each(crossProduct.begin(), crossProduct.end(),
-                [& p](double & a){a*=(p->charge)*(Mu_0);});
+                [& p, &g](double & a){a*=(p->charge)*(g->Mu_0);});
   return crossProduct;
 }
 
-double powerRadiated(Particle *p)
+double powerRadiated(Particle *p, Mesh * g)
 {
   std::vector<double> velocity{p->futVel[0], p->futVel[1], p->futVel[2]};
   std::vector<double> acceleration{p->futAcc[0], p->futAcc[1], p->futAcc[2]};
 
-  double coefficient = (Mu_0*pow(p->charge,2)*pow((p->futGamma),6))/(6*M_PI*c);
+  double coefficient = (g->Mu_0*pow(p->charge,2)*pow((p->futGamma),6))/(6*M_PI*(g->c));
   std::vector<double> crossProd(3);
   crossProd = cross(velocity,acceleration);
   double crossProdMag = magnitude(crossProd);
-  double magTerm = pow(crossProdMag/c,2);
+  double magTerm = pow(crossProdMag/(g->c),2);
   double accSquared = dot(acceleration, acceleration);
   double powerRad = coefficient*(accSquared - magTerm);
   return powerRad;
 }
 
-void velocityAfterRad(Particle *p, double powerRad)
+void velocityAfterRad(Particle *p, Mesh *g, double powerRad)
 {
   std::vector<double> velocity{p->futVel[0], p->futVel[1], p->futVel[2]};
   std::vector<double> acceleration{p->futAcc[0], p->futAcc[1], p->futAcc[2]};
 
   double velMag = magnitude(velocity);
-  double iniEnergy = (p->mass)*pow(c,2)*(p->futGamma);
+  double iniEnergy = (p->mass)*pow((g->c),2)*(p->futGamma);
   double finalEnergy = iniEnergy - powerRad;//*TimeStep;
-  double finalVelMag = c*(sqrt(1-pow((((p->mass)*pow(c,2))/finalEnergy),2)));
+  double finalVelMag = g->c*(sqrt(1-pow((((p->mass)*pow((g->c),2))/finalEnergy),2)));
 
   std::for_each(velocity.begin(), velocity.end(),
                 [&velMag,&finalVelMag](double & vel){vel*=finalVelMag/velMag;});
@@ -88,7 +88,7 @@ void velocityAfterRad(Particle *p, double powerRad)
   p->futVel[1] = velocity[1];
   p->futVel[2] = velocity[2];
   p->futGamma = 1/(sqrt(1-pow(sqrt(pow(p->futVel[0],2)+pow(p->futVel[1],2)+
-                                   pow(p->futVel[2],2))/c,2)));
+                                   pow(p->futVel[2],2))/(g->c),2)));
 }
 
 
@@ -129,7 +129,7 @@ void halfTimeStep(Particle *p, Mesh *g)
     newVelocityTaylor(p, g);
     std::vector<double> force = lorentzForce(p, g);
     findAcceleration(p, force);
-    double powerRad = powerRadiated(p);
-    if (powerRad !=0)   velocityAfterRad(p, powerRad);
+    double powerRad = powerRadiated(p, g);
+    if (powerRad !=0)   velocityAfterRad(p, g, powerRad);
     timeAdvanceValues(p);
 }

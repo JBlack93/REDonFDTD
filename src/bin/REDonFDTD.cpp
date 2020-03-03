@@ -9,13 +9,16 @@
 int main()
 {
   Mesh * g = new Mesh;
-  Particle *p;
+  // Particle *p;
 
-  p = ALLOC_1D(p, 1);
+  // p = ALLOC_1D(p, 1);
 
   initialiseABC(g);           // initialise ABC
   initialiseSlice(g);
-  initialiseSource(p, g);
+
+  Particle * p = new Particle(g);
+
+  // initialiseSource(p, g);
 
 
   /* do time stepping */

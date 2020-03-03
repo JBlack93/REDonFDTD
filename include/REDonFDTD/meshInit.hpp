@@ -1,5 +1,5 @@
 /** @file meshInit.hpp
- *  @brief Contains the Mesh struct */
+ *  @brief Contains the Mesh class */
 #pragma once
 
 #include <cmath>
@@ -131,6 +131,11 @@ public:
   int sizeX, sizeY, sizeZ;               //!<  Dimensions of the Mesh
   long double time, timeStep, maxTime;   //!< Define advance in time.
   double cdtds;                          //!< Courant number (Maximal distance which can be traveled in a timestep)
+
+  double c = 2.99792458e8;
+  double epsilon_0 = 8.85418782e-12;
+  double Mu_0 = M_PI*4e-7;
+
 };
 
 // typedef class Mesh Mesh;
