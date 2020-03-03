@@ -14,7 +14,7 @@ std::vector<double> REDonFDTD::util::cross(std::vector<double> vector1, std::vec
 }
 
 double REDonFDTD::util::dot(std::vector<double> vector1, std::vector<double> vector2){
-  float dotProduct=0;
+  double dotProduct=0;
   for (size_t i=0; i< vector1.size(); ++i)
   {
     dotProduct += vector1[i]*vector2[i];
@@ -24,13 +24,12 @@ double REDonFDTD::util::dot(std::vector<double> vector1, std::vector<double> vec
 }
 
 double REDonFDTD::util::magnitude(std::vector<double> a){
-  float mag;
-  mag = std::sqrt(dot(a,a));
+  const double mag = std::sqrt(dot(a,a));
   return mag;
 }
 
 std::vector<double> REDonFDTD::util::norm(std::vector<double> a){
-  float aMag = magnitude(a);
+  const double aMag = magnitude(a);
   for (size_t i = 0; i < a.size(); ++i){
     a[i] = a[i]/aMag;
   }
