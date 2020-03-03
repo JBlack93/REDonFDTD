@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <vector>
 
-#include "REDonFDTD/meshInit.hpp"
+#include "REDonFDTD/mesh.hpp"
 
 void writeTo(std::vector<double> position, float gamma, int mode);
 /** @brief Output E-Field for a a particular time

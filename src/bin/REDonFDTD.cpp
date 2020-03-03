@@ -2,8 +2,8 @@
 #include <iostream>
 #include <vector>
 
-#include "REDonFDTD/particleInit.hpp"
-#include "REDonFDTD/meshInit.hpp"
+#include "REDonFDTD/particle.hpp"
+#include "REDonFDTD/mesh.hpp"
 #include "REDonFDTD/ABC.hpp"
 #include "REDonFDTD/output.hpp"
 #include "REDonFDTD/EMfunctions.hpp"

@@ -2,7 +2,7 @@
  *  @brief ABC boundary condition declarations */
 #pragma once
 
-#include "REDonFDTD/meshInit.hpp"
+#include "REDonFDTD/mesh.hpp"
 
 /** @brief abc initialization function
     @param g        Space-time mesh to be initialised

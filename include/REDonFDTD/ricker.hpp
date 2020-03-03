@@ -2,7 +2,7 @@
  *  @brief Functions for Ricker source declarations */
 #pragma once
 
-#include "REDonFDTD/meshInit.hpp"
+#include "REDonFDTD/mesh.hpp"
 
 /** @brief initialize ricker source-function variables
  *  @param g       Space-time Mesh in which source will be present

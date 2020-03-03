@@ -2,8 +2,8 @@
  *  @brief Header file with all EM function declarations */
 
 #include <vector>
-#include "REDonFDTD/particleInit.hpp"
-#include "REDonFDTD/meshInit.hpp"
+#include "REDonFDTD/particle.hpp"
+#include "REDonFDTD/mesh.hpp"
 
 /** @brief Calculate Lorentz force felt by particle
  *  @param p        Particle which force will be calculated for
