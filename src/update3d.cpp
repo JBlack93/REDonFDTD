@@ -5,7 +5,7 @@
 
 
 /* update magnetic field */
-void updateH(Mesh *g)
+void Mesh::updateH(Mesh *g)
 {
     int mm, nn, pp;
     for (mm = 0; mm < g->sizeX; ++mm)
@@ -54,7 +54,7 @@ void updateH(Mesh *g)
 
 
 /* update electric field */
-void updateE(Mesh *g)
+void Mesh::updateE(Mesh *g)
 {
     int mm, nn, pp;
 

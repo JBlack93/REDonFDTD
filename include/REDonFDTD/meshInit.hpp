@@ -6,8 +6,7 @@
 #include "REDonFDTD/memAllocation.hpp"
 
 //! @brief Mesh is the 4D space-time grid which contains both E and H fields.
-class Mesh
-{
+class Mesh {
 public:
   Mesh(){
     double imp0 = 377.0;
@@ -122,6 +121,12 @@ public:
 
   ~Mesh() = default;
 
+//! @brief Update the E-Field in the space-time Mesh
+  void updateE(Mesh *g);
+//! @brief Update the H-Field in the space-time Mesh
+  void updateH(Mesh *g);
+
+
   double *hx, *chxh, *chxe;              //!< H_x field. Plus coefficients needed in its Update equation
   double *hy, *chyh, *chye;              //!< H_y field. Plus coefficients needed in its Update equation
   double *hz, *chzh, *chze;              //!< H_z field. Plus coefficients needed in its Update equation
@@ -137,5 +142,3 @@ public:
   double Mu_0 = M_PI*4e-7;
 
 };
-
-// typedef class Mesh Mesh;

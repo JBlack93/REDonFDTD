@@ -1,5 +1,8 @@
 #include <stdio.h>
-#include "REDonFDTD/prototypes.hpp"
+
+#include "REDonFDTD/ricker.hpp"
+#include "REDonFDTD/meshInit.hpp"
+
 
 static double cdtds, ppw = 0;
 

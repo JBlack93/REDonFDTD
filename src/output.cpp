@@ -1,9 +1,94 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <vector>
+#include <cstdio>
 #include <fstream>
-#include "REDonFDTD/prototypes.hpp"
+#include "REDonFDTD/output.hpp"
 
 static int temporalStride = -2, startTime;
+
+void writeTo(std::vector<double> position, float gamma, int mode)
+{
+    using namespace std;
+    ofstream myfile;
+
+    if (mode == 0)   {  myfile.open("xPos.txt", ios::trunc);  }
+    else             {  myfile.open("xPos.txt", ios::app);  }
+    myfile << position[0] << "\n";
+    myfile.close();
+
+    if (mode == 0)   {  myfile.open("yPos.txt", ios::trunc);  }
+    else             {  myfile.open("yPos.txt", ios::app);  }
+    myfile << position[1] << "\n";
+    myfile.close();
+
+    if (mode == 0)   {  myfile.open("zPos.txt", ios::trunc);  }
+    else             {  myfile.open("zPos.txt", ios::app);  }
+    myfile << position[2] << "\n";
+    myfile.close();
+
+    if (mode == 0)   {  myfile.open("Gamma.txt", ios::trunc);  }
+    else             {  myfile.open ("Gamma.txt", ios::app);  }
+    myfile << gamma << "\n";
+    myfile.close();
+}
+
+void writeSingleValue(float value, const char* filename, int mode)
+{
+    using namespace std;
+    ofstream myfile;
+    if (mode == 0)   {  myfile.open(filename, ios::trunc);  }
+    else             {  myfile.open(filename, ios::app);    }
+    myfile << value << "\n";
+    myfile.close();
+}
+
+void writeEField(Mesh *g, int mode)
+{
+    using namespace std;
+    ofstream myfile;
+
+    if (mode == 0)   {  myfile.open("Ex.txt", ios::trunc);  }
+    else             {  myfile.open("Ex.txt", ios::app);    }
+    for (signed i=0; i < (g->sizeX-1)*(g->sizeY)*(g->sizeZ);++i)
+    {             myfile << g->ex[i] << "\n";               }
+    myfile.close();
+
+    if (mode == 0)   {  myfile.open("Ey.txt", ios::trunc);  }
+    else             {  myfile.open("Ey.txt", ios::app);    }
+    for (signed i=0; i< (g->sizeX)*(g->sizeY-1)*(g->sizeZ);++i)
+    {             myfile << g->ey[i] << "\n";               }
+    myfile.close();
+
+    if (mode == 0)   {  myfile.open("Ez.txt", ios::trunc);  }
+    else             {  myfile.open("Ez.txt", ios::app);    }
+    for (signed i=0; i< (g->sizeX)*(g->sizeY)*(g->sizeZ-1);++i)
+    {             myfile << g->ez[i] << "\n";               }
+    myfile.close();
+}
+
+void writeHField(Mesh *g, int mode)
+{
+    using namespace std;
+    ofstream myfile;
+
+    if (mode == 0)   {  myfile.open("Hx.txt", ios::trunc);  }
+    else             {  myfile.open("Hx.txt", ios::app);    }
+    for (int i=0; i< (g->sizeX-1)*(g->sizeY)*(g->sizeZ);++i)
+    {             myfile << g->hx[i] << "\n";               }
+    myfile.close();
+
+    if (mode == 0)   {  myfile.open("Hy.txt", ios::trunc);  }
+    else             {  myfile.open("Hy.txt", ios::app);    }
+    for (int i=0; i< (g->sizeX)*(g->sizeY-1)*(g->sizeZ);++i)
+    {             myfile << g->hy[i] << "\n";               }
+    myfile.close();
+
+    if (mode == 0)   {  myfile.open("Hz.txt", ios::trunc);  }
+    else             {  myfile.open("Hz.txt", ios::app);    }
+    for (int i=0; i< (g->sizeX)*(g->sizeY)*(g->sizeZ-1);++i)
+    {             myfile << g->hz[i] << "\n";               }
+    myfile.close();
+}
+
 
 void initialiseSlice(Mesh *g)
 {
