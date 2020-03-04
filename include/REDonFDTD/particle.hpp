@@ -73,7 +73,7 @@ namespace REDonFDTD {
     void newVelocityTaylor(Mesh *g);
 
 /** @brief Update Acceleration for particle
- *  @param force    External force on particle
+ *  @param g        Mesh in which particle is present
  */
     void findAcceleration(Mesh *g);
 
