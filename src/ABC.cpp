@@ -2,44 +2,35 @@
  * the 3D domain.
  */
 #include <cstdio>
-#include "REDonFDTD/memAllocation.hpp"
 #include "REDonFDTD/ABC.hpp"
 
 /* global variables not visible outside of this package */
 static double abccoef = 0.0;
-static double *exy0, *exy1, *exz0, *exz1,
-  *eyx0, *eyx1, *eyz0, *eyz1,
-  *ezx0, *ezx1, *ezy0, *ezy1;
 
-/* abc initialization function */
-void REDonFDTD::initialiseABC(Mesh *g)
-{
+static std::vector<double> eyx0((y-1)*z);
+static std::vector<double> ezx0(y*(z-1));
+static std::vector<double> eyx1((y-1)*z);
+static std::vector<double> ezx1(y*(z-1));
+
+static std::vector<double> exy0((x-1)*z);
+static std::vector<double> ezy0(x*(z-1));
+static std::vector<double> exy1((x-1)*z);
+static std::vector<double> ezy1(x*(z-1));
+
+static std::vector<double> exz0((x-1)*y);
+static std::vector<double> eyz0(x*(y-1));
+static std::vector<double> exz1((x-1)*y);
+static std::vector<double> eyz1(x*(y-1));
+
+// /* abc initialization function */
+void REDonFDTD::initialiseABC(Mesh *g){
   abccoef = (g->cdtds - 1.0) / (g->cdtds + 1.0);
-
-  /* allocate memory for ABC arrays */
-  eyx0 = ALLOC_2D(eyx0, g->sizeY - 1, g->sizeZ);
-  ezx0 = ALLOC_2D(ezx0, g->sizeY,     g->sizeZ-1);
-  eyx1 = ALLOC_2D(eyx1, g->sizeY - 1, g->sizeZ);
-  ezx1 = ALLOC_2D(ezx1, g->sizeY,     g->sizeZ-1);
-
-  exy0 = ALLOC_2D(exy0, g->sizeX - 1, g->sizeZ);
-  ezy0 = ALLOC_2D(ezy0, g->sizeX,     g->sizeZ-1);
-  exy1 = ALLOC_2D(exy1, g->sizeX - 1, g->sizeZ);
-  ezy1 = ALLOC_2D(ezy1, g->sizeX,     g->sizeZ-1);
-
-  exz0 = ALLOC_2D(exz0, g->sizeX - 1, g->sizeY);
-  eyz0 = ALLOC_2D(eyz0, g->sizeX,     g->sizeY-1);
-  exz1 = ALLOC_2D(exz1, g->sizeX - 1, g->sizeY);
-  eyz1 = ALLOC_2D(eyz1, g->sizeX,     g->sizeY-1);
-
-  return;
-} /* end initialiseABC() */
+}
 
 /* function that applies ABC -- called once per time step */
 void REDonFDTD::updateABC(Mesh *g)
 {
   int mm, nn, pp;
-
   /* ABC at "x0" */
   mm = 0;
   for (nn = 0; nn < g->sizeY - 1; ++nn)

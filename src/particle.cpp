@@ -3,7 +3,6 @@
 
 #include "REDonFDTD/particle.hpp"
 #include "REDonFDTD/mesh.hpp"
-#include "REDonFDTD/memAllocation.hpp"
 
 
 REDonFDTD::Particle::Particle(Mesh * g){
