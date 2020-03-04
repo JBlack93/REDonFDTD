@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -47,9 +47,22 @@ add_test(
   NAME BasicRegression
   COMMAND ${tst_dir}/regression.sh ${tst_dir} dimExpected.txt ExXZExpected.txt
 )
-add_executable(REDonFDTD_exe src/bin/REDonFDTD.cpp ${src_files} ${header_files})
-set_target_properties(REDonFDTD_exe PROPERTIES OUTPUT_NAME "REDonFDTD")
-target_include_directories(REDonFDTD_exe PUBLIC ${REDonFDTD_INCLUDE_DIR})
+
+## create main library
+add_subdirectory(src)
+
+file(GLOB exec_files src/bin/*.cpp)
+
+foreach(exec ${exec_files})
+  get_filename_component(name ${exec} NAME_WE)
+  add_executable(${name}_exe ${exec})
+  set_target_properties(${name}_exe PROPERTIES OUTPUT_NAME "${name}")
+
+  ## link library
+  target_include_directories(${name}_exe PUBLIC ${REDonFDTD_INCLUDE_DIR})
+  target_link_libraries(${name}_exe REDonFDTD)
+endforeach(exec)
+
 
 ## install headers
 file(GLOB REDonFDTD_headers
@@ -62,6 +75,7 @@ add_custom_command(TARGET REDonFDTD_exe POST_BUILD
                        ${CMAKE_CURRENT_SOURCE_DIR}/include $<TARGET_FILE_DIR:REDonFDTD_exe>/include)
 
 install(FILES ${REDonFDTD_headers} DESTINATION ${INSTALL_INCLUDE_DIR})
+install(TARGETS REDonFDTD DESTINATION ${INSTALL_LIB_DIR})
 install(TARGETS REDonFDTD_exe DESTINATION ${INSTALL_BIN_DIR})
 
 ## tests (prevent testing if current project is a subproject)

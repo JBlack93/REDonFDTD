@@ -11,8 +11,29 @@ jobs:
   allow_failures:
     os: osx
 
-script:
+before_install:
+  # first we create a directory for the CMake binaries
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
+  # we use wget to fetch the cmake binaries
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then travis_retry wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.16.5/cmake-3.16.5-Darwin-x86_64.tar.gz; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then tar -xvf cmake-3.16.5-Darwin-x86_64.tar.gz > /dev/null; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mv cmake-3.16.5-Darwin-x86_64 cmake-install; fi
+
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then travis_retry wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.16.5/cmake-3.16.5-Linux-x86_64.tar.gz; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then tar -xvf cmake-3.16.5-Linux-x86_64.tar.gz > /dev/null; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then mv cmake-3.16.5-Linux-x86_64 cmake-install; fi
+  # add both the top-level directory and the bin directory from the archive
+  # to the system PATH. By adding it to the front of the path we hide the
+  # preinstalled CMake with our own.
+  - PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH
+  # don't forget to switch back to the main build directory once you are done
+  - cd ${TRAVIS_BUILD_DIR}
+
+before_script:
   - mkdir -p build && cd build
   - cmake -DCMAKE_BUILD_TYPE=Debug ..
+
+script:
   - make -j
   - ctest -j -V
