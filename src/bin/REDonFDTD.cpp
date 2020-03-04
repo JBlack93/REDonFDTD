@@ -1,6 +1,7 @@
 /* 3D simulation with dipole source at center of mesh. */
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "REDonFDTD/particle.hpp"
 #include "REDonFDTD/mesh.hpp"
@@ -12,23 +13,21 @@ using namespace REDonFDTD;
 
 int main()
 {
-  Mesh * g = new Mesh;
+  std::unique_ptr<Mesh> g = std::make_unique<Mesh>();// = std::make_unique<Mesh>(new Mesh);// = new Mesh;
+  std::unique_ptr<Particle> p = std::make_unique<Particle>(g.get());
 
-  initialiseABC(g);           // initialise ABC
-  initialiseSlice(g);
-
-  Particle * p = new Particle(g);
+  initialiseABC(g.get());           // initialise ABC
+  initialiseSlice(g.get());
 
   /* do time stepping */
-  for (g->time = 0; g->time < g->maxTime; g->time = g->time)
-  {
+  for (g->time = 0; g->time < g->maxTime; g->time = g->time){
     g->updateH();             // update magnetic fields in mesh
-    halfTimeStep(p, g);
+    halfTimeStep(p.get(), g.get());
     g->updateE();             // update electric fields in mesh
-    //halfTimeStep(p, g);
-    p->sourceFunction(g);   // produce effects of source on local fields.
-    updateABC(g);           // apply ABCs
-    Slice(g);               // take a slice (if appropriate)
+    //halfTimeStep(p.get(), g.get());
+    p->sourceFunction(g.get());   // produce effects of source on local fields.
+    updateABC(g.get());           // apply ABCs
+    Slice(g.get());               // take a slice (if appropriate)
   }                     // end of time-stepping
   return 0;
 }
