@@ -4,22 +4,16 @@
 #include <algorithm>
 
 #include "REDonFDTD/mesh.hpp"
+#include "REDonFDTD/source.hpp"
 #include "REDonFDTD/utilities.hpp"
 
 namespace REDonFDTD {
 
 //! @brief Particle struct contains all necessary information for updating the position of the particle.
-  class Particle {
+  class Particle: public source {
   public:
     Particle(Mesh * g);
     ~Particle() = default;
-
-/** @brief Calculate effect Particle has on neighbouring Mesh Points
- *  @param p        Particle which we need to calculate effect of
- *  @param g        Mesh upon which the particle's effects are felt
- */
-    void sourceFunction(Mesh *g);
-
 
 /** @brief Update values of a particle at the end of a timestep
  *  @param g        Mesh in which particle lives
@@ -27,17 +21,11 @@ namespace REDonFDTD {
     void timeAdvanceValues(Mesh *g);
 
   private:
-
     double charge, mass;
     double prevGamma, gamma, futGamma;
     std::array<double,3> prevPos,   prevVel,  prevAcc;
-    std::array<double,3> position,  velocity, acceleration;
     std::array<double,3> futPos,    futVel,   futAcc;
-    std::array<int,6> coordinates;
 
-/** @brief Calculate the 6 points on the axes which give closest grid points
- */
-    void findCell();
 /** @brief Calculate gamma from a velocity
  *  @param g              Mesh particle is present in
  *  @returns              gamma which corresponds to velocity
