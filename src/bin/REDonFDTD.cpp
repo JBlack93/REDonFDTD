@@ -12,7 +12,7 @@
 using namespace REDonFDTD;
 
 int main(){
-  std::unique_ptr<Mesh> g = std::make_unique<Mesh>();// = std::make_unique<Mesh>(new Mesh);// = new Mesh;
+  std::unique_ptr<Mesh> g = std::make_unique<Mesh>(51,50,50);
   std::unique_ptr<Particle> p = std::make_unique<Particle>(g.get());
 
   initialiseABC(g.get());           // initialise ABC

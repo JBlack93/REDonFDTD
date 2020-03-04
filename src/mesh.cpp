@@ -3,37 +3,39 @@
 #include <cstdio>
 #include "REDonFDTD/mesh.hpp"
 
-REDonFDTD::Mesh::Mesh(){
+REDonFDTD::Mesh::Mesh(int x, int y, int z){
   double imp0 = 377.0;
   int mm, nn, pp;
-  this->sizeX = 51;                       // size of domain
-  this->sizeY = 50;
-  this->sizeZ = 50;
+  this->sizeX = x;                       // size of domain
+  this->sizeY = y;
+  this->sizeZ = z;
   this->timeStep = 5*pow(10,-10);
   this->maxTime = 100*this->timeStep;           // duration of simulation
   this->cdtds = 1.0 / sqrt(3.0);          // Courant number
 
-  /* memory allocation */
-  this->hx = ALLOC_3D(this->hx,   this->sizeX,     this->sizeY - 1, this->sizeZ - 1);
-  this->chxh = ALLOC_3D(this->chxh, this->sizeX,     this->sizeY - 1, this->sizeZ - 1);
-  this->chxe = ALLOC_3D(this->chxe, this->sizeX,     this->sizeY - 1, this->sizeZ - 1);
-  this->hy = ALLOC_3D(this->hy,   this->sizeX - 1, this->sizeY,     this->sizeZ - 1);
-  this->chyh = ALLOC_3D(this->chyh, this->sizeX - 1, this->sizeY,     this->sizeZ - 1);
-  this->chye = ALLOC_3D(this->chye, this->sizeX - 1, this->sizeY,     this->sizeZ - 1);
-  this->hz = ALLOC_3D(this->hz,   this->sizeX - 1, this->sizeY - 1, this->sizeZ);
-  this->chzh = ALLOC_3D(this->chzh, this->sizeX - 1, this->sizeY - 1, this->sizeZ);
-  this->chze = ALLOC_3D(this->chze, this->sizeX - 1, this->sizeY - 1, this->sizeZ);
+  hx.resize(sizeX * (sizeY-1) * (sizeZ-1));
+  chxh=hx;
+  chxe = hx;
 
+  hy.resize((sizeX-1) * (sizeY) * (sizeZ-1));
+  chyh = hy;
+  chye = hy;
 
-  this->ex = ALLOC_3D(this->ex,   this->sizeX - 1, this->sizeY,     this->sizeZ);
-  this->cexe = ALLOC_3D(this->cexe, this->sizeX - 1, this->sizeY,     this->sizeZ);
-  this->cexh = ALLOC_3D(this->cexh, this->sizeX - 1, this->sizeY,     this->sizeZ);
-  this->ey = ALLOC_3D(this->ey,   this->sizeX,     this->sizeY - 1, this->sizeZ);
-  this->ceye = ALLOC_3D(this->ceye, this->sizeX,     this->sizeY - 1, this->sizeZ);
-  this->ceyh = ALLOC_3D(this->ceyh, this->sizeX,     this->sizeY - 1, this->sizeZ);
-  this->ez = ALLOC_3D(this->ez,   this->sizeX,     this->sizeY,     this->sizeZ - 1);
-  this->ceze = ALLOC_3D(this->ceze, this->sizeX,     this->sizeY,     this->sizeZ - 1);
-  this->cezh = ALLOC_3D(this->cezh, this->sizeX,     this->sizeY,     this->sizeZ - 1);
+  hz.resize((sizeX-1) * (sizeY-1) * (sizeZ));
+  chzh = hz;
+  chze = hz;
+
+  ex.resize((sizeX-1) * (sizeY) * (sizeZ));
+  cexh = ex;
+  cexe = ex;
+
+  ey.resize((sizeX) * (sizeY-1) * (sizeZ));
+  ceyh = ey;
+  ceye = ey;
+
+  ez.resize((sizeX) * (sizeY) * (sizeZ-1));
+  cezh = ez;
+  ceze = ez;
 
   /* set electric-field update coefficients */
   for (mm = 0; mm < this->sizeX - 1; ++mm){
