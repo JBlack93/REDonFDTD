@@ -71,6 +71,12 @@ namespace REDonFDTD {
  */
     void velocityAfterRad(Mesh *g, double powerRad);
 
+
+/** @brief Update values of a particle at the end of a timestep
+ */
+    void timeAdvanceValues();
+
+
     double charge, mass;
     double prevGamma, gamma, futGamma;
     std::array<double,3> prevPos,   prevVel,  prevAcc;

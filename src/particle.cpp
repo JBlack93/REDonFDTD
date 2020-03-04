@@ -52,7 +52,7 @@ std::array<double,3> REDonFDTD::Particle::eFieldProduced(Mesh *g, double x, doub
 
   const double dotgToSourceU = util::dot(gToSource, dirU);
 
-  const double prefactor = (this->charge)/(4*M_PI*(g->epsilon_0));
+  const double prefactor = (charge)/(4*M_PI*(g->epsilon_0));
   const double secFactor = gToSourceMag/(pow(dotgToSourceU/gToSourceMag,3));
   const double firstFactor = ((g->c)*(g->c)-util::dot(velocity,velocity));
   const std::array<double,3> firstTerm{firstFactor*dirU[0], firstFactor*dirU[1], firstFactor*dirU[2]};
@@ -87,10 +87,7 @@ void REDonFDTD::Particle::sourceFunction(Mesh *g){
 
         std::array<double,3> eField = eFieldProduced(g, coordinates[a], coordinates[b], coordinates[c]);
         std::array<double,3> bField = bFieldProduced(g, eField, coordinates[a], coordinates[b], coordinates[c]);
-        /*        std::cout <<xPosition<<std::endl;
-                  std::cout <<(SizeX-1)/2-0.05<<std::endl;
-                  std::cout <<coord(a)<<std::endl;
-        */
+
         g->ex[(coordinates[a] * g->sizeY + coordinates[b]) *
               g->sizeZ + coordinates[c]] += eField[0];      // Calculation of the effect which
         g->ey[(coordinates[a] * (g->sizeY - 1) + coordinates[b]) *
@@ -176,4 +173,15 @@ void REDonFDTD::Particle::velocityAfterRad(Mesh *g, double powerRad){
 
   futGamma = 1/(sqrt(1-pow(sqrt(pow(futVel[0],2)+pow(futVel[1],2)+
                                    pow(futVel[2],2))/(g->c),2)));
+}
+
+void REDonFDTD::Particle::timeAdvanceValues(){
+  prevPos = position;
+  position = futPos;
+  prevVel = velocity;
+  velocity = futVel;
+  prevAcc = acceleration;
+  acceleration = futAcc;
+  prevGamma = gamma;
+  gamma = futGamma;
 }
