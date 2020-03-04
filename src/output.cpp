@@ -1,5 +1,6 @@
 #include <array>
 #include <cstdio>
+#include <cstdlib>
 #include <fstream>
 
 #include "REDonFDTD/output.hpp"
@@ -47,19 +48,19 @@ void REDonFDTD::writeEField(Mesh *g, int mode){
 
   if (mode == 0)   {  myfile.open("Ex.txt", ios::trunc);  }
   else             {  myfile.open("Ex.txt", ios::app);    }
-  for (signed i=0; i < (g->sizeX-1)*(g->sizeY)*(g->sizeZ);++i)
+  for (int i=0; i < (g->sizeX-1)*(g->sizeY)*(g->sizeZ);++i)
   {             myfile << g->ex[i] << "\n";               }
   myfile.close();
 
   if (mode == 0)   {  myfile.open("Ey.txt", ios::trunc);  }
   else             {  myfile.open("Ey.txt", ios::app);    }
-  for (signed i=0; i< (g->sizeX)*(g->sizeY-1)*(g->sizeZ);++i)
+  for (int i=0; i< (g->sizeX)*(g->sizeY-1)*(g->sizeZ);++i)
   {             myfile << g->ey[i] << "\n";               }
   myfile.close();
 
   if (mode == 0)   {  myfile.open("Ez.txt", ios::trunc);  }
   else             {  myfile.open("Ez.txt", ios::app);    }
-  for (signed i=0; i< (g->sizeX)*(g->sizeY)*(g->sizeZ-1);++i)
+  for (int i=0; i< (g->sizeX)*(g->sizeY)*(g->sizeZ-1);++i)
   {             myfile << g->ez[i] << "\n";               }
   myfile.close();
 }
@@ -91,8 +92,7 @@ void REDonFDTD::initialiseSlice(Mesh *g){
   int choice;
   printf("Do you want 2D slices of the 3D grid? (1=yes, 0=no) ");
   scanf("%d", &choice);
-  if (choice == 0)
-  {
+  if (choice == 0){
     temporalStride = -1;
     return;
   }
@@ -112,10 +112,6 @@ void REDonFDTD::initialiseSlice(Mesh *g){
 
 void REDonFDTD::Slice(Mesh *g){
   ofstream myfile;
-
-  int mm, nn, pp;
-  float dim1, dim2, temp;
-
   /* ensure temporal stride set to a reasonable value */
   if (temporalStride == -1)   return;
 
@@ -128,28 +124,22 @@ void REDonFDTD::Slice(Mesh *g){
   }
 
 
-  int arg = (int) (g->time - startTime)/(g->timeStep);
+  int arg = static_cast<int>(g->time - startTime)/(g->timeStep);
   /* get snapshot if temporal conditions met */
-  if (g->time >= startTime && arg % temporalStride == 0)
-  {
+  if (g->time >= startTime && arg % temporalStride == 0){
 
     /************ write the constant-x slice ************/
 
     /* write dimensions to output file */
-    dim1 = g->sizeY;                // express dimensions as floats
-    dim2 = g->sizeZ;                // express dimensions as floats
-    writeSingleValue(dim1, "dimensions1.txt", 1);
-    writeSingleValue(dim2, "dimensions1.txt", 1);
+    writeSingleValue(g->sizeY, "dimensions1.txt", 1);
+    writeSingleValue(g->sizeZ, "dimensions1.txt", 1);
     writeSingleValue(g->maxTime, "dimensions1.txt",1);
     writeSingleValue(g->timeStep, "dimensions1.txt", 1);
     /* write remaining data */
-    mm = (g->sizeX - 1) / 2;
-    for (pp = 0; pp < g->sizeZ; ++pp)
-    {
-      for (nn = 0; nn < g->sizeY; ++nn)
-      {
-        temp = (float) g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp];         // store data as a float
-        writeSingleValue(temp, "ExYZ.txt", 1);  // write out float value
+    int mm = (g->sizeX - 1) / 2;
+    for (int pp = 0; pp < g->sizeZ; ++pp){
+      for (int nn = 0; nn < g->sizeY; ++nn){
+        writeSingleValue(g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp], "ExYZ.txt", 1);  // write out float value
       }
     }
   }              // close file
@@ -157,20 +147,15 @@ void REDonFDTD::Slice(Mesh *g){
   /************ write the constant-y slice ************/
 
   /* write dimensions to output file */
-  dim1 = g->sizeX - 1;                 // express dimensions as floats
-  dim2 = g->sizeZ;                     // express dimensions as floats
-  writeSingleValue(dim1, "dimensions2.txt", 1);
-  writeSingleValue(dim2, "dimensions2.txt", 1);
+  writeSingleValue((g->sizeX-1), "dimensions2.txt", 1);
+  writeSingleValue(g->sizeZ, "dimensions2.txt", 1);
   writeSingleValue(g->maxTime, "dimensions2.txt",1);
   writeSingleValue(g->timeStep, "dimensions2.txt", 1);
   /* write remaining data */
-  nn = g->sizeY / 2;
-  for (pp = 0; pp < g->sizeZ; ++pp)
-  {
-    for (mm = 0; mm < g->sizeX - 1; ++mm)
-    {
-      temp = (float) g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp];         // store data as a float
-      writeSingleValue(temp, "ExXZ.txt", 1);   // write the float
+  int nn = g->sizeY / 2;
+  for (int pp = 0; pp < g->sizeZ; ++pp){
+    for (int mm = 0; mm < g->sizeX - 1; ++mm){
+      writeSingleValue(g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp], "ExXZ.txt", 1);   // write the float
     }
   }
   return;

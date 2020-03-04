@@ -6,15 +6,15 @@
 
 
 REDonFDTD::Particle::Particle(Mesh * g){
-  prevPos[0] = (double) (g->sizeX-1)/2;
-  prevPos[1] = (double) (g->sizeY/2)-0.5;
-  prevPos[2] = (double) (g->sizeZ/2)-0.5;
+  prevPos[0] = static_cast<double>(g->sizeX-1)/2;
+  prevPos[1] = static_cast<double>(g->sizeY/2)-0.5;
+  prevPos[2] = static_cast<double>(g->sizeZ/2)-0.5;
   prevVel[0], prevVel[1], prevVel[2] = 0;
   prevAcc[0], prevAcc[1], prevAcc[2] = 0;
 
-  position[0] = (double) (g->sizeX-1)/2-0.05;
-  position[1] = (double) g->sizeY/2-0.05;
-  position[2] = (double) g->sizeZ/2-0.05;
+  position[0] = static_cast<double>(g->sizeX-1)/2-0.05;
+  position[1] = static_cast<double>(g->sizeY)/2-0.05;
+  position[2] = static_cast<double>(g->sizeZ)/2-0.05;
   velocity[0] = 0;
   velocity[1] = 0.999*(g->c);
   velocity[2] = 0;
@@ -141,9 +141,15 @@ double REDonFDTD::Particle::findGamma(Mesh * g){
 std::array<double,3> REDonFDTD::Particle::lorentzForce(Mesh *g){
   std::array<double,3> bField;
 
-  bField[0] = g->hx[(((int) futPos[0])*(g->sizeY-1)+((int) futPos[1]))*(g->sizeZ-1)+((int) futPos[2])]+5;
-  bField[1] = g->hy[(((int) futPos[0])*(g->sizeY)+((int) futPos[1]))*(g->sizeZ-1)+((int) futPos[2])];
-  bField[2] = g->hz[(((int) futPos[0])*(g->sizeY-1)+((int) futPos[1]))*(g->sizeZ)+((int) futPos[2])];
+  bField[0] = g->hx[(static_cast<int>(futPos[0])*(g->sizeY-1)+
+                     static_cast<int>(futPos[1])*(g->sizeZ-1)+
+                     static_cast<int>(futPos[2]))]+5;
+  bField[1] = g->hy[(static_cast<int>(futPos[0])*(g->sizeY)+
+                     static_cast<int>(futPos[1])*(g->sizeZ-1)+
+                     static_cast<int>(futPos[2]))];
+  bField[2] = g->hz[(static_cast<int>(futPos[0])*(g->sizeY-1)+
+                     static_cast<int>(futPos[1])*(g->sizeZ)+
+                     static_cast<int>(futPos[2]))];
 
   std::array<double,3> crossProduct = util::cross(futVel, bField);
   std::for_each(crossProduct.begin(), crossProduct.end(),
@@ -162,7 +168,6 @@ double REDonFDTD::Particle::powerRadiated(Mesh * g){
 }
 
 void REDonFDTD::Particle::velocityAfterRad(Mesh *g, double powerRad){
-
   const double velMag = util::magnitude(futVel);
   const double iniEnergy = (mass)*pow((g->c),2)*(futGamma);
   const double finalEnergy = iniEnergy - powerRad;//*TimeStep;
