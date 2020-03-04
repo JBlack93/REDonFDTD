@@ -126,7 +126,8 @@ void REDonFDTD::Particle::newVelocityTaylor(Mesh *g){
                                       pow(futVel[2],2))/(g->c),2)));
 }
 
-void REDonFDTD::Particle::findAcceleration(std::array<double,3> force){
+void REDonFDTD::Particle::findAcceleration(Mesh * g){
+  const std::array<double,3> force = lorentzForce(g);
   futAcc[0] = force[0]/((mass)*(futGamma));
   futAcc[1] = force[1]/((mass)*(futGamma));
   futAcc[2] = force[2]/((mass)*(futGamma));
@@ -167,7 +168,9 @@ double REDonFDTD::Particle::powerRadiated(Mesh * g){
   return coefficient*(accSquared - magTerm);
 }
 
-void REDonFDTD::Particle::velocityAfterRad(Mesh *g, double powerRad){
+void REDonFDTD::Particle::velocityAfterRad(Mesh *g){
+  const double powerRad = powerRadiated(g);
+  if (powerRad == 0) return;
   const double velMag = util::magnitude(futVel);
   const double iniEnergy = (mass)*pow((g->c),2)*(futGamma);
   const double finalEnergy = iniEnergy - powerRad;//*TimeStep;
@@ -180,7 +183,12 @@ void REDonFDTD::Particle::velocityAfterRad(Mesh *g, double powerRad){
                                    pow(futVel[2],2))/(g->c),2)));
 }
 
-void REDonFDTD::Particle::timeAdvanceValues(){
+void REDonFDTD::Particle::timeAdvanceValues(Mesh *g){
+  newPositionTaylor(g);
+  newVelocityTaylor(g);
+  findAcceleration(g);
+  velocityAfterRad(g);
+
   prevPos = position;
   position = futPos;
   prevVel = velocity;
