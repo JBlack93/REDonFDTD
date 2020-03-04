@@ -1,6 +1,6 @@
 /* 3D simulation with dipole source at center of mesh. */
 #include <iostream>
-#include <vector>
+#include <array>
 #include <memory>
 
 #include "REDonFDTD/particle.hpp"
@@ -11,8 +11,7 @@
 
 using namespace REDonFDTD;
 
-int main()
-{
+int main(){
   std::unique_ptr<Mesh> g = std::make_unique<Mesh>();// = std::make_unique<Mesh>(new Mesh);// = new Mesh;
   std::unique_ptr<Particle> p = std::make_unique<Particle>(g.get());
 

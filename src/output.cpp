@@ -1,4 +1,4 @@
-#include <vector>
+#include <array>
 #include <cstdio>
 #include <fstream>
 
@@ -8,7 +8,7 @@ using namespace std;
 
 static int temporalStride = -2, startTime;
 
-void REDonFDTD::writeTo(std::vector<double> position, float gamma, int mode)
+void REDonFDTD::writeTo(std::array<double,3> position, float gamma, int mode)
 {
   using namespace std;
   ofstream myfile;

@@ -1,4 +1,4 @@
-#include <vector>
+#include <array>
 #include <algorithm>
 
 #include "REDonFDTD/particle.hpp"
@@ -70,18 +70,18 @@ void REDonFDTD::Particle::findCell(){
   this->coordinates[5] = ceil(this->position[2]);     // which the particle resides in
 }
 
-std::vector<double> REDonFDTD::Particle::eFieldProduced(Mesh *g, double x, double y, double z){
-  std::vector<double> gridRadius{x,y,z};
-  std::vector<double> sourceRadius{this->position[0],this->position[1],this->position[2]};
-  std::vector<double> velocity{this->velocity[0],this->velocity[1],this->velocity[2]};
-  std::vector<double> acceleration{this->acceleration[0], this->acceleration[1], this->acceleration[2]};
+std::array<double,3> REDonFDTD::Particle::eFieldProduced(Mesh *g, double x, double y, double z){
+  std::array<double,3> gridRadius{x,y,z};
+  std::array<double,3> sourceRadius{this->position[0],this->position[1],this->position[2]};
+  std::array<double,3> velocity{this->velocity[0],this->velocity[1],this->velocity[2]};
+  std::array<double,3> acceleration{this->acceleration[0], this->acceleration[1], this->acceleration[2]};
 
-  std::vector<double> gridToSource{gridRadius[0]-sourceRadius[0],
+  std::array<double,3> gridToSource{gridRadius[0]-sourceRadius[0],
                                    gridRadius[1]-sourceRadius[1],
                                    gridRadius[2]-sourceRadius[2]};
 
   double gridToSourceMag = util::magnitude(gridToSource);                       //STILL NEED TO MAKE THIS EVALUATED AT RETARDED
-  std::vector<double> dirU{(g->c)*gridToSource[0]/(gridToSourceMag) - velocity[0],
+  std::array<double,3> dirU{(g->c)*gridToSource[0]/(gridToSourceMag) - velocity[0],
                            (g->c)*gridToSource[1]/(gridToSourceMag) - velocity[1],
                            (g->c)*gridToSource[2]/(gridToSourceMag) - velocity[2]};
 
@@ -90,28 +90,28 @@ std::vector<double> REDonFDTD::Particle::eFieldProduced(Mesh *g, double x, doubl
   double prefactor = (this->charge)/(4*M_PI*(g->epsilon_0));
   double secondFactor = gridToSourceMag/(pow(dotGridSourceU/gridToSourceMag,3));
   double firstTermFactor = (pow((g->c),2)-util::dot(velocity,velocity));
-  std::vector<double> firstTerm{firstTermFactor*dirU[0],
+  std::array<double,3> firstTerm{firstTermFactor*dirU[0],
                                 firstTermFactor*dirU[1],
                                 firstTermFactor*dirU[2]};
-  std::vector<double> secondTerm = util::cross(gridToSource, util::cross(dirU, acceleration));
+  std::array<double,3> secondTerm = util::cross(gridToSource, util::cross(dirU, acceleration));
   std::for_each(secondTerm.begin(),secondTerm.end(),
                 [&gridToSourceMag](double & element){element/=gridToSourceMag;});
-  std::vector<double> eField{prefactor*secondFactor*(firstTerm[0]+secondTerm[0]),
+  std::array<double,3> eField{prefactor*secondFactor*(firstTerm[0]+secondTerm[0]),
                              prefactor*secondFactor*(firstTerm[1]+secondTerm[1]),
                              prefactor*secondFactor*(firstTerm[2]+secondTerm[2])};
   return eField;
 }
 
-std::vector<double> REDonFDTD::Particle::bFieldProduced(Mesh *g, std::vector<double> eField,
+std::array<double,3> REDonFDTD::Particle::bFieldProduced(Mesh *g, std::array<double,3> eField,
                                              double x, double y, double z){
-  std::vector<double> gridRadius{x,y,z};
-  std::vector<double> sourceRadius{this->position[0],this->position[1],this->position[2]};
-  std::vector<double> gridToSource{gridRadius[0] - sourceRadius[0],
+  std::array<double,3> gridRadius{x,y,z};
+  std::array<double,3> sourceRadius{this->position[0],this->position[1],this->position[2]};
+  std::array<double,3> gridToSource{gridRadius[0] - sourceRadius[0],
                                    gridRadius[1] - sourceRadius[1],
                                    gridRadius[2] - sourceRadius[2]};
   double gridToSourceMag = util::magnitude(gridToSource);
   double factor = (1/((g->c)*gridToSourceMag));
-  std::vector<double> bField = util::cross(gridToSource, eField);
+  std::array<double,3> bField = util::cross(gridToSource, eField);
   std::for_each(bField.begin(),bField.end(),[&factor](double & element){element*=factor;});
   return bField;
 }
@@ -126,8 +126,8 @@ void REDonFDTD::Particle::sourceFunction(Mesh *g){
         int b = 1+3*n;     // correspond to appropriate coordinates such
         int c = 2+3*m;     // that calculations can be done at all 8 points
 
-        std::vector<double> eField(3);
-        std::vector<double> bField(3);
+        std::array<double,3> eField;
+        std::array<double,3> bField;
         eField = eFieldProduced(g, this->coordinates[a], this->coordinates[b], this->coordinates[c]);
         bField = bFieldProduced(g, eField, this->coordinates[a], this->coordinates[b], this->coordinates[c]);
         /*        std::cout <<xPosition<<std::endl;
@@ -174,7 +174,7 @@ void REDonFDTD::Particle::newVelocityTaylor(Mesh *g)
                                       pow(this->futVel[2],2))/(g->c),2)));
 }
 
-void REDonFDTD::Particle::findAcceleration(std::vector<double> force){
+void REDonFDTD::Particle::findAcceleration(std::array<double,3> force){
   this->futAcc[0] = force[0]/((this->mass)*(this->futGamma));
   this->futAcc[1] = force[1]/((this->mass)*(this->futGamma));
   this->futAcc[2] = force[2]/((this->mass)*(this->futGamma));
@@ -182,32 +182,32 @@ void REDonFDTD::Particle::findAcceleration(std::vector<double> force){
 
 double REDonFDTD::Particle::findGamma(Mesh * g)
 {
-  std::vector<double> vel{this->velocity[0],this->velocity[1],this->velocity[2]};
+  std::array<double,3> vel{this->velocity[0],this->velocity[1],this->velocity[2]};
   double velMag = util::magnitude(vel);
   double gamma = 1/(sqrt(1-pow(velMag/(g->c),2)));
   return gamma;
 }
 
-std::vector<double> REDonFDTD::Particle::lorentzForce(Mesh *g){
-  std::vector<double> velocity{this->futVel[0], this->futVel[1], this->futVel[2]};
-  std::vector<double> bField(3);
+std::array<double,3> REDonFDTD::Particle::lorentzForce(Mesh *g){
+  std::array<double,3> velocity{this->futVel[0], this->futVel[1], this->futVel[2]};
+  std::array<double,3> bField;
 
   bField[0] = g->hx[(((int) this->futPos[0])*(g->sizeY-1)+((int) this->futPos[1]))*(g->sizeZ-1)+((int) this->futPos[2])]+5;
   bField[1] = g->hy[(((int) this->futPos[0])*(g->sizeY)+((int) this->futPos[1]))*(g->sizeZ-1)+((int) this->futPos[2])];
   bField[2] = g->hz[(((int) this->futPos[0])*(g->sizeY-1)+((int) this->futPos[1]))*(g->sizeZ)+((int) this->futPos[2])];
 
-  std::vector<double> crossProduct = util::cross(velocity, bField);
+  std::array<double,3> crossProduct = util::cross(velocity, bField);
   std::for_each(crossProduct.begin(), crossProduct.end(),
                 [this,&g](double & a){a*=(this->charge)*(g->Mu_0);});
   return crossProduct;
 }
 
 double REDonFDTD::Particle::powerRadiated(Mesh * g){
-  std::vector<double> velocity{this->futVel[0], this->futVel[1], this->futVel[2]};
-  std::vector<double> acceleration{this->futAcc[0], this->futAcc[1], this->futAcc[2]};
+  std::array<double,3> velocity{this->futVel[0], this->futVel[1], this->futVel[2]};
+  std::array<double,3> acceleration{this->futAcc[0], this->futAcc[1], this->futAcc[2]};
 
   double coefficient = (g->Mu_0*pow(this->charge,2)*pow((this->futGamma),6))/(6*M_PI*(g->c));
-  std::vector<double> crossProd(3);
+  std::array<double,3> crossProd;
   crossProd = util::cross(velocity,acceleration);
   double crossProdMag = util::magnitude(crossProd);
   double magTerm = pow(crossProdMag/(g->c),2);
@@ -217,8 +217,8 @@ double REDonFDTD::Particle::powerRadiated(Mesh * g){
 }
 
 void REDonFDTD::Particle::velocityAfterRad(Mesh *g, double powerRad){
-  std::vector<double> velocity{this->futVel[0], this->futVel[1], this->futVel[2]};
-  std::vector<double> acceleration{this->futAcc[0], this->futAcc[1], this->futAcc[2]};
+  std::array<double,3> velocity{this->futVel[0], this->futVel[1], this->futVel[2]};
+  std::array<double,3> acceleration{this->futAcc[0], this->futAcc[1], this->futAcc[2]};
 
   double velMag = util::magnitude(velocity);
   double iniEnergy = (this->mass)*pow((g->c),2)*(this->futGamma);

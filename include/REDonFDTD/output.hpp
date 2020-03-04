@@ -2,7 +2,7 @@
  *  @brief Output file handling function declarations */
 #pragma once
 #include <cstdio>
-#include <vector>
+#include <array>
 
 #include "REDonFDTD/mesh.hpp"
 
@@ -13,7 +13,7 @@ namespace REDonFDTD {
  *  @param gamma            Particle Gamma
  *  @param mode             if ==0, truncate, else append
  */
-  void writeTo(std::vector<double> position, float gamma, int mode);
+  void writeTo(std::array<double,3> position, float gamma, int mode);
 /** @brief Output E-Field for a a particular time
  *  @param g                Mesh to be outputted
  *  @param mode             if ==0, truncate, else append

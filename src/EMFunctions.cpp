@@ -40,7 +40,7 @@ void REDonFDTD::halfTimeStep(Particle *p, Mesh *g){
   g->time += g->timeStep/2;
   p->newPositionTaylor(g);
   p->newVelocityTaylor(g);
-  std::vector<double> force = p->lorentzForce(g);
+  std::array<double,3> force = p->lorentzForce(g);
   p->findAcceleration(force);
   double powerRad = p->powerRadiated(g);
   if (powerRad !=0)   p->velocityAfterRad(g, powerRad);

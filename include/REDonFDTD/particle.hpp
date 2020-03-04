@@ -26,7 +26,7 @@ namespace REDonFDTD {
  *  @param y        y-position of grid point
  *  @param z        z-position of grid point
  */
-    std::vector<double> eFieldProduced(Mesh *g, double x, double y, double z);
+    std::array<double,3> eFieldProduced(Mesh *g, double x, double y, double z);
 
 /** @brief Calculate the B-Field produced by Particle on a particular point in S-T
  *  @param g        Mesh upon which the particle's effects are felt
@@ -35,7 +35,7 @@ namespace REDonFDTD {
  *  @param y        y-position of grid point
  *  @param z        z-position of grid point
  */
-    std::vector<double> bFieldProduced(Mesh *g, std::vector<double> eField,
+    std::array<double,3> bFieldProduced(Mesh *g, std::array<double,3> eField,
                                        double x, double y, double z);
 
 /** @brief Calculate next position of a particle using FD method.
@@ -51,13 +51,13 @@ namespace REDonFDTD {
 /** @brief Update Acceleration for particle
  *  @param force    External force on particle
  */
-    void findAcceleration(std::vector<double> force);
+    void findAcceleration(std::array<double,3> force);
 
 /** @brief Calculate Lorentz force felt by particle
  *  @param g        Mesh in which particle lives
  *  @returns        Force felt by particle
  */
-    std::vector<double> lorentzForce(Mesh *g);
+    std::array<double,3> lorentzForce(Mesh *g);
 
 /** @brief Find energy radiated
  *  @param g        Mesh in which particle lives

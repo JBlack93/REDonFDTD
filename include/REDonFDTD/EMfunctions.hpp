@@ -1,7 +1,7 @@
 /** @file EMfunctions.hpp
  *  @brief Header file with all EM function declarations */
 
-#include <vector>
+#include <array>
 #include "REDonFDTD/particle.hpp"
 #include "REDonFDTD/mesh.hpp"
 
