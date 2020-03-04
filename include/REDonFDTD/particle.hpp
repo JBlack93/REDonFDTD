@@ -71,12 +71,12 @@ namespace REDonFDTD {
  */
     void velocityAfterRad(Mesh *g, double powerRad);
 
-    double charge,     mass;
-    double prevGamma,  gamma,     futGamma;
-    double *prevPos,   *prevVel,  *prevAcc;
-    double *position,  *velocity, *acceleration;
-    double *futPos,    *futVel,   *futAcc;
-    int *coordinates;
+    double charge, mass;
+    double prevGamma, gamma, futGamma;
+    std::array<double,3> prevPos,   prevVel,  prevAcc;
+    std::array<double,3> position,  velocity, acceleration;
+    std::array<double,3> futPos,    futVel,   futAcc;
+    std::array<int,6> coordinates;
 
   private:
 /** @brief Calculate the 6 points on the axes which give closest grid points
