@@ -54,31 +54,91 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>30</y>
+      <y>60</y>
       <width>251</width>
       <height>41</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>Ex</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Ey</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Ez</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Bx</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>By</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Bz</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>|E|</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>|B|</string>
+     </property>
+    </item>
    </widget>
    <widget class="QComboBox" name="comboBox_2">
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>80</y>
+      <y>150</y>
       <width>251</width>
       <height>41</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>XY</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>XZ</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>YZ</string>
+     </property>
+    </item>
    </widget>
-   <widget class="QComboBox" name="comboBox_3">
+   <widget class="QComboBox" name="comboBox_4">
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>130</y>
+      <y>330</y>
       <width>251</width>
       <height>41</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>Heat Map</string>
+     </property>
+    </item>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
@@ -91,6 +151,68 @@
     </property>
     <property name="text">
      <string>Pause Output</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>40</y>
+      <width>251</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Component to show:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>130</y>
+      <width>251</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Plane to Display</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>310</y>
+      <width>251</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Plotting Routine</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>220</y>
+      <width>251</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Timestamp</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_3">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>240</y>
+      <width>251</width>
+      <height>41</height>
+     </rect>
     </property>
    </widget>
   </widget>
