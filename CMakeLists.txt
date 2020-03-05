@@ -26,8 +26,6 @@ endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 14)
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
-
 ## target directories for install
 set(INSTALL_INCLUDE_DIR_BASE include)
 set(INSTALL_INCLUDE_DIR ${INSTALL_INCLUDE_DIR_BASE}/REDonFDTD)
@@ -64,8 +62,6 @@ foreach(exec ${exec_files})
   target_include_directories(${name}_exe PUBLIC ${REDonFDTD_INCLUDE_DIR})
   target_link_libraries(${name}_exe REDonFDTD)
 endforeach(exec)
-
-target_link_libraries(REDonFDTDGUI_exe  Qt5::Widgets)
 
 ## install headers
 file(GLOB REDonFDTD_headers

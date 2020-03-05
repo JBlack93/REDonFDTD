@@ -14,7 +14,7 @@ install(TARGETS REDonFDTD
 )
 install(EXPORT REDonFDTD-export
   FILE
-    REDonFDTDTargets.cmake
+    REDonFDTDConfig.cmake
   NAMESPACE
     REDonFDTD::
   DESTINATION

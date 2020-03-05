@@ -8,22 +8,16 @@ matrix:
       addons:
         apt:
           packages:
-            - qttools5-dev-tools
             - build-essential
             - libgl1-mesa-dev
-            - qt5-default
-            - qtcreator
     - os: linux
       dist: xenial
       compiler: clang
       addons:
         apt:
           packages:
-            - qttools5-dev-tools
             - build-essential
             - libgl1-mesa-dev
-            - qt5-default
-            - qtcreator
     - os: osx
       compiler: clang
       addons:
@@ -51,10 +45,6 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then travis_retry wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.16.5/cmake-3.16.5-Darwin-x86_64.tar.gz; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then tar -xvf cmake-3.16.5-Darwin-x86_64.tar.gz > /dev/null; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then mv cmake-3.16.5-Darwin-x86_64 cmake-install; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install qt5; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew cask install qt-creator; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew link --force qt5;  fi
-
 
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then travis_retry wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.16.5/cmake-3.16.5-Linux-x86_64.tar.gz; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then tar -xvf cmake-3.16.5-Linux-x86_64.tar.gz > /dev/null; fi
