@@ -9,29 +9,14 @@ using namespace std;
 
 static int temporalStride = -2, startTime;
 
-void REDonFDTD::writeTo(std::array<double,3> position, float gamma, int mode)
+void REDonFDTD::writeComponent(double x, double y, double z, double Component,
+                               const char * filename, int mode)
 {
   using namespace std;
   ofstream myfile;
-
-  if (mode == 0)   {  myfile.open("xPos.txt", ios::trunc);  }
-  else             {  myfile.open("xPos.txt", ios::app);  }
-  myfile << position[0] << "\n";
-  myfile.close();
-
-  if (mode == 0)   {  myfile.open("yPos.txt", ios::trunc);  }
-  else             {  myfile.open("yPos.txt", ios::app);  }
-  myfile << position[1] << "\n";
-  myfile.close();
-
-  if (mode == 0)   {  myfile.open("zPos.txt", ios::trunc);  }
-  else             {  myfile.open("zPos.txt", ios::app);  }
-  myfile << position[2] << "\n";
-  myfile.close();
-
-  if (mode == 0)   {  myfile.open("Gamma.txt", ios::trunc);  }
-  else             {  myfile.open ("Gamma.txt", ios::app);  }
-  myfile << gamma << "\n";
+  if (mode == 0)   {  myfile.open(filename, ios::trunc);  }
+  else             {  myfile.open(filename, ios::app);  }
+  myfile <<x<<" "<<y<<" "<<z<<" "<<Component<<endl;
   myfile.close();
 }
 
@@ -41,6 +26,22 @@ void REDonFDTD::writeSingleValue(float value, const char* filename, int mode){
   else             {  myfile.open(filename, ios::app);    }
   myfile << value << "\n";
   myfile.close();
+}
+
+void REDonFDTD::writeEx(Mesh *g, int mode){
+  int i = 0;
+  double gridStep = (g->c)*(g->timeStep);
+  for (int z = 0; z < g->sizeZ; ++i) {
+    for (int y = 0; y < g->sizeY; ++i) {
+      for (int x = 0; x < g->sizeX-1; ++i) {
+        REDonFDTD::writeComponent(gridStep*x, gridStep*y,
+                                  gridStep*z, g->ex[i], "Ex.txt", mode);
+        ++x;
+      }
+      ++y;
+    }
+    ++z;
+  }
 }
 
 void REDonFDTD::writeEField(Mesh *g, int mode){

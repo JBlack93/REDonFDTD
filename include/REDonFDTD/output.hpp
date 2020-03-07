@@ -8,12 +8,23 @@
 
 namespace REDonFDTD {
 
-/** @brief Output particle position and gamma value
- *  @param position         Particle Position
- *  @param gamma            Particle Gamma
+/** @brief Output generic value at position in grid
+ *  @param x                x Position of component
+ *  @param y                y Position of component
+ *  @param z                z Position of component
+ *  @param Component        Field Component value
+ *  @param filename         Field Component value
  *  @param mode             if ==0, truncate, else append
  */
-  void writeTo(std::array<double,3> position, float gamma, int mode);
+  void writeComponent(double x, double y, double z, double Component,
+                      const char* filename, int mode);
+
+/** @brief Output E-Field for a a particular time
+ *  @param g                Mesh to be outputted
+ *  @param mode             if ==0, truncate, else append
+ */
+  void writeEx(Mesh *g, int mode);
+
 /** @brief Output E-Field for a a particular time
  *  @param g                Mesh to be outputted
  *  @param mode             if ==0, truncate, else append
