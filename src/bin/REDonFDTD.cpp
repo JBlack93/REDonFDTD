@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "REDonFDTD/particle.hpp"
+#include "REDonFDTD/ricker.hpp"
 #include "REDonFDTD/mesh.hpp"
 #include "REDonFDTD/ABC.hpp"
 #include "REDonFDTD/output.hpp"
@@ -25,10 +26,11 @@ int main(){
     g->updateE();                 // update electric fields in mesh
     //halfTimeStep(p.get(), g.get());
     p->sourceFunction(g.get());   // produce effects of source on local fields.
+
     updateABC(g.get());           // apply ABCs
     Slice(g.get());               // take a slice (if appropriate)
 
-    if (g->time == 50*g->timeStep) Plot(g.get(),1);
+    if (g->time == 1*g->timeStep) Plot(g.get(),1);
 
   }                               // end of time-stepping
   return 0;

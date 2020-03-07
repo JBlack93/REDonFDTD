@@ -2,17 +2,31 @@
  *  @brief Functions for Ricker source declarations */
 #pragma once
 
+#include <array>
 #include "REDonFDTD/mesh.hpp"
+#include "REDonFDTD/source.hpp"
 
 namespace REDonFDTD {
 
-/** @brief initialize ricker source-function variables
+  class ricker: public source {
+  public:
+    ricker(Mesh *g);
+    ~ricker() = default;
+
+/** @brief Advance values pertaining to ricker source
  *  @param g       Space-time Mesh in which source will be present
  */
-  void initialiseEzInc(Mesh *g);
+    void timeAdvanceValues(Mesh * /*g*/);
+
+private:
+    std::array<double,3> eFieldProduced(Mesh *g, double x, double y, double z);
+    std::array<double,3> bFieldProduced(Mesh * /*g*/, std::array<double,3> /*eField*/,
+                                                       double /*x*/, double /*y*/, double /*z*/);
 /** @brief calculate source function at given time and location
  *  @param time       Time at which source function calculated
  *  @param location   Location at which source function calculated
  */
-  double ezInc(double time, double location);
+    double ezInc(double time, double location);
+
+  };
 }
