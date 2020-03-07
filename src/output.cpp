@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "REDonFDTD/output.hpp"
+#include "gnuplot/gnuplot.hpp"
 
 using namespace std;
 
@@ -12,7 +13,6 @@ static int temporalStride = -2, startTime;
 void REDonFDTD::writeComponent(double x, double y, double z, double Component,
                                const char * filename, int mode)
 {
-  using namespace std;
   ofstream myfile;
   if (mode == 0)   {  myfile.open(filename, ios::trunc);  }
   else             {  myfile.open(filename, ios::app);  }
@@ -30,17 +30,15 @@ void REDonFDTD::writeSingleValue(float value, const char* filename, int mode){
 
 void REDonFDTD::writeEx(Mesh *g, int mode){
   int i = 0;
+  int z = 25;
   double gridStep = (g->c)*(g->timeStep);
-  for (int z = 0; z < g->sizeZ; ++i) {
-    for (int y = 0; y < g->sizeY; ++i) {
-      for (int x = 0; x < g->sizeX-1; ++i) {
-        REDonFDTD::writeComponent(gridStep*x, gridStep*y,
-                                  gridStep*z, g->ex[i], "Ex.txt", mode);
-        ++x;
-      }
-      ++y;
+  for (int y = 0; y < g->sizeY; ++i) {
+    for (int x = 0; x < g->sizeX-1; ++i) {
+      REDonFDTD::writeComponent(gridStep*x, gridStep*y,
+                                gridStep*z, g->ex[i], "Ex50.txt", mode);
+      ++x;
     }
-    ++z;
+    ++y;
   }
 }
 
@@ -159,5 +157,16 @@ void REDonFDTD::Slice(Mesh *g){
       writeSingleValue(g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp], "ExXZ.txt", 1);   // write the float
     }
   }
+
   return;
 } /* end Slice() */
+
+void REDonFDTD::Plot(Mesh *g, bool mode){
+  REDonFDTD::writeEx(g,mode);
+  gnuplot::GnuplotPipe gp;
+
+  gp.sendLine("set view map");
+  gp.sendLine("set dgrid3d");
+  gp.sendLine("set pm3d interpolate 50,50");
+  gp.sendLine("splot 'Ex50.txt' using 1:2:3 with pm3");
+}

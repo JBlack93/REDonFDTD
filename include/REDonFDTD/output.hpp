@@ -50,4 +50,11 @@ namespace REDonFDTD {
  *  @param g        Space-time mesh to output
  */
   void Slice(Mesh *g);
+
+/** @brief Utilise GnuPlot for output
+ *  @param g                Mesh to be outputted
+ *  @param mode             if ==0, truncate, else append
+ */
+  void Plot(Mesh *g, bool mode);
+
 }

@@ -27,6 +27,9 @@ int main(){
     p->sourceFunction(g.get());   // produce effects of source on local fields.
     updateABC(g.get());           // apply ABCs
     Slice(g.get());               // take a slice (if appropriate)
+
+    if (g->time == 50*g->timeStep) Plot(g.get(),1);
+
   }                               // end of time-stepping
   return 0;
 }
