@@ -1,17 +1,19 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <array>
 #include "REDonFDTD/source.hpp"
 #include "REDonFDTD/ricker.hpp"
 #include "REDonFDTD/utilities.hpp"
 
-static double cdtds, ppw = 0;
-
 /* initialize source-function variables */
-REDonFDTD::ricker::ricker(Mesh *g){
-  printf("Enter the points per wavelength for Ricker source: ");
-  scanf(" %lf", &ppw);
-  cdtds = g->cdtds;
+REDonFDTD::ricker::ricker(Mesh *g, double pointspwave){
+  position[0] = static_cast<double>(g->sizeX-1)/2-0.05;
+  position[1] = static_cast<double>(g->sizeY)/2-0.05;
+  position[2] = static_cast<double>(g->sizeZ)/2-0.05;
+  ppw = pointspwave;
+  velocity[0], velocity[1], velocity[2] = 0;
+  acceleration[0], acceleration[1], acceleration[2] = 0;
 }
 
 void REDonFDTD::ricker::timeAdvanceValues(Mesh */*g*/){
@@ -20,7 +22,7 @@ void REDonFDTD::ricker::timeAdvanceValues(Mesh */*g*/){
 
 std::array<double,3> REDonFDTD::ricker::eFieldProduced(Mesh *g, double x, double y, double z){
   std::array<double,3> vect{position[0]-x,position[1]-y,position[2]-z};
-  const double eZ = ezInc(g->time, util::magnitude(vect));
+  const double eZ = ezInc(g, util::magnitude(vect));
   std::array<double,3> eField{0,0,eZ};
   return eField;
 }
@@ -32,8 +34,8 @@ std::array<double,3> REDonFDTD::ricker::bFieldProduced(Mesh * /*g*/, std::array<
 }
 
 /* calculate source function at given time and location */
-double REDonFDTD::ricker::ezInc(double time, double location){
-  double arg = M_PI * ((cdtds * time - location) / ppw - 1.0);
+double REDonFDTD::ricker::ezInc(Mesh *g, double location){
+  double arg = M_PI * ((g->cdtds * g->time - location) / ppw - 1.0);
   arg = arg * arg;
   return (1.0 - 2.0 * arg) * exp(-arg);         // amplitude of change in field due to source
 }
