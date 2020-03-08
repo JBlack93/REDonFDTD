@@ -9,6 +9,7 @@ const int x = 51;
 const int y = 50;
 const int z = 50;
 
+
 namespace REDonFDTD {
 
 //! @brief Mesh is the 4D space-time grid which contains both E and H fields.
@@ -22,9 +23,10 @@ namespace REDonFDTD {
 //! @brief Update the H-Field in the space-time Mesh
     void updateH();
 
-    const int sizeX=x;
-    const int sizeY=y;
-    const int sizeZ=z;               //!<  Dimensions of the Mesh
+
+    const int sizeX=x;       //!<  x-Dimensions of the Mesh
+    const int sizeY=y;       //!<  y-Dimensions of the Mesh
+    const int sizeZ=z;       //!<  z-Dimensions of the Mesh
 
     std::vector<double> hx   = std::vector<double>(sizeX*(sizeY-1)*(sizeZ-1));   //!< H_x field
     std::vector<double> chxh = std::vector<double>(sizeX*(sizeY-1)*(sizeZ-1));   //!< Hx H coefficient
@@ -52,6 +54,28 @@ namespace REDonFDTD {
 
     long double time, timeStep, maxTime;   //!< Define advance in time.
     double cdtds;                          //!< Courant number (Maximal distance which can be traveled in a timestep)
+
+/** @brief function that applies ABC -- called once per time step
+ *  @param g        Space-time mesh to be updated
+ */
+    void updateABC();
+
+    double abccoef;
+    std::vector<double> eyx0 = std::vector<double>((sizeY-1)*sizeZ);
+    std::vector<double> ezx0 = std::vector<double>(sizeY*(sizeZ-1));
+    std::vector<double> eyx1 = std::vector<double>((sizeY-1)*sizeZ);
+    std::vector<double> ezx1 = std::vector<double>(sizeY*(sizeZ-1));
+
+    std::vector<double> exy0 = std::vector<double>((sizeX-1)*sizeZ);
+    std::vector<double> ezy0 = std::vector<double>(sizeX*(sizeZ-1));
+    std::vector<double> exy1 = std::vector<double>((sizeX-1)*sizeZ);
+    std::vector<double> ezy1 = std::vector<double>(sizeX*(sizeZ-1));
+
+    std::vector<double> exz0 = std::vector<double>((sizeX-1)*sizeY);
+    std::vector<double> eyz0 = std::vector<double>(sizeX*(sizeY-1));
+    std::vector<double> exz1 = std::vector<double>((sizeX-1)*sizeY);
+    std::vector<double> eyz1 = std::vector<double>(sizeX*(sizeY-1));
+
 
     const double c = 2.99792458e8;
     const double epsilon_0 = 8.85418782e-12;

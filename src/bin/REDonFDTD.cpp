@@ -6,7 +6,6 @@
 #include "REDonFDTD/particle.hpp"
 #include "REDonFDTD/ricker.hpp"
 #include "REDonFDTD/mesh.hpp"
-#include "REDonFDTD/ABC.hpp"
 #include "REDonFDTD/output.hpp"
 #include "REDonFDTD/EMfunctions.hpp"
 
@@ -16,7 +15,6 @@ int main(){
   std::unique_ptr<Mesh> g = std::make_unique<Mesh>();
   std::unique_ptr<Particle> p = std::make_unique<Particle>(g.get());
 
-  initialiseABC(g.get());           // initialise ABC
   initialiseSlice(g.get());
 
   /* do time stepping */
@@ -27,7 +25,7 @@ int main(){
     //halfTimeStep(p.get(), g.get());
     p->sourceFunction(g.get());   // produce effects of source on local fields.
 
-    updateABC(g.get());           // apply ABCs
+    g->updateABC();           // apply ABCs
     Slice(g.get());               // take a slice (if appropriate)
 
     if (g->time == 1*g->timeStep) Plot(g.get(),1);
