@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "optionwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,7 +21,10 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_toolButton_clicked();
+
 private:
     Ui::MainWindow *ui;
+    optionwindow * options;
 };
 #endif // MAINWINDOW_H

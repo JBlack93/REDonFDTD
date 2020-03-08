@@ -1,9 +1,8 @@
 #include <QMessageBox>
 
 #include "mainwindow.h"
+#include "optionwindow.h"
 #include "ui_mainwindow.h"
-
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -42,4 +41,11 @@ void MainWindow::on_pushButton_clicked(){
 void MainWindow::on_pushButton_2_clicked()
 {
     QMessageBox::information(this, "Title","This functionality is yet to be implemented\n");
+}
+
+void MainWindow::on_toolButton_clicked()
+{
+    options = new optionwindow(this);
+    options->show();
+
 }

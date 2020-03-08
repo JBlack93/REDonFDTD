@@ -33,7 +33,7 @@
       <x>10</x>
       <y>30</y>
       <width>471</width>
-      <height>431</height>
+      <height>391</height>
      </rect>
     </property>
    </widget>
@@ -41,7 +41,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>390</y>
+      <y>400</y>
       <width>121</width>
       <height>71</height>
      </rect>
@@ -54,7 +54,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>60</y>
+      <y>90</y>
       <width>251</width>
       <height>41</height>
      </rect>
@@ -104,7 +104,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>150</y>
+      <y>180</y>
       <width>251</width>
       <height>41</height>
      </rect>
@@ -129,7 +129,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>330</y>
+      <y>350</y>
       <width>251</width>
       <height>41</height>
      </rect>
@@ -144,7 +144,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>390</y>
+      <y>400</y>
       <width>121</width>
       <height>71</height>
      </rect>
@@ -157,7 +157,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>40</y>
+      <y>70</y>
       <width>251</width>
       <height>16</height>
      </rect>
@@ -170,7 +170,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>130</y>
+      <y>160</y>
       <width>251</width>
       <height>16</height>
      </rect>
@@ -183,7 +183,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>310</y>
+      <y>330</y>
       <width>251</width>
       <height>16</height>
      </rect>
@@ -196,7 +196,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>220</y>
+      <y>250</y>
       <width>251</width>
       <height>16</height>
      </rect>
@@ -209,10 +209,36 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>240</y>
+      <y>270</y>
       <width>251</width>
       <height>41</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QSlider" name="horizontalSlider">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>440</y>
+      <width>461</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButton">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>10</y>
+      <width>101</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Advanced</string>
     </property>
    </widget>
   </widget>
@@ -225,6 +251,12 @@
      <height>29</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuRED_on_FDTD">
+    <property name="title">
+     <string>RED on FDTD</string>
+    </property>
+   </widget>
+   <addaction name="menuRED_on_FDTD"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
