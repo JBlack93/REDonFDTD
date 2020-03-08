@@ -8,15 +8,13 @@
 
 using namespace std;
 
-static int temporalStride = -2, startTime;
-
-void REDonFDTD::writeComponent(double x, double y, double z, double Component,
+void REDonFDTD::writeComponent(double x, double y, double Component,
                                const char * filename, int mode)
 {
   ofstream myfile;
   if (mode == 0)   {  myfile.open(filename, ios::trunc);  }
   else             {  myfile.open(filename, ios::app);  }
-  myfile <<x<<" "<<y<<" "<<z<<" "<<Component<<endl;
+  myfile <<x<<" "<<y<<" "<<Component<<endl;
   myfile.close();
 }
 
@@ -30,15 +28,18 @@ void REDonFDTD::writeSingleValue(float value, const char* filename, int mode){
 
 void REDonFDTD::writeEx(Mesh *g, int mode){
   int i = 0;
-  int z = 25;
-  double gridStep = (g->c)*(g->timeStep);
-  for (int y = 0; y < g->sizeY; ++i) {
-    for (int x = 0; x < g->sizeX-1; ++i) {
-      REDonFDTD::writeComponent(gridStep*x, gridStep*y,
-                                gridStep*z, g->ex[i], "Ex50.txt", mode);
-      ++x;
+  const int zcoord = g->sizeZ/2;
+  const double gridStep = (g->c)*(g->timeStep);
+  for (int z = 0; z < g->sizeZ; ++i) {
+    for (int y = 0; y < g->sizeY; ++i) {
+      for (int x = 0; x < g->sizeX-1; ++i) {
+        if (z == zcoord)  REDonFDTD::writeComponent(gridStep*x, gridStep*y,
+                                            g->ex[i], "Ex50.txt", mode);
+        ++x;
+      }
+      ++y;
     }
-    ++y;
+    ++z;
   }
 }
 
@@ -86,71 +87,32 @@ void REDonFDTD::writeHField(Mesh *g, int mode){
   myfile.close();
 }
 
-
-void REDonFDTD::initialiseSlice(Mesh *g){
-  int choice;
-  printf("Do you want 2D slices of the 3D grid? (1=yes, 0=no) ");
-  scanf("%d", &choice);
-  if (choice == 0){
-    temporalStride = -1;
-    return;
-  }
-
-  remove( "dimensions1.txt" );
-  remove( "dimensions2.txt" );
-  remove( "ExXZ.txt" );
-  remove( "ExYZ.txt" );
-  int numberSteps = (g->maxTime)/(g->timeStep);
-  printf("Duration of simulation is %d steps.\n", numberSteps);
-  printf("Enter start time and temporal stride: ");
-  scanf(" %d %d", &startTime, &temporalStride);
-  return;
-}        /* end initialiseSlice() */
-
-
-
 void REDonFDTD::Slice(Mesh *g){
   ofstream myfile;
-  /* ensure temporal stride set to a reasonable value */
-  if (temporalStride == -1)   return;
-
-  if (temporalStride < -1)
-  {
-    fprintf(stderr,
-            "Slice: initialiseSlice must be called before Slice.\n"
-            "Temporal stride must be set to positive value.\n");
-    exit(-1);
-  }
-
-
-  int arg = static_cast<int>(g->time - startTime)/(g->timeStep);
-  /* get snapshot if temporal conditions met */
-  if (g->time >= startTime && arg % temporalStride == 0){
-
-    /************ write the constant-x slice ************/
-
-    /* write dimensions to output file */
-    writeSingleValue(g->sizeY, "dimensions1.txt", 1);
-    writeSingleValue(g->sizeZ, "dimensions1.txt", 1);
-    writeSingleValue(g->maxTime, "dimensions1.txt",1);
-    writeSingleValue(g->timeStep, "dimensions1.txt", 1);
-    /* write remaining data */
-    int mm = (g->sizeX - 1) / 2;
-    for (int pp = 0; pp < g->sizeZ; ++pp){
-      for (int nn = 0; nn < g->sizeY; ++nn){
-        writeSingleValue(g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp], "ExYZ.txt", 1);  // write out float value
-      }
-    }
-  }              // close file
-
-  /************ write the constant-y slice ************/
+  /************ write the constant-x slice ************/
 
   /* write dimensions to output file */
+  writeSingleValue(g->sizeY, "dimensions1.txt", 1);
+  writeSingleValue(g->sizeZ, "dimensions1.txt", 1);
+  writeSingleValue(g->maxTime, "dimensions1.txt",1);
+  writeSingleValue(g->timeStep, "dimensions1.txt", 1);
+  /* write remaining data */
+  int mm = (g->sizeX - 1) / 2;
+  for (int pp = 0; pp < g->sizeZ; ++pp){
+    for (int nn = 0; nn < g->sizeY; ++nn){
+      writeSingleValue(g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp], "ExYZ.txt", 1);  // write out float value
+    }
+  }
+  // close file
+
+/************ write the constant-y slice ************/
+
+/* write dimensions to output file */
   writeSingleValue((g->sizeX-1), "dimensions2.txt", 1);
   writeSingleValue(g->sizeZ, "dimensions2.txt", 1);
   writeSingleValue(g->maxTime, "dimensions2.txt",1);
   writeSingleValue(g->timeStep, "dimensions2.txt", 1);
-  /* write remaining data */
+/* write remaining data */
   int nn = g->sizeY / 2;
   for (int pp = 0; pp < g->sizeZ; ++pp){
     for (int mm = 0; mm < g->sizeX - 1; ++mm){

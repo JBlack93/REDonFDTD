@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "1 1 1" | ./REDonFDTD
+./REDonFDTD
 
 diff dimensions2.txt $1/$2
 if [[ $? != 0 ]]; then

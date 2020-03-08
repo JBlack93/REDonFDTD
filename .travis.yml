@@ -8,6 +8,7 @@ matrix:
       addons:
         apt:
           packages:
+            - gnuplot
             - build-essential
             - libgl1-mesa-dev
     - os: linux
@@ -16,6 +17,7 @@ matrix:
       addons:
         apt:
           packages:
+            - gnuplot
             - build-essential
             - libgl1-mesa-dev
     - os: osx
@@ -23,6 +25,7 @@ matrix:
       addons:
         homebrew:
           packages:
+            - gnuplot
             - glib
             - gettext
             - pkg-config
@@ -31,6 +34,7 @@ matrix:
       addons:
         homebrew:
           packages:
+            - gnuplot
             - glib
             - gettext
             - pkg-config

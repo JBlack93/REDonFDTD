@@ -6,9 +6,11 @@
 REDonFDTD::Mesh::Mesh(){
   const double imp0 = 377.0;
   int mm, nn, pp;
-  timeStep = 5*pow(10,-10);
-  maxTime = 100*timeStep;           // duration of simulation
-  cdtds = 1.0 / sqrt(3.0);          // Courant number
+  remove( "dimensions1.txt" );
+  remove( "dimensions2.txt" );
+  remove( "ExXZ.txt" );
+  remove( "ExYZ.txt" );
+  remove( "Ex50.txt" );
   abccoef = (cdtds - 1.0) / (cdtds + 1.0);
 
   /* set electric-field update coefficients */

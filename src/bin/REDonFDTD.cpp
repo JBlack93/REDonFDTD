@@ -15,8 +15,6 @@ int main(){
   std::unique_ptr<Mesh> g = std::make_unique<Mesh>();
   std::unique_ptr<Particle> p = std::make_unique<Particle>(g.get());
 
-  initialiseSlice(g.get());
-
   /* do time stepping */
   for (g->time = 0; g->time < g->maxTime; g->time = g->time){
     g->updateH();                 // update magnetic fields in mesh
@@ -25,7 +23,7 @@ int main(){
     //halfTimeStep(p.get(), g.get());
     p->sourceFunction(g.get());   // produce effects of source on local fields.
 
-    g->updateABC();           // apply ABCs
+    g->updateABC();               // apply ABCs
     Slice(g.get());               // take a slice (if appropriate)
 
     if (g->time == 1*g->timeStep) Plot(g.get(),1);

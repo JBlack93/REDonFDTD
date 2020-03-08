@@ -5,15 +5,12 @@
 #include <cmath>
 #include <vector>
 
-const int x = 51;
-const int y = 50;
-const int z = 50;
-
+#include "REDonFDTD/config.hpp"
 
 namespace REDonFDTD {
 
 //! @brief Mesh is the 4D space-time grid which contains both E and H fields.
-  class Mesh {
+  class Mesh : public config {
   public:
     Mesh();
     ~Mesh() = default;
@@ -22,11 +19,6 @@ namespace REDonFDTD {
     void updateE();
 //! @brief Update the H-Field in the space-time Mesh
     void updateH();
-
-
-    const int sizeX=x;       //!<  x-Dimensions of the Mesh
-    const int sizeY=y;       //!<  y-Dimensions of the Mesh
-    const int sizeZ=z;       //!<  z-Dimensions of the Mesh
 
     std::vector<double> hx   = std::vector<double>(sizeX*(sizeY-1)*(sizeZ-1));   //!< H_x field
     std::vector<double> chxh = std::vector<double>(sizeX*(sizeY-1)*(sizeZ-1));   //!< Hx H coefficient
@@ -52,8 +44,7 @@ namespace REDonFDTD {
     std::vector<double> cezh = std::vector<double>(sizeY*(sizeZ-1)*(sizeX));     //!< Ez H coefficient
     std::vector<double> ceze = std::vector<double>(sizeY*(sizeZ-1)*(sizeX));     //!< Ez E coefficient
 
-    long double time, timeStep, maxTime;   //!< Define advance in time.
-    double cdtds;                          //!< Courant number (Maximal distance which can be traveled in a timestep)
+    long double time;              //!< Current time in simulation
 
 /** @brief function that applies ABC -- called once per time step
  *  @param g        Space-time mesh to be updated
