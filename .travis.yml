@@ -11,6 +11,7 @@ matrix:
             - gnuplot
             - build-essential
             - libgl1-mesa-dev
+            - git-lfs
     - os: linux
       dist: xenial
       compiler: clang
@@ -20,6 +21,7 @@ matrix:
             - gnuplot
             - build-essential
             - libgl1-mesa-dev
+            - git-lfs
     - os: osx
       compiler: clang
       addons:
@@ -29,6 +31,7 @@ matrix:
             - glib
             - gettext
             - pkg-config
+            - git-lfs
     - os: osx
       compiler: gcc
       addons:
@@ -38,10 +41,13 @@ matrix:
             - glib
             - gettext
             - pkg-config
+            - git-lfs
   allow_failures:
     os: osx
 
 before_install:
+  # pull lfs files
+  - git lfs pull
   # first we create a directory for the CMake binaries
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}

@@ -3,6 +3,11 @@
 #include "mainwindow.h"
 #include "optionwindow.h"
 #include "ui_mainwindow.h"
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QPixmap>
+#include <QGraphicsPixmapItem>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,6 +19,13 @@ MainWindow::MainWindow(QWidget *parent)
     for (int i = 0; i<100; ++i){
         ui->comboBox_3->addItem("Step "+ QString::number(i+1));
     }
+    QString filename = "/home/black/projects/REDonFDTD/REDonFDTDGUI/gnuplot.png";
+
+    QPixmap tmpmap (filename, 0, Qt::AutoColor);
+    item = scene->addPixmap ( tmpmap.scaled (ui->graphicsView->width(), ui->graphicsView->height()) );
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->show();
+
 }
 
 MainWindow::~MainWindow()
@@ -47,5 +59,4 @@ void MainWindow::on_toolButton_clicked()
 {
     options = new optionwindow(this);
     options->show();
-
 }

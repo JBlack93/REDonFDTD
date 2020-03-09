@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsPixmapItem>
 #include "optionwindow.h"
 
 QT_BEGIN_NAMESPACE
@@ -26,5 +29,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     optionwindow * options;
+    QGraphicsScene * scene = new QGraphicsScene();
+    QGraphicsView* graphicsView = new QGraphicsView();
+    QGraphicsPixmapItem* item;
+
 };
 #endif // MAINWINDOW_H
