@@ -5,21 +5,21 @@
 #include "REDonFDTD/mesh.hpp"
 
 
-REDonFDTD::source::source(){
-  findCell();
+REDonFDTD::source::source(Mesh *g){
+  findCell(g);
 }
 
-void REDonFDTD::source::findCell(){
-  coordinates[0] = floor(position[0]);    // These are the lower values
-  coordinates[1] = floor(position[1]);    // of the coordinates in the cell
-  coordinates[2] = floor(position[2]);    // which the particle resides in
-  coordinates[3] = ceil(position[0]);     // These are the higher values
-  coordinates[4] = ceil(position[1]);     // of the coordinates in the cell
-  coordinates[5] = ceil(position[2]);     // which the particle resides in
+void REDonFDTD::source::findCell(Mesh *g){
+  coordinates[0] = floor(position[0]/g->dS);    // These are the lower values
+  coordinates[1] = floor(position[1]/(g->dS));    // of the coordinates in the cell
+  coordinates[2] = floor(position[2]/(g->dS));    // which the particle resides in
+  coordinates[3] = ceil(position[0]/(g->dS));     // These are the higher values
+  coordinates[4] = ceil(position[1]/(g->dS));     // of the coordinates in the cell
+  coordinates[5] = ceil(position[2]/(g->dS));     // which the particle resides in
 }
 
 void REDonFDTD::source::sourceFunction(Mesh *g){
-  findCell();
+  findCell(g);
   for (unsigned i=0; i<2; ++i){
     for (unsigned n=0; n<2; ++n){
       for (unsigned m=0; m<2; ++m){

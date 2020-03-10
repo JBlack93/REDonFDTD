@@ -7,17 +7,18 @@
 
 
 REDonFDTD::Particle::Particle(Mesh * g){
-  prevPos[0] = static_cast<double>(g->sizeX-1)/2;
-  prevPos[1] = static_cast<double>(g->sizeY/2)-0.5;
-  prevPos[2] = static_cast<double>(g->sizeZ/2)-0.5;
+  prevPos[0] = (static_cast<double>(g->sizeX)/2)*(g->dS);
+  prevPos[1] = (static_cast<double>(g->sizeY/2)-0.5)*(g->dS);
+  prevPos[2] = (static_cast<double>(g->sizeZ/2)-0.5)*(g->dS);
   prevVel[0], prevVel[1], prevVel[2] = 0;
   prevAcc[0], prevAcc[1], prevAcc[2] = 0;
 
-  position[0] = static_cast<double>(g->sizeX-1)/2-0.05;
-  position[1] = static_cast<double>(g->sizeY)/2-0.05;
-  position[2] = static_cast<double>(g->sizeZ)/2-0.05;
+  position[0] = (static_cast<double>(g->sizeX)/2-0.05)*(g->dS);
+  position[1] = (static_cast<double>(g->sizeY)/2-0.05)*(g->dS);
+  position[2] = (static_cast<double>(g->sizeZ)/2-0.05)*(g->dS);
+
   velocity[0] = 0;
-  velocity[1] = 0.999*(g->c);
+  velocity[1] = 0.5*(g->c);
   velocity[2] = 0;
   acceleration[0], acceleration[1], acceleration[2] = 0;
 
@@ -25,7 +26,7 @@ REDonFDTD::Particle::Particle(Mesh * g){
   futVel[0], futVel[1], futVel[2] = 0;
   futAcc[0], futAcc[1], futAcc[2] = 0;
 
-  findCell();
+  findCell(g);
 
   mass = 1.67262178*pow(10,-27);
   charge = 1.6*pow(10,-19);
@@ -35,7 +36,7 @@ REDonFDTD::Particle::Particle(Mesh * g){
 }
 
 std::array<double,3> REDonFDTD::Particle::eFieldProduced(Mesh *g, double x, double y, double z){
-  const std::array<double,3> gToSource{x-position[0], y-position[1], z-position[2]};
+  const std::array<double,3> gToSource{x*(g->dS)-position[0], y*(g->dS)-position[1], z*(g->dS)-position[2]};
 
   const double gToSourceMag = util::magnitude(gToSource);  //STILL NEED TO MAKE THIS EVALUATED AT RETARDED
   const std::array<double,3> dirU{(g->c)*gToSource[0]/(gToSourceMag) - velocity[0],
@@ -59,7 +60,7 @@ std::array<double,3> REDonFDTD::Particle::eFieldProduced(Mesh *g, double x, doub
 
 std::array<double,3> REDonFDTD::Particle::bFieldProduced(Mesh *g, std::array<double,3> eField,
                                              double x, double y, double z){
-  const std::array<double,3> gTosource{x - position[0], y - position[1], z - position[2]};
+  const std::array<double,3> gTosource{x*(g->dS) - position[0], y*(g->dS) - position[1], z*(g->dS) - position[2]};
   const double gTosourceMag = util::magnitude(gTosource);
   const double factor = (1/((g->c)*gTosourceMag));
   std::array<double,3> bField = util::cross(gTosource, eField);

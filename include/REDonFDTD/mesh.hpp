@@ -66,10 +66,5 @@ namespace REDonFDTD {
     std::vector<double> eyz0 = std::vector<double>(sizeX*(sizeY-1));
     std::vector<double> exz1 = std::vector<double>((sizeX-1)*sizeY);
     std::vector<double> eyz1 = std::vector<double>(sizeX*(sizeY-1));
-
-
-    const double c = 2.99792458e8;
-    const double epsilon_0 = 8.85418782e-12;
-    const double Mu_0 = M_PI*4e-7;
   };
 }

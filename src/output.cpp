@@ -5,6 +5,7 @@
 
 #include "REDonFDTD/output.hpp"
 #include "gnuplot/gnuplot.hpp"
+#include "REDonFDTD/utilities.hpp"
 
 using namespace std;
 
@@ -29,19 +30,14 @@ void REDonFDTD::writeSingleValue(float value, const char* filename, int mode){
 void REDonFDTD::writeEx(Mesh *g, int mode){
   int i = 0;
   const int zcoord = g->sizeZ/2;
-  const double gridStep = (g->c)*(g->timeStep);
-  for (int z = 0; z < g->sizeZ; ++i) {
-    for (int y = 0; y < g->sizeY; ++i) {
-      for (int x = 0; x < g->sizeX-1; ++i) {
-        if (z == zcoord)  REDonFDTD::writeComponent(gridStep*x, gridStep*y,
-                                            g->ex[i], "Ex50.txt", mode);
-        ++x;
-      }
-      ++y;
+  for (int mm = 0; mm < g->sizeX - 1; ++mm){
+    for (int nn = 0; nn < g->sizeY; ++nn){
+        REDonFDTD::writeComponent((g->dS)*mm, (g->dS)*nn,
+                          g->ex[(mm*g->sizeY+nn)*g->sizeZ+zcoord], "Ex50.txt", mode);
     }
-    ++z;
   }
 }
+
 
 void REDonFDTD::writeEField(Mesh *g, int mode){
   ofstream myfile;

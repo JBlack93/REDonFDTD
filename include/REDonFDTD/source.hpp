@@ -11,7 +11,8 @@ namespace REDonFDTD {
 //! @brief Generic abstract virtual source class.
   class source {
   public:
-    source();
+    source() = default;
+    source(Mesh *g);
     ~source() = default;
 
 /** @brief Calculate effect source has on neighbouring Mesh Points
@@ -32,7 +33,7 @@ namespace REDonFDTD {
 
 /** @brief Calculate the 6 points on the axes which give closest grid points
  */
-    void findCell();
+    void findCell(Mesh *g);
 
 /** @brief Calculate the E-Field produced by source on a particular point in S-T
  *  @param g        Mesh upon which the particle's effects are felt
