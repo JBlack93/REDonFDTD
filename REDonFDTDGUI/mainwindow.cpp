@@ -1,12 +1,15 @@
 #include <QMessageBox>
-
-#include "mainwindow.h"
-#include "optionwindow.h"
-#include "ui_mainwindow.h"
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPixmap>
 #include <QGraphicsPixmapItem>
+#include <QThread>
+#include <iostream>
+
+#include "mainwindow.h"
+#include "optionwindow.h"
+#include "ui_mainwindow.h"
+#include "fdtdcalc.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -19,13 +22,25 @@ MainWindow::MainWindow(QWidget *parent)
     for (int i = 0; i<100; ++i){
         ui->comboBox_3->addItem("Step "+ QString::number(i+1));
     }
-    QString filename = "/home/black/projects/REDonFDTD/REDonFDTDGUI/gnuplot.png";
+    QString filename = "/home/black/projects/REDonFDTD/REDonFDTDGUI/Ex1.png";
 
     QPixmap tmpmap (filename, 0, Qt::AutoColor);
-    item = scene->addPixmap ( tmpmap.scaled (ui->graphicsView->width(), ui->graphicsView->height()) );
+    this->item = scene->addPixmap ( tmpmap.scaled (ui->graphicsView->width(), ui->graphicsView->height()) );
+    this->scene->setSceneRect(ui->graphicsView->rect());
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
 
+    QThread * calcThread = new QThread(this);
+    calc->moveToThread(calcThread);
+
+    connect(ui->pushButton, SIGNAL(clicked()),
+              calc, SLOT(runFDTDSim()));
+
+    connect(calc, SIGNAL(newPlotAvailable(int)),
+              this, SLOT(updateGraphicsView(int)));
+
+    connect(calc, SIGNAL(FDTDSimCompleted()),
+              this, SLOT(simFinishedAlert()));
 }
 
 MainWindow::~MainWindow()
@@ -33,21 +48,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked(){
-    QString Message("This functionality is yet to be implemented\n");
-    QString Option1(ui->comboBox->currentText());
-    QString Option2(ui->comboBox_2->currentText());
-    QString Option3(ui->comboBox_3->currentText());
-    QString Option4(ui->comboBox_4->currentText());
-    Message.append("\nComponent Requested: ");
-    Message.append(Option1);
-    Message.append("\nPlane Requested: ");
-    Message.append(Option2);
-    Message.append("\nTimestamp Requested: ");
-    Message.append(Option3);
-    Message.append("\nPlotting : ");
-    Message.append(Option4);
-    QMessageBox::information(this, "Title",Message);
+void MainWindow::simFinishedAlert(){
+    QMessageBox::information(this, "FDTDSim","Simulation Finished!\n");
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -59,4 +61,12 @@ void MainWindow::on_toolButton_clicked()
 {
     options = new optionwindow(this);
     options->show();
+}
+
+void MainWindow::updateGraphicsView(int step){
+    QString file = "/home/black/projects/REDonFDTD/REDonFDTDGUI/Ex"+QString::number(step)+".png";
+    QPixmap tmpmap (file, 0, Qt::AutoColor);
+    item = scene->addPixmap( tmpmap.scaled (ui->graphicsView->width(), ui->graphicsView->height()) );
+    scene->update();
+    QApplication::processEvents();
 }

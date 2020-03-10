@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -17,10 +17,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     REDonFDTDGUI.cpp \
+    fdtdcalc.cpp \
     mainwindow.cpp \
     optionwindow.cpp
 
 HEADERS += \
+    fdtdcalc.h \
     mainwindow.h \
     optionwindow.h
 
@@ -34,3 +36,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES +=
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../tools/lib/release/ -lREDonFDTD
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../tools/lib/debug/ -lREDonFDTD
+else:unix: LIBS += -L$$PWD/../../../tools/lib/ -lREDonFDTD
+
+INCLUDEPATH += $$PWD/../../../tools/include
+DEPENDPATH += $$PWD/../../../tools/include

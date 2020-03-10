@@ -29,6 +29,7 @@ set(CMAKE_CXX_STANDARD 14)
 ## target directories for install
 set(INSTALL_INCLUDE_DIR_BASE include)
 set(INSTALL_INCLUDE_DIR ${INSTALL_INCLUDE_DIR_BASE}/REDonFDTD)
+set(INSTALL_GNUPLOT_INCLUDE_DIR ${INSTALL_INCLUDE_DIR_BASE}/gnuplot)
 set(INSTALL_BIN_DIR bin)
 set(INSTALL_LIB_DIR lib)
 set(INSTALL_CONFIG_DIR lib/cmake/REDonFDTD)
@@ -41,6 +42,7 @@ set(REDonFDTD_INCLUDE_DIR
 
 file(GLOB src_files src/*.cpp)
 file(GLOB header_files include/REDonFDTD/*.hpp)
+file(GLOB gnuplot_headers include/gnuplot/*.hpp)
 
 set(tst_dir "${CMAKE_CURRENT_SOURCE_DIR}/t")
 add_test(
@@ -74,6 +76,7 @@ add_custom_command(TARGET REDonFDTD_exe POST_BUILD
                        ${CMAKE_CURRENT_SOURCE_DIR}/include $<TARGET_FILE_DIR:REDonFDTD_exe>/include)
 
 install(FILES ${REDonFDTD_headers} DESTINATION ${INSTALL_INCLUDE_DIR})
+install(FILES ${gnuplot_headers} DESTINATION ${INSTALL_GNUPLOT_INCLUDE_DIR})
 install(TARGETS REDonFDTD DESTINATION ${INSTALL_LIB_DIR})
 install(TARGETS REDonFDTD_exe DESTINATION ${INSTALL_BIN_DIR})
 
