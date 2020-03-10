@@ -41,17 +41,17 @@ void FDTDCalc::runFDTDSim(){
 }
 
 void FDTDCalc::Plot(REDonFDTD::Mesh * g, std::string filename){
-    REDonFDTD::writeEx(g,1);
+    REDonFDTD::writeEMagXY(g,1);
     gnuplot::GnuplotPipe gp;
     gp.sendLine("set terminal pngcairo");
     gp.sendLine("set view map");
     gp.sendLine("set dgrid3d");
-    gp.sendLine("set cbrange [0:1e-7]");
+    gp.sendLine("set cbrange [0:1e-11]");
     gp.sendLine("set cblabel 'Ex'");
     gp.sendLine("set pm3d interpolate 15,15");
     std::string output = "set output '/home/black/projects/REDonFDTD/REDonFDTDGUI/";
     output.append(filename);
     gp.sendLine(output);
-    gp.sendLine("splot 'Ex50.txt' using  1:2:3 with pm3");
+    gp.sendLine("splot 'EMagXY.txt' using  1:2:3 with pm3");
     gp.sendLine("exit gnuplot");
 }

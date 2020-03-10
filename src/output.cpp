@@ -27,16 +27,93 @@ void REDonFDTD::writeSingleValue(float value, const char* filename, int mode){
   myfile.close();
 }
 
-void REDonFDTD::writeEx(Mesh *g, int mode){
-  int i = 0;
+void REDonFDTD::writeExXY(Mesh *g, int mode){
   const int zcoord = g->sizeZ/2;
   for (int mm = 0; mm < g->sizeX - 1; ++mm){
     for (int nn = 0; nn < g->sizeY; ++nn){
         REDonFDTD::writeComponent((g->dS)*mm, (g->dS)*nn,
-                          g->ex[(mm*g->sizeY+nn)*g->sizeZ+zcoord], "Ex50.txt", mode);
+                          g->ex[(mm*g->sizeY+nn)*g->sizeZ+zcoord], "ExXY.txt", mode);
     }
   }
 }
+
+void REDonFDTD::writeEyXY(Mesh *g, int mode){
+  const int zcoord = g->sizeZ/2;
+  for (int mm = 0; mm < g->sizeX; ++mm){
+    for (int nn = 0; nn < g->sizeY-1; ++nn){
+        REDonFDTD::writeComponent((g->dS)*mm, (g->dS)*nn,
+                          g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+zcoord], "EyXY.txt", mode);
+    }
+  }
+}
+
+void REDonFDTD::writeEzXY(Mesh *g, int mode){
+  const int zcoord = g->sizeZ/2;
+  for (int mm = 0; mm < g->sizeX; ++mm){
+    for (int nn = 0; nn < g->sizeY; ++nn){
+        REDonFDTD::writeComponent((g->dS)*mm, (g->dS)*nn,
+                          g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+zcoord], "EzXY.txt", mode);
+    }
+  }
+}
+
+void REDonFDTD::writeEMagXY(Mesh *g, int mode){
+  const int zcoord = g->sizeZ/2;
+  for (int mm = 0; mm < g->sizeX - 1; ++mm){
+    for (int nn = 0; nn < g->sizeY; ++nn){
+        std::array<double,3> eField{g->ex[(mm*g->sizeY+nn)*g->sizeZ+zcoord],
+                                   g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+zcoord],
+                                   g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+zcoord]};
+        REDonFDTD::writeComponent((g->dS)*mm, (g->dS)*nn,
+                          util::magnitude(eField), "EMagXY.txt", mode);
+    }
+  }
+}
+
+
+void REDonFDTD::writeHxXY(Mesh *g, int mode){
+  const int zcoord = g->sizeZ/2;
+  for (int mm = 0; mm < g->sizeX; ++mm){
+    for (int nn = 0; nn < g->sizeY - 1; ++nn){
+        REDonFDTD::writeComponent((g->dS)*mm, (g->dS)*nn,
+                                  g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+zcoord], "HxXY.txt", mode);
+    }
+  }
+}
+
+void REDonFDTD::writeHyXY(Mesh *g, int mode){
+  const int zcoord = g->sizeZ/2;
+  for (int mm = 0; mm < g->sizeX-1; ++mm){
+    for (int nn = 0; nn < g->sizeY; ++nn){
+        REDonFDTD::writeComponent((g->dS)*mm, (g->dS)*nn,
+                                  g->hy[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+zcoord], "HyXY.txt", mode);
+    }
+  }
+}
+
+void REDonFDTD::writeHzXY(Mesh *g, int mode){
+  const int zcoord = g->sizeZ/2;
+  for (int mm = 0; mm < g->sizeX-1; ++mm){
+    for (int nn = 0; nn < g->sizeY-1; ++nn){
+        REDonFDTD::writeComponent((g->dS)*mm, (g->dS)*nn,
+                                  g->hz[(mm*(g->sizeY-1)+nn)*(g->sizeZ)+zcoord], "HzXY.txt", mode);
+    }
+  }
+}
+
+void REDonFDTD::writeHMagXY(Mesh *g, int mode){
+  const int zcoord = g->sizeZ/2;
+  for (int mm = 0; mm < g->sizeX - 1; ++mm){
+    for (int nn = 0; nn < g->sizeY; ++nn){
+        std::array<double,3> hField{g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+zcoord],
+                                   g->hy[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+zcoord],
+                                   g->hz[(mm*(g->sizeY-1)+nn)*(g->sizeZ)+zcoord]};
+        REDonFDTD::writeComponent((g->dS)*mm, (g->dS)*nn,
+                          util::magnitude(hField), "HMagXY.txt", mode);
+    }
+  }
+}
+
 
 
 void REDonFDTD::writeEField(Mesh *g, int mode){
@@ -120,7 +197,7 @@ void REDonFDTD::Slice(Mesh *g){
 } /* end Slice() */
 
 void REDonFDTD::Plot(Mesh *g, bool mode){
-  REDonFDTD::writeEx(g,mode);
+  REDonFDTD::writeExXY(g,mode);
   gnuplot::GnuplotPipe gp;
 
   gp.sendLine("set view map");

@@ -18,11 +18,53 @@ namespace REDonFDTD {
   void writeComponent(double x, double y, double Component,
                       const char* filename, int mode);
 
-/** @brief Output E-Field for a a particular time
+/** @brief Output Ex component of E-Field in Central XY plane for a a particular time
  *  @param g                Mesh to be outputted
  *  @param mode             if ==0, truncate, else append
  */
-  void writeEx(Mesh *g, int mode);
+  void writeExXY(Mesh *g, int mode);
+
+/** @brief Output Ey component of E-Field in Central XY plane for a a particular time
+ *  @param g                Mesh to be outputted
+ *  @param mode             if ==0, truncate, else append
+ */
+  void writeEyXY(Mesh *g, int mode);
+
+/** @brief Output Ez component of E-Field in Central XY plane for a a particular time
+ *  @param g                Mesh to be outputted
+ *  @param mode             if ==0, truncate, else append
+ */
+  void writeEzXY(Mesh *g, int mode);
+
+/** @brief Output |E| of E-Field in Central XY plane for a a particular time
+ *  @param g                Mesh to be outputted
+ *  @param mode             if ==0, truncate, else append
+ */
+  void writeEMagXY(Mesh *g, int mode);
+
+/** @brief Output Hx component of H-Field in Central XY plane for a a particular time
+ *  @param g                Mesh to be outputted
+ *  @param mode             if ==0, truncate, else append
+ */
+  void writeHxXY(Mesh *g, int mode);
+
+/** @brief Output Hy component of H-Field in Central XY plane for a a particular time
+ *  @param g                Mesh to be outputted
+ *  @param mode             if ==0, truncate, else append
+ */
+  void writeHyXY(Mesh *g, int mode);
+
+/** @brief Output Hz component of H-Field in Central XY plane for a a particular time
+ *  @param g                Mesh to be outputted
+ *  @param mode             if ==0, truncate, else append
+ */
+  void writeHzXY(Mesh *g, int mode);
+
+/** @brief Output |H| of H-Field in Central XY plane for a a particular time
+ *  @param g                Mesh to be outputted
+ *  @param mode             if ==0, truncate, else append
+ */
+  void writeHMagXY(Mesh *g, int mode);
 
 /** @brief Output E-Field for a a particular time
  *  @param g                Mesh to be outputted
