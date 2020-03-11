@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="graphicsLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -37,13 +37,13 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="RunButton">
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>398</y>
+      <y>418</y>
       <width>121</width>
-      <height>71</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -53,169 +53,17 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QPushButton" name="ChangeOutputButton">
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>90</y>
-      <width>251</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>Ex</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Ey</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Ez</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Bx</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>By</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Bz</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>|E|</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>|B|</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QComboBox" name="comboBox_2">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>180</y>
-      <width>251</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>XY</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>XZ</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>YZ</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QComboBox" name="comboBox_4">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>350</y>
-      <width>251</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>Heat Map</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>400</y>
+      <y>420</y>
       <width>121</width>
-      <height>71</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
      <string>Change Output</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>70</y>
-      <width>251</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Component to show:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>160</y>
-      <width>251</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Plane to Display</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>330</y>
-      <width>251</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Plotting Routine</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>250</y>
-      <width>251</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Timestamp</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_3">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>270</y>
-      <width>251</width>
-      <height>41</height>
-     </rect>
     </property>
    </widget>
    <widget class="QSlider" name="horizontalSlider">
@@ -231,7 +79,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QToolButton" name="toolButton">
+   <widget class="QToolButton" name="OptionButton">
     <property name="geometry">
      <rect>
       <x>630</x>
@@ -244,6 +92,181 @@
      <string>Advanced</string>
     </property>
    </widget>
+   <widget class="QFrame" name="graphicViewControls">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>70</y>
+      <width>251</width>
+      <height>341</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QComboBox" name="componentBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>231</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Ex</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ey</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ez</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Bx</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>By</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Bz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>|E|</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>|B|</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="componentLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>231</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Component to show:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="planeLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>231</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Plane to Display</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="planeBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>231</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>XY</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>XZ</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>YZ</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="timeLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>190</y>
+       <width>231</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Timestamp</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="timeBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>210</y>
+       <width>231</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="plotLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>270</y>
+       <width>231</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Plotting Routine</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="plotBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>290</y>
+       <width>231</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Heat Map</string>
+      </property>
+     </item>
+    </widget>
+   </widget>
+   <zorder>graphicViewControls</zorder>
+   <zorder>graphicsLabel</zorder>
+   <zorder>graphicsView</zorder>
+   <zorder>RunButton</zorder>
+   <zorder>ChangeOutputButton</zorder>
+   <zorder>horizontalSlider</zorder>
+   <zorder>OptionButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

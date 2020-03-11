@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     for (int i = 0; i<100; ++i){
-        ui->comboBox_3->addItem("Step "+ QString::number(i+1));
+        ui->timeBox->addItem("Step "+ QString::number(i+1));
     }
     QString filename = "/home/black/projects/REDonFDTD/REDonFDTDGUI/Ex1.png";
 
@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     QThread * calcThread = new QThread(this);
     calc->moveToThread(calcThread);
 
-    connect(ui->pushButton, SIGNAL(clicked()),
+    connect(ui->RunButton, SIGNAL(clicked()),
               calc, SLOT(runFDTDSim()));
 
     connect(calc, SIGNAL(newPlotAvailable(int)),
@@ -52,12 +52,12 @@ void MainWindow::simFinishedAlert(){
     QMessageBox::information(this, "FDTDSim","Simulation Finished!\n");
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_ChangeOutputButton_clicked()
 {
     QMessageBox::information(this, "Title","This functionality is yet to be implemented\n");
 }
 
-void MainWindow::on_toolButton_clicked()
+void MainWindow::on_OptionButton_clicked()
 {
     options = new optionwindow(this);
     options->show();
@@ -70,3 +70,4 @@ void MainWindow::updateGraphicsView(int step){
     scene->update();
     QApplication::processEvents();
 }
+

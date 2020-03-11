@@ -24,12 +24,11 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_2_clicked();
-    void on_toolButton_clicked();
+    void on_ChangeOutputButton_clicked();
     void updateGraphicsView(int step);
     void simFinishedAlert();
 
-//    void on_pushButton_clicked();
+    void on_OptionButton_clicked();
 
 private:
     Ui::MainWindow *ui;
