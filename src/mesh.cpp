@@ -5,14 +5,61 @@
 #include "REDonFDTD/mesh.hpp"
 
 REDonFDTD::Mesh::Mesh(){
-  const double imp0 = 377.0;
-  int mm, nn, pp;
   std::filesystem::remove( "output/" );
   std::filesystem::create_directory("output");
   abccoef = (cdtds - 1.0) / (cdtds + 1.0);
-
   return;
-}          /* end Mesh() */
+}
+
+REDonFDTD::Mesh::Mesh(config meshConfig): REDonFDTD::Mesh::Mesh(){
+  sizeX = meshConfig.sizeX;
+  sizeY = meshConfig.sizeY;
+  sizeZ = meshConfig.sizeZ;
+  steps = meshConfig.steps;
+  timeStep = meshConfig.timeStep;
+  dS = c*timeStep;
+  maxTime = steps*timeStep;
+
+  hx.resize(sizeX*(sizeY-1)*(sizeZ-1), 0);
+  hx.resize(sizeX*(sizeY-1)*(sizeZ-1), 0);
+  chxh.resize(sizeX*(sizeY-1)*(sizeZ-1), 1.0);
+  chxe.resize(sizeX*(sizeY-1)*(sizeZ-1), cdtds/377.0);
+
+  hy.resize(sizeZ*(sizeY-1)*(sizeX-1),0);
+  chyh.resize(sizeZ*(sizeY-1)*(sizeX-1),1.0);
+  chye.resize(sizeZ*(sizeY-1)*(sizeX-1), cdtds/377.0);
+
+  hz.resize(sizeY*(sizeZ-1)*(sizeX-1),0);
+  chzh.resize(sizeY*(sizeZ-1)*(sizeX-1),1.0);
+  chze.resize(sizeY*(sizeZ-1)*(sizeX-1), cdtds/377.0);
+
+  ex.resize(sizeZ*(sizeY)*(sizeX-1),0);
+  cexh.resize(sizeZ*(sizeY)*(sizeX-1), cdtds*377.0);
+  cexe.resize(sizeZ*(sizeY)*(sizeX-1),1.0);
+
+  ey.resize(sizeZ*(sizeY-1)*(sizeX),0);
+  ceyh.resize(sizeZ*(sizeY-1)*(sizeX), cdtds*377.0);
+  ceye.resize(sizeZ*(sizeY-1)*(sizeX),1.0);
+
+  ez.resize(sizeY*(sizeZ-1)*(sizeX),0);
+  cezh.resize(sizeY*(sizeZ-1)*(sizeX), cdtds*377.0);
+  ceze.resize(sizeY*(sizeZ-1)*(sizeX),1.0);
+
+  eyx0.resize((sizeY-1)*sizeZ);
+  ezx0.resize(sizeY*(sizeZ-1));
+  eyx1.resize((sizeY-1)*sizeZ);
+  ezx1.resize(sizeY*(sizeZ-1));
+
+  exy0.resize((sizeX-1)*sizeZ);
+  ezy0.resize(sizeX*(sizeZ-1));
+  exy1.resize((sizeX-1)*sizeZ);
+  ezy1.resize(sizeX*(sizeZ-1));
+
+  exz0.resize((sizeX-1)*sizeY);
+  eyz0.resize(sizeX*(sizeY-1));
+  exz1.resize((sizeX-1)*sizeY);
+  eyz1.resize(sizeX*(sizeY-1));
+}
 
 /* update magnetic field */
 void REDonFDTD::Mesh::updateH(){
