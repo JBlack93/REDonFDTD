@@ -11,63 +11,6 @@ REDonFDTD::Mesh::Mesh(){
   std::filesystem::create_directory("output");
   abccoef = (cdtds - 1.0) / (cdtds + 1.0);
 
-  /* set electric-field update coefficients */
-  for (mm = 0; mm < sizeX - 1; ++mm){
-    for (nn = 0; nn < sizeY; ++nn){
-      for (pp = 0; pp < sizeZ; ++pp){
-        cexe[(mm * (sizeY) + nn) * sizeZ + pp] = 1.0;
-        cexh[(mm * (sizeY) + nn) * sizeZ + pp] = cdtds * imp0;
-      }
-    }
-  }
-
-  for (mm = 0; mm < sizeX; mm++){
-    for (nn = 0; nn < sizeY - 1; ++nn){
-      for (pp = 0; pp < sizeZ; ++pp){
-        ceye[(mm*(sizeY - 1) + nn) * sizeZ + pp] = 1.0;
-        ceyh[(mm*(sizeY - 1) + nn) * sizeZ + pp] = cdtds * imp0;
-      }
-    }
-  }
-
-
-  for (mm = 0; mm < sizeX; ++mm){
-    for (nn = 0; nn < sizeY; ++nn){
-      for (pp = 0; pp < sizeZ - 1; ++pp){
-        ceze[(mm * (sizeY) + nn) * (sizeZ - 1) + pp] = 1.0;
-        cezh[(mm * (sizeY) + nn) * (sizeZ - 1) + pp] = cdtds * imp0;
-      }
-    }
-  }
-
-  /* set magnetic-field update coefficients */
-  for (mm = 0; mm < sizeX; ++mm){
-    for (nn = 0; nn < sizeY - 1; ++nn){
-      for (pp = 0; pp < sizeZ - 1; ++pp){
-        chxh[(mm * (sizeY - 1) + nn) * (sizeZ - 1) + pp] = 1.0;
-        chxe[(mm * (sizeY - 1) + nn) * (sizeZ - 1) + pp] = cdtds / imp0;
-      }
-    }
-  }
-
-  for (mm = 0; mm < sizeX - 1; ++mm){
-    for (nn = 0; nn < sizeY; ++nn){
-      for (pp = 0; pp < sizeZ - 1; ++pp){
-        chyh[(mm * sizeY + nn) * (sizeZ - 1) + pp] = 1.0;
-        chye[(mm * sizeY + nn) * (sizeZ - 1) + pp] = cdtds / imp0;
-      }
-    }
-  }
-
-  for (mm = 0; mm < sizeX - 1; ++mm){
-    for (nn = 0; nn < sizeY - 1; ++nn){
-      for (pp = 0; pp < sizeZ; ++pp){
-        chzh[(mm * (sizeY - 1) + nn) * sizeZ + pp] = 1.0;
-        chze[(mm * (sizeY - 1) + nn) * sizeZ + pp] = cdtds / imp0;
-      }
-    }
-  }
-
   return;
 }          /* end Mesh() */
 
