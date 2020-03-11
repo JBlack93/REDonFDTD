@@ -10,15 +10,13 @@
 #include "gnuplot/gnuplot.hpp"
 #include "fdtdcalc.h"
 
-
-
 FDTDCalc::FDTDCalc(QObject *parent) : QObject(parent)
 {
     std::filesystem::create_directory("output");
 }
 
 void FDTDCalc::runFDTDSim(){
-    std::unique_ptr<REDonFDTD::Mesh> g = std::make_unique<REDonFDTD::Mesh>();
+    std::unique_ptr<REDonFDTD::Mesh> g = std::make_unique<REDonFDTD::Mesh>(meshConfig);
     std::unique_ptr<REDonFDTD::Particle> p = std::make_unique<REDonFDTD::Particle>(g.get());
 
     /* do time stepping */
@@ -41,6 +39,15 @@ void FDTDCalc::runFDTDSim(){
    }                               // end of time-stepping
     emit FDTDSimCompleted();
 }
+
+void FDTDCalc::updateConfig(REDonFDTD::config tempConfig){
+    meshConfig.sizeX = tempConfig.sizeX;
+    meshConfig.sizeY = tempConfig.sizeY;
+    meshConfig.sizeZ = tempConfig.sizeZ;
+    meshConfig.steps = tempConfig.steps;
+    meshConfig.timeStep = tempConfig.timeStep;
+}
+
 
 void FDTDCalc::Plot(REDonFDTD::Mesh * g, std::string filename, int step){
     REDonFDTD::writeExXY(g,1);

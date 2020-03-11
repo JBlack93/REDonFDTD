@@ -53,7 +53,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="ChangeOutputButton">
+   <widget class="QPushButton" name="pauseButton">
     <property name="geometry">
      <rect>
       <x>490</x>
@@ -63,7 +63,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Change Output</string>
+     <string>Pause/Resume</string>
     </property>
    </widget>
    <widget class="QSlider" name="horizontalSlider">
@@ -264,7 +264,7 @@
    <zorder>graphicsLabel</zorder>
    <zorder>graphicsView</zorder>
    <zorder>RunButton</zorder>
-   <zorder>ChangeOutputButton</zorder>
+   <zorder>pauseButton</zorder>
    <zorder>horizontalSlider</zorder>
    <zorder>OptionButton</zorder>
   </widget>

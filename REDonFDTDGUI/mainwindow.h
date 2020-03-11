@@ -24,17 +24,15 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_ChangeOutputButton_clicked();
+    void on_pauseButton_clicked();
     void updateGraphicsView(int step);
     void simFinishedAlert();
-
     void on_OptionButton_clicked();
 
 private:
     Ui::MainWindow *ui;
-    optionwindow * options;
+    optionwindow * options = new optionwindow(this);
     QGraphicsScene * scene = new QGraphicsScene();
-//    QGraphicsView* graphicsView = new QGraphicsView();
     QGraphicsPixmapItem* item;
     FDTDCalc * calc = new FDTDCalc(this);
 };

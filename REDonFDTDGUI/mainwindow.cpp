@@ -6,6 +6,8 @@
 #include <QThread>
 #include <iostream>
 
+#include "REDonFDTD/config.hpp"
+
 #include "mainwindow.h"
 #include "optionwindow.h"
 #include "ui_mainwindow.h"
@@ -41,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(calc, SIGNAL(FDTDSimCompleted()),
               this, SLOT(simFinishedAlert()));
+
+    connect(options, SIGNAL(changeConfig(REDonFDTD::config)),
+            calc, SLOT(updateConfig(REDonFDTD::config)));
+
 }
 
 MainWindow::~MainWindow()
@@ -48,18 +54,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
 void MainWindow::simFinishedAlert(){
     QMessageBox::information(this, "FDTDSim","Simulation Finished!\n");
 }
 
-void MainWindow::on_ChangeOutputButton_clicked()
+void MainWindow::on_pauseButton_clicked()
 {
     QMessageBox::information(this, "Title","This functionality is yet to be implemented\n");
 }
 
 void MainWindow::on_OptionButton_clicked()
 {
-    options = new optionwindow(this);
     options->show();
 }
 

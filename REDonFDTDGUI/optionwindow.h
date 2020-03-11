@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "REDonFDTD/config.hpp"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class optionwindow; }
 QT_END_NAMESPACE
@@ -15,6 +17,8 @@ public:
     optionwindow(QWidget *parent = nullptr);
     ~optionwindow();
 
+signals:
+    void changeConfig(REDonFDTD::config tempConfig);
 
 private slots:
     void on_buttonBox_accepted();
