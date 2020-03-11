@@ -5,7 +5,7 @@
 #include "REDonFDTD/mesh.hpp"
 
 REDonFDTD::Mesh::Mesh(){
-  std::filesystem::remove( "output/" );
+  std::filesystem::remove_all( "output" );
   std::filesystem::create_directory("output");
   abccoef = (cdtds - 1.0) / (cdtds + 1.0);
   return;
@@ -20,7 +20,6 @@ REDonFDTD::Mesh::Mesh(config meshConfig): REDonFDTD::Mesh::Mesh(){
   dS = c*timeStep;
   maxTime = steps*timeStep;
 
-  hx.resize(sizeX*(sizeY-1)*(sizeZ-1), 0);
   hx.resize(sizeX*(sizeY-1)*(sizeZ-1), 0);
   chxh.resize(sizeX*(sizeY-1)*(sizeZ-1), 1.0);
   chxe.resize(sizeX*(sizeY-1)*(sizeZ-1), cdtds/377.0);
