@@ -43,20 +43,22 @@ void FDTDCalc::runFDTDSim(){
 }
 
 void FDTDCalc::Plot(REDonFDTD::Mesh * g, std::string filename, int step){
-    REDonFDTD::writeEMagXY(g,1);
+    REDonFDTD::writeExXY(g,1);
     gnuplot::GnuplotPipe gp;
     gp.sendLine("set terminal pngcairo");
     gp.sendLine("set view map");
-    gp.sendLine("set dgrid3d");
-    gp.sendLine("set cbrange [0:1e-11]");
+    std::string plotType = "set dgrid3d ";
+    ((((plotType.append(std::to_string(g->sizeX/4))).append(",")).append(std::to_string(g->sizeY/4))).append(",")).append(std::to_string(g->dS*g->sizeX));
+    gp.sendLine(plotType);
+    gp.sendLine("set cbrange [-5e-11:5e-11]");
     gp.sendLine("set cblabel 'Ex'");
-    gp.sendLine("set pm3d interpolate 15,15");
     std::string output = "set output 'output/";
     output.append(filename);
     gp.sendLine(output);
-    std::string plot = "splot 'output/EMagXY";
+    std::string plot = "splot 'output/ExXY";
     plot.append(std::to_string(step));
     plot.append(".txt' using  1:2:3 with pm3");
+    gp.sendLine("set autoscale xfix; set autoscale yfix");
     gp.sendLine(plot);
     gp.sendLine("exit gnuplot");
 }
