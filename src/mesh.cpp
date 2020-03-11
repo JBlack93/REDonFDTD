@@ -7,8 +7,8 @@
 REDonFDTD::Mesh::Mesh(){
   const double imp0 = 377.0;
   int mm, nn, pp;
+  std::filesystem::remove( "output/" );
   std::filesystem::create_directory("output");
-  remove( "output/" );
   abccoef = (cdtds - 1.0) / (cdtds + 1.0);
 
   /* set electric-field update coefficients */

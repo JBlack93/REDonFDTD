@@ -192,48 +192,18 @@ void REDonFDTD::writeHField(Mesh *g, int mode){
   myfile.close();
 }
 
-void REDonFDTD::Slice(Mesh *g){
-  ofstream myfile;
-  /************ write the constant-x slice ************/
-
-  /* write dimensions to output file */
-  writeSingleValue(g->sizeY, "output/dimensions1.txt", 1);
-  writeSingleValue(g->sizeZ, "output/dimensions1.txt", 1);
-  writeSingleValue(g->maxTime, "output/dimensions1.txt",1);
-  writeSingleValue(g->timeStep, "output/dimensions1.txt", 1);
-  /* write remaining data */
-  int mm = (g->sizeX - 1) / 2;
-  for (int pp = 0; pp < g->sizeZ; ++pp){
-    for (int nn = 0; nn < g->sizeY; ++nn){
-      writeSingleValue(g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp], "output/ExYZ.txt", 1);  // write out float value
-    }
-  }
-  // close file
-
-/************ write the constant-y slice ************/
-
-/* write dimensions to output file */
-  writeSingleValue((g->sizeX-1), "output/dimensions2.txt", 1);
-  writeSingleValue(g->sizeZ, "output/dimensions2.txt", 1);
-  writeSingleValue(g->maxTime, "output/dimensions2.txt",1);
-  writeSingleValue(g->timeStep, "output/dimensions2.txt", 1);
-/* write remaining data */
-  int nn = g->sizeY / 2;
-  for (int pp = 0; pp < g->sizeZ; ++pp){
-    for (int mm = 0; mm < g->sizeX - 1; ++mm){
-      writeSingleValue(g->ex[(mm * (g->sizeY) + nn) * (g->sizeZ) + pp], "output/ExXZ.txt", 1);   // write the float
-    }
-  }
-
-  return;
-} /* end Slice() */
-
-void REDonFDTD::Plot(Mesh *g, bool mode){
-  REDonFDTD::writeExXY(g,mode);
+void REDonFDTD::Plot(Mesh *g){
   gnuplot::GnuplotPipe gp;
-
+  const int step = static_cast<int>(g->time/g->timeStep);
   gp.sendLine("set view map");
-  gp.sendLine("set dgrid3d");
+  std::string plotType = "set dgrid3d ";
+  ((((plotType.append(std::to_string(g->sizeX/4))).append(",")).append(std::to_string(g->sizeY/4))).append(",")).append(std::to_string(g->dS*g->sizeX));
+  gp.sendLine(plotType);
   gp.sendLine("set pm3d interpolate 50,50");
-  gp.sendLine("splot 'output/ExXY50.txt' using 1:2:3 with pm3");
+  std::string plot = "splot 'output/ExXY";
+  plot.append(std::to_string(step));
+  plot.append(".txt' using  1:2:3 with pm3");
+  gp.sendLine("set autoscale xfix; set autoscale yfix");
+  gp.sendLine(plot);
+
 }

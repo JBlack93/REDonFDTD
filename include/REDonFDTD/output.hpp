@@ -94,8 +94,7 @@ namespace REDonFDTD {
 
 /** @brief Utilise GnuPlot for output
  *  @param g                Mesh to be outputted
- *  @param mode             if ==0, truncate, else append
  */
-  void Plot(Mesh *g, bool mode);
+  void Plot(Mesh *g);
 
 }

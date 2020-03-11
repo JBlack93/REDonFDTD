@@ -47,7 +47,7 @@ file(GLOB gnuplot_headers include/gnuplot/*.hpp)
 set(tst_dir "${CMAKE_CURRENT_SOURCE_DIR}/t")
 add_test(
   NAME BasicRegression
-  COMMAND ${tst_dir}/regression.sh ${tst_dir} dimExpected.txt ExXZExpected.txt
+  COMMAND ${tst_dir}/regression.sh ${tst_dir} ExXY10Test.txt ExXY25Test.txt
 )
 
 ## create main library
