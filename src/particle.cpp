@@ -102,15 +102,15 @@ double REDonFDTD::Particle::findGamma(Mesh * g){
 std::array<double,3> REDonFDTD::Particle::lorentzForce(Mesh *g){
   std::array<double,3> bField;
 
-  bField[0] = g->hx[(static_cast<int>(futPos[0])*(g->sizeY-1)+
-                     static_cast<int>(futPos[1])*(g->sizeZ-1)+
-                     static_cast<int>(futPos[2]))]+5;
-  bField[1] = g->hy[(static_cast<int>(futPos[0])*(g->sizeY)+
-                     static_cast<int>(futPos[1])*(g->sizeZ-1)+
-                     static_cast<int>(futPos[2]))];
-  bField[2] = g->hz[(static_cast<int>(futPos[0])*(g->sizeY-1)+
-                     static_cast<int>(futPos[1])*(g->sizeZ)+
-                     static_cast<int>(futPos[2]))];
+  bField[0] = g->hx[(static_cast<int>(futPos[0]/(g->dS))*(g->sizeY-1)+
+                     static_cast<int>(futPos[1]/(g->dS))*(g->sizeZ-1)+
+                     static_cast<int>(futPos[2]/(g->dS)))]+5;
+  bField[1] = g->hy[(static_cast<int>(futPos[0]/(g->dS))*(g->sizeY)+
+                     static_cast<int>(futPos[1]/(g->dS))*(g->sizeZ-1)+
+                     static_cast<int>(futPos[2]/(g->dS)))];
+  bField[2] = g->hz[(static_cast<int>(futPos[0]/(g->dS))*(g->sizeY-1)+
+                     static_cast<int>(futPos[1]/(g->dS))*(g->sizeZ)+
+                     static_cast<int>(futPos[2]/(g->dS)))];
 
   std::array<double,3> crossProduct = util::cross(futVel, bField);
   std::for_each(crossProduct.begin(), crossProduct.end(),
