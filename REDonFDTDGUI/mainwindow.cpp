@@ -64,7 +64,7 @@ void MainWindow::on_toolButton_clicked()
 }
 
 void MainWindow::updateGraphicsView(int step){
-    QString file = "/home/black/projects/REDonFDTD/REDonFDTDGUI/Ex"+QString::number(step)+".png";
+    QString file = "output/Ex"+QString::number(step)+".png";
     QPixmap tmpmap (file, 0, Qt::AutoColor);
     item = scene->addPixmap( tmpmap.scaled (ui->graphicsView->width(), ui->graphicsView->height()) );
     scene->update();

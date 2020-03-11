@@ -16,7 +16,7 @@ namespace REDonFDTD {
  *  @param mode             if ==0, truncate, else append
  */
   void writeComponent(double x, double y, double Component,
-                      const char* filename, int mode);
+                      std::string filename, int mode);
 
 /** @brief Output Ex component of E-Field in Central XY plane for a a particular time
  *  @param g                Mesh to be outputted

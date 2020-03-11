@@ -20,7 +20,7 @@ signals:
      void FDTDSimCompleted();
 
 private:
-     void Plot(REDonFDTD::Mesh * g, std::string filename);
+     void Plot(REDonFDTD::Mesh * g, std::string filename, int step);
 };
 
 #endif // FDTDCALC_H

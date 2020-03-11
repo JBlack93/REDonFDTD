@@ -1,16 +1,14 @@
 /* Mesh Class Implementation file*/
 
+#include <filesystem>
 #include <cstdio>
 #include "REDonFDTD/mesh.hpp"
 
 REDonFDTD::Mesh::Mesh(){
   const double imp0 = 377.0;
   int mm, nn, pp;
-  remove( "dimensions1.txt" );
-  remove( "dimensions2.txt" );
-  remove( "ExXZ.txt" );
-  remove( "ExYZ.txt" );
-  remove( "Ex50.txt" );
+  std::filesystem::create_directory("output");
+  remove( "output/" );
   abccoef = (cdtds - 1.0) / (cdtds + 1.0);
 
   /* set electric-field update coefficients */
