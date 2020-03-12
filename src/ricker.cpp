@@ -15,8 +15,7 @@ REDonFDTD::ricker::ricker(Mesh *g, double pointspwave){
   findCell(g);
 }
 
-REDonFDTD::ricker::ricker(Mesh * g, double pointspwave, config configuration)
-  :  REDonFDTD::ricker::ricker(g, pointspwave){
+REDonFDTD::ricker::ricker(Mesh * g, config configuration){
   position[0] = configuration.position[0]*(g->dS);
   position[1] = configuration.position[1]*(g->dS);
   position[2] = configuration.position[2]*(g->dS);
@@ -25,9 +24,9 @@ REDonFDTD::ricker::ricker(Mesh * g, double pointspwave, config configuration)
   velocity[1] = configuration.velocity[1]*(g->c);
   velocity[2] = configuration.velocity[2]*(g->c);
 
-  acceleration[0] = configuration.acceleration[0];
-  acceleration[1] = configuration.acceleration[1];
-  acceleration[2] = configuration.acceleration[2];
+  acceleration = configuration.acceleration;
+
+  ppw = configuration.ppw;
 
   findCell(g);
 }

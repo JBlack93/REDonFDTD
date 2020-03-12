@@ -12,7 +12,7 @@ namespace REDonFDTD {
   class ricker: public source {
   public:
     ricker(Mesh *g, double pointspwave);
-    ricker(Mesh *g, double pointspwave, config configuration);
+    ricker(Mesh *g, config configuration);
     ~ricker() = default;
 
 /** @brief Advance values pertaining to ricker source

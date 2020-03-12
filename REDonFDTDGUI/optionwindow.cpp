@@ -40,6 +40,8 @@ optionwindow::optionwindow(QWidget *parent)
     ui->xvelocityBox->setValue(0.0);
     ui->yvelocityBox->setValue(0.5);
     ui->zvelocityBox->setValue(0.0);
+
+    ui->ppwBox->setValue(15.0);
 }
 
 optionwindow::~optionwindow()
