@@ -17,7 +17,7 @@ FDTDCalc::FDTDCalc(QObject *parent) : QObject(parent)
 
 void FDTDCalc::runFDTDSim(){
     std::unique_ptr<REDonFDTD::Mesh> g = std::make_unique<REDonFDTD::Mesh>(meshConfig);
-    std::unique_ptr<REDonFDTD::Particle> p = std::make_unique<REDonFDTD::Particle>(g.get());
+    std::unique_ptr<REDonFDTD::Particle> p = std::make_unique<REDonFDTD::Particle>(g.get(), meshConfig);
 
     /* do time stepping */
     for (g->time = 0; g->time < g->maxTime;){
@@ -41,11 +41,7 @@ void FDTDCalc::runFDTDSim(){
 }
 
 void FDTDCalc::updateConfig(REDonFDTD::config tempConfig){
-    meshConfig.sizeX = tempConfig.sizeX;
-    meshConfig.sizeY = tempConfig.sizeY;
-    meshConfig.sizeZ = tempConfig.sizeZ;
-    meshConfig.steps = tempConfig.steps;
-    meshConfig.timeStep = tempConfig.timeStep;
+    meshConfig = tempConfig;
 }
 
 

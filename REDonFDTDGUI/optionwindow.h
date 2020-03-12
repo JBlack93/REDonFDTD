@@ -25,6 +25,10 @@ private slots:
 
     void on_buttonBox_rejected();
 
+    void on_xDimBox_valueChanged(int arg1);
+    void on_yDimBox_valueChanged(int arg1);
+    void on_zDimBox_valueChanged(int arg1);
+
 private:
     Ui::optionwindow *ui;
 };

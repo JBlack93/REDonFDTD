@@ -217,6 +217,9 @@
        <property name="suffix">
         <string>e-10</string>
        </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
       </widget>
       <widget class="QLabel" name="stepLabel">
        <property name="geometry">
@@ -242,6 +245,22 @@
        </property>
        <property name="text">
         <string>Time Step</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="speedLight">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>217</x>
+         <y>21</y>
+         <width>101</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="decimals">
+        <number>10</number>
        </property>
       </widget>
      </widget>
@@ -445,7 +464,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QSpinBox" name="zvelocityBox">
+      <widget class="QDoubleSpinBox" name="zvelocityBox">
        <property name="geometry">
         <rect>
          <x>230</x>
@@ -459,6 +478,12 @@
          <width>91</width>
          <height>21</height>
         </size>
+       </property>
+       <property name="suffix">
+        <string>c</string>
+       </property>
+       <property name="singleStep">
+        <double>0.010000000000000</double>
        </property>
       </widget>
       <widget class="QLabel" name="zvelocityLabel">
@@ -474,7 +499,7 @@
         <string>Z Velocity</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="yvelocityBox">
+      <widget class="QDoubleSpinBox" name="yvelocityBox">
        <property name="geometry">
         <rect>
          <x>120</x>
@@ -482,6 +507,12 @@
          <width>91</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="suffix">
+        <string>c</string>
+       </property>
+       <property name="singleStep">
+        <double>0.010000000000000</double>
        </property>
       </widget>
       <widget class="QLabel" name="yvelocityLabel">
@@ -510,7 +541,7 @@
         <string>X Velocity</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="xvelocityBox">
+      <widget class="QDoubleSpinBox" name="xvelocityBox">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -526,10 +557,10 @@
         <bool>false</bool>
        </property>
        <property name="suffix">
-        <string/>
+        <string>c</string>
        </property>
-       <property name="prefix">
-        <string/>
+       <property name="singleStep">
+        <double>0.010000000000000</double>
        </property>
       </widget>
       <widget class="QLabel" name="velocityLabel">
