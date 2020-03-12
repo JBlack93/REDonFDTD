@@ -47,6 +47,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(options, SIGNAL(changeConfig(REDonFDTD::config)),
             calc, SLOT(updateConfig(REDonFDTD::config)));
 
+    connect(calc, SIGNAL(signalSlider(int)),
+            this, SLOT(enableSlider(int)));
+
 }
 
 MainWindow::~MainWindow()
@@ -72,8 +75,21 @@ void MainWindow::on_OptionButton_clicked()
 void MainWindow::updateGraphicsView(int step){
     QString file = "output/Ex"+QString::number(step)+".png";
     QPixmap tmpmap (file, 0, Qt::AutoColor);
+    ui->horizontalSlider->setSliderPosition(step);
     item = scene->addPixmap( tmpmap.scaled (ui->graphicsView->width(), ui->graphicsView->height()) );
     scene->update();
     QApplication::processEvents();
 }
 
+void MainWindow::enableSlider(int steps)
+{
+    ui->horizontalSlider->setEnabled(true);
+    ui->horizontalSlider->setRange(0, steps);
+    ui->MaxValueLabel->setText(QString::number(steps));
+}
+
+void MainWindow::on_horizontalSlider_valueChanged(int position)
+{
+    ui->StepValueLabel->setText(QString::number(position));
+    updateGraphicsView(position);
+}

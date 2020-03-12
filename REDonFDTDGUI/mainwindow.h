@@ -28,6 +28,8 @@ private slots:
     void updateGraphicsView(int step);
     void simFinishedAlert();
     void on_OptionButton_clicked();
+    void enableSlider(int steps);
+    void on_horizontalSlider_valueChanged(int position);
 
 private:
     Ui::MainWindow *ui;

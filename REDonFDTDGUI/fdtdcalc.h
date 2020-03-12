@@ -23,6 +23,7 @@ public slots:
 signals:
      void newPlotAvailable(int step);
      void FDTDSimCompleted();
+     void signalSlider(int steps);
 
 private:
      void Plot(REDonFDTD::Mesh * g, std::string filename, int step);

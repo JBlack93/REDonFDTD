@@ -18,6 +18,7 @@ FDTDCalc::FDTDCalc(QObject *parent) : QObject(parent)
 void FDTDCalc::runFDTDSim(){
     std::unique_ptr<REDonFDTD::Mesh> g = std::make_unique<REDonFDTD::Mesh>(meshConfig);
     std::unique_ptr<REDonFDTD::Particle> p = std::make_unique<REDonFDTD::Particle>(g.get(), meshConfig);
+    emit signalSlider(g->steps);
 
     /* do time stepping */
     for (g->time = 0; g->time < g->maxTime;){

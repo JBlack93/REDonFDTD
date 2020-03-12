@@ -27,21 +27,11 @@
      <string>REDonFDTD Output</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>31</y>
-      <width>471</width>
-      <height>391</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="RunButton">
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>418</y>
+      <y>422</y>
       <width>121</width>
       <height>51</height>
      </rect>
@@ -57,7 +47,7 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>420</y>
+      <y>422</y>
       <width>121</width>
       <height>51</height>
      </rect>
@@ -67,13 +57,19 @@
     </property>
    </widget>
    <widget class="QSlider" name="horizontalSlider">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>440</y>
-      <width>461</width>
+      <y>420</y>
+      <width>471</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="sliderPosition">
+     <number>0</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -83,9 +79,9 @@
     <property name="geometry">
      <rect>
       <x>630</x>
-      <y>10</y>
-      <width>101</width>
-      <height>51</height>
+      <y>5</y>
+      <width>111</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -96,9 +92,9 @@
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>70</y>
+      <y>50</y>
       <width>251</width>
-      <height>341</height>
+      <height>321</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -174,7 +170,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>100</y>
+       <y>90</y>
        <width>231</width>
        <height>20</height>
       </rect>
@@ -187,7 +183,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>120</y>
+       <y>110</y>
        <width>231</width>
        <height>41</height>
       </rect>
@@ -212,7 +208,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>190</y>
+       <y>170</y>
        <width>231</width>
        <height>16</height>
       </rect>
@@ -225,17 +221,20 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>210</y>
+       <y>190</y>
        <width>231</width>
        <height>41</height>
       </rect>
      </property>
     </widget>
     <widget class="QLabel" name="plotLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>270</y>
+       <y>250</y>
        <width>231</width>
        <height>16</height>
       </rect>
@@ -248,7 +247,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>290</y>
+       <y>270</y>
        <width>231</width>
        <height>41</height>
       </rect>
@@ -260,13 +259,111 @@
      </item>
     </widget>
    </widget>
+   <widget class="QCheckBox" name="checkBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>521</x>
+      <y>385</y>
+      <width>191</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="whatsThis">
+     <string>Support Coming Soon!</string>
+    </property>
+    <property name="text">
+     <string notr="true">Hardware Acceleration</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>27</y>
+      <width>481</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="StepLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>420</y>
+       <width>41</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Step:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="StepValueLabel">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>420</y>
+       <width>67</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="MaxLabel">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>420</y>
+       <width>41</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Max:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="MaxValueLabel">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>420</y>
+       <width>61</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QGraphicsView" name="graphicsView">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>3</y>
+       <width>471</width>
+       <height>391</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <zorder>frame</zorder>
    <zorder>graphicViewControls</zorder>
    <zorder>graphicsLabel</zorder>
-   <zorder>graphicsView</zorder>
    <zorder>RunButton</zorder>
    <zorder>pauseButton</zorder>
    <zorder>horizontalSlider</zorder>
    <zorder>OptionButton</zorder>
+   <zorder>checkBox</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
