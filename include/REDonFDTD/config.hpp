@@ -3,6 +3,7 @@
 #pragma once
 
 #include <cmath>
+#include <array>
 
 namespace REDonFDTD {
 
@@ -13,5 +14,8 @@ namespace REDonFDTD {
     int sizeZ = 50;                                     //!< z-dimension of Mesh
     int steps = 100;                                    //!< Number of Steps
     long double timeStep = 5e-10;                       //!< Duration of each step
+    std::array<double,3> position = {25.,25.,25.};
+    std::array<double,3> velocity = {0.,0.5,0.};
+    std::array<double,3> acceleration = {0.,0.,0.};
   };
 }

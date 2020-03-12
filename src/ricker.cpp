@@ -12,10 +12,26 @@ REDonFDTD::ricker::ricker(Mesh *g, double pointspwave){
   position[1] = (static_cast<double>(g->sizeY)/2-0.05)*(g->dS);
   position[2] = (static_cast<double>(g->sizeZ)/2-0.05)*(g->dS);
   ppw = pointspwave;
-  velocity[0], velocity[1], velocity[2] = 0;
-  acceleration[0], acceleration[1], acceleration[2] = 0;
   findCell(g);
 }
+
+REDonFDTD::ricker::ricker(Mesh * g, double pointspwave, config configuration)
+  :  REDonFDTD::ricker::ricker(g, pointspwave){
+  position[0] = configuration.position[0]*(g->dS);
+  position[1] = configuration.position[1]*(g->dS);
+  position[2] = configuration.position[2]*(g->dS);
+
+  velocity[0] = configuration.velocity[0]*(g->c);
+  velocity[1] = configuration.velocity[1]*(g->c);
+  velocity[2] = configuration.velocity[2]*(g->c);
+
+  acceleration[0] = configuration.acceleration[0];
+  acceleration[1] = configuration.acceleration[1];
+  acceleration[2] = configuration.acceleration[2];
+
+  findCell(g);
+}
+
 
 void REDonFDTD::ricker::timeAdvanceValues(Mesh */*g*/){
   return;

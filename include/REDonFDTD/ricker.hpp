@@ -3,6 +3,7 @@
 #pragma once
 
 #include <array>
+#include "REDonFDTD/config.hpp"
 #include "REDonFDTD/mesh.hpp"
 #include "REDonFDTD/source.hpp"
 
@@ -11,6 +12,7 @@ namespace REDonFDTD {
   class ricker: public source {
   public:
     ricker(Mesh *g, double pointspwave);
+    ricker(Mesh *g, double pointspwave, config configuration);
     ~ricker() = default;
 
 /** @brief Advance values pertaining to ricker source

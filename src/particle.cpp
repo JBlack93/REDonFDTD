@@ -1,6 +1,7 @@
 #include <array>
 #include <algorithm>
 
+#include "REDonFDTD/config.hpp"
 #include "REDonFDTD/source.hpp"
 #include "REDonFDTD/particle.hpp"
 #include "REDonFDTD/mesh.hpp"
@@ -10,8 +11,6 @@ REDonFDTD::Particle::Particle(Mesh * g){
   prevPos[0] = (static_cast<double>(g->sizeX)/2)*(g->dS);
   prevPos[1] = (static_cast<double>(g->sizeY/2)-0.5)*(g->dS);
   prevPos[2] = (static_cast<double>(g->sizeZ/2)-0.5)*(g->dS);
-  prevVel[0], prevVel[1], prevVel[2] = 0;
-  prevAcc[0], prevAcc[1], prevAcc[2] = 0;
 
   position[0] = (static_cast<double>(g->sizeX)/2-0.05)*(g->dS);
   position[1] = (static_cast<double>(g->sizeY)/2-0.05)*(g->dS);
@@ -20,19 +19,25 @@ REDonFDTD::Particle::Particle(Mesh * g){
   velocity[0] = 0;
   velocity[1] = 0.5*(g->c);
   velocity[2] = 0;
-  acceleration[0], acceleration[1], acceleration[2] = 0;
-
-  futPos[0], futPos[1], futPos[2] = 0;
-  futVel[0], futVel[1], futVel[2] = 0;
-  futAcc[0], futAcc[1], futAcc[2] = 0;
 
   findCell(g);
+}
 
-  mass = 1.67262178*pow(10,-27);
-  charge = 1.6*pow(10,-19);
-  prevGamma = 1;
-  gamma = 1;
-  futGamma = 1;
+REDonFDTD::Particle::Particle(Mesh * g, config configuration)
+  :  REDonFDTD::Particle::Particle(g){
+  position[0] = configuration.position[0]*(g->dS);
+  position[1] = configuration.position[1]*(g->dS);
+  position[2] = configuration.position[2]*(g->dS);
+
+  velocity[0] = configuration.velocity[0]*(g->c);
+  velocity[1] = configuration.velocity[1]*(g->c);
+  velocity[2] = configuration.velocity[2]*(g->c);
+
+  acceleration[0] = configuration.acceleration[0];
+  acceleration[1] = configuration.acceleration[1];
+  acceleration[2] = configuration.acceleration[2];
+
+  findCell(g);
 }
 
 std::array<double,3> REDonFDTD::Particle::eFieldProduced(Mesh *g, double x, double y, double z){

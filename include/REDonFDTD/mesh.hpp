@@ -14,7 +14,7 @@ namespace REDonFDTD {
 
   public:
     Mesh();
-    Mesh(config meshConfig);
+    Mesh(config configuration);
     ~Mesh() = default;
 
 //! @brief Update the E-Field in the space-time Mesh

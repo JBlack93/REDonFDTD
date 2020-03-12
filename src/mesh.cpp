@@ -11,12 +11,12 @@ REDonFDTD::Mesh::Mesh(){
   return;
 }
 
-REDonFDTD::Mesh::Mesh(config meshConfig): REDonFDTD::Mesh::Mesh(){
-  sizeX = meshConfig.sizeX;
-  sizeY = meshConfig.sizeY;
-  sizeZ = meshConfig.sizeZ;
-  steps = meshConfig.steps;
-  timeStep = meshConfig.timeStep;
+REDonFDTD::Mesh::Mesh(config configuration): REDonFDTD::Mesh::Mesh(){
+  sizeX = configuration.sizeX;
+  sizeY = configuration.sizeY;
+  sizeZ = configuration.sizeZ;
+  steps = configuration.steps;
+  timeStep = configuration.timeStep;
   dS = c*timeStep;
   maxTime = steps*timeStep;
 

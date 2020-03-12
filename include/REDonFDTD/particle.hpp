@@ -2,7 +2,9 @@
  *  @brief Contains the Particle class */
 #pragma once
 #include <algorithm>
+#include <array>
 
+#include "REDonFDTD/config.hpp"
 #include "REDonFDTD/mesh.hpp"
 #include "REDonFDTD/source.hpp"
 #include "REDonFDTD/utilities.hpp"
@@ -12,7 +14,9 @@ namespace REDonFDTD {
 //! @brief Particle struct contains all necessary information for updating the position of the particle.
   class Particle: public source {
   public:
+    Particle() = delete;
     Particle(Mesh * g);
+    Particle(Mesh * g, config configuration);
     ~Particle() = default;
 
 /** @brief Update values of a particle at the end of a timestep
@@ -21,10 +25,19 @@ namespace REDonFDTD {
     void timeAdvanceValues(Mesh *g);
 
   private:
-    double charge, mass;
-    double prevGamma, gamma, futGamma;
-    std::array<double,3> prevPos,   prevVel,  prevAcc;
-    std::array<double,3> futPos,    futVel,   futAcc;
+    double charge = 1.6e-19;
+    double mass = 1.67262178e-27;
+    double prevGamma =1.;
+    double gamma =1.;
+    double futGamma=1.;
+
+    std::array<double,3> prevPos = {0.,0.,0.};
+    std::array<double,3> prevVel = {0.,0.,0.};
+    std::array<double,3> prevAcc = {0.,0.,0.};
+
+    std::array<double,3> futPos = {0.,0.,0.};
+    std::array<double,3> futVel = {0.,0.,0.};
+    std::array<double,3> futAcc = {0.,0.,0.};
 
 /** @brief Calculate gamma from a velocity
  *  @param g              Mesh particle is present in
