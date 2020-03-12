@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>358</width>
-    <height>392</height>
+    <height>426</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,14 +19,14 @@
      <x>0</x>
      <y>0</y>
      <width>361</width>
-     <height>391</height>
+     <height>421</height>
     </rect>
    </property>
    <widget class="QDialogButtonBox" name="buttonBox">
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>350</y>
+      <y>380</y>
       <width>166</width>
       <height>36</height>
      </rect>
@@ -41,11 +41,11 @@
       <x>10</x>
       <y>10</y>
       <width>341</width>
-      <height>331</height>
+      <height>361</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="MeshSetupTab">
      <attribute name="title">
@@ -171,7 +171,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>100</y>
+        <y>110</y>
         <width>331</width>
         <height>91</height>
        </rect>
@@ -268,9 +268,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>200</y>
-        <width>331</width>
-        <height>80</height>
+        <y>219</y>
+        <width>161</width>
+        <height>81</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -297,7 +297,7 @@
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>151</width>
+         <width>141</width>
          <height>37</height>
         </rect>
        </property>
@@ -308,6 +308,48 @@
        </item>
       </widget>
      </widget>
+     <widget class="QFrame" name="ExternalFieldFrame">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>220</y>
+        <width>161</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="externalLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>151</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>External Field</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>111</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Coming Soon!</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
     <widget class="QWidget" name="SourcesTab">
      <attribute name="title">
@@ -316,8 +358,8 @@
      <widget class="QComboBox" name="SourceBox">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>10</y>
+        <x>0</x>
+        <y>0</y>
         <width>126</width>
         <height>37</height>
        </rect>
@@ -337,7 +379,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>60</y>
+        <y>40</y>
         <width>331</width>
         <height>91</height>
        </rect>
@@ -361,9 +403,9 @@
       <widget class="QLabel" name="zpositionLabel">
        <property name="geometry">
         <rect>
-         <x>230</x>
+         <x>240</x>
          <y>40</y>
-         <width>91</width>
+         <width>71</width>
          <height>19</height>
         </rect>
        </property>
@@ -384,9 +426,9 @@
       <widget class="QLabel" name="ypositionLabel">
        <property name="geometry">
         <rect>
-         <x>120</x>
+         <x>130</x>
          <y>40</y>
-         <width>91</width>
+         <width>71</width>
          <height>20</height>
         </rect>
        </property>
@@ -397,9 +439,9 @@
       <widget class="QLabel" name="xpositionLabel">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>40</y>
-         <width>91</width>
+         <width>71</width>
          <height>19</height>
         </rect>
        </property>
@@ -453,7 +495,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>160</y>
+        <y>130</y>
         <width>331</width>
         <height>91</height>
        </rect>
@@ -489,9 +531,9 @@
       <widget class="QLabel" name="zvelocityLabel">
        <property name="geometry">
         <rect>
-         <x>230</x>
+         <x>240</x>
          <y>40</y>
-         <width>91</width>
+         <width>71</width>
          <height>19</height>
         </rect>
        </property>
@@ -515,12 +557,12 @@
         <double>0.010000000000000</double>
        </property>
       </widget>
-      <widget class="QLabel" name="yvelocityLabel">
+      <widget class="QLabel" name="yaccelerationLabel">
        <property name="geometry">
         <rect>
-         <x>120</x>
+         <x>130</x>
          <y>40</y>
-         <width>91</width>
+         <width>71</width>
          <height>20</height>
         </rect>
        </property>
@@ -531,9 +573,9 @@
       <widget class="QLabel" name="xvelocityLabel">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>40</y>
-         <width>91</width>
+         <width>71</width>
          <height>19</height>
         </rect>
        </property>
@@ -583,6 +625,184 @@
        </property>
       </widget>
      </widget>
+     <widget class="QFrame" name="accelerationFrame">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>220</y>
+        <width>331</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QDoubleSpinBox" name="zaccelerationBox_2">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>60</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>91</width>
+         <height>21</height>
+        </size>
+       </property>
+       <property name="suffix">
+        <string/>
+       </property>
+       <property name="singleStep">
+        <double>0.010000000000000</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="zaccelerationLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>40</y>
+         <width>101</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Z Acceleration</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="yaccelerationBox">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>60</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="suffix">
+        <string/>
+       </property>
+       <property name="singleStep">
+        <double>0.010000000000000</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="yaccelerationLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>40</y>
+         <width>101</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Y Acceleration</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="xaccelerationLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>101</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>X Acceleration</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="xaccelerationBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="wrapping">
+        <bool>false</bool>
+       </property>
+       <property name="frame">
+        <bool>false</bool>
+       </property>
+       <property name="suffix">
+        <string/>
+       </property>
+       <property name="singleStep">
+        <double>0.010000000000000</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="AccelerationLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>131</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="text">
+        <string>Acceleration Set up</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="ppwFrame">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>0</y>
+        <width>161</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QDoubleSpinBox" name="ppwBox">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>10</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="ppwLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>41</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>ppw:</string>
+       </property>
+      </widget>
+     </widget>
+     <zorder>ppwFrame</zorder>
+     <zorder>SourceBox</zorder>
+     <zorder>positionFrame</zorder>
+     <zorder>velocityFrame</zorder>
+     <zorder>accelerationFrame</zorder>
     </widget>
    </widget>
   </widget>

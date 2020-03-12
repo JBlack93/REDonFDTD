@@ -56,7 +56,6 @@ void optionwindow::on_buttonBox_accepted()
     }
 
     REDonFDTD::config tempConfig;
-    double ct = ui->timeStepBox->value()*pow(10,-10)*ui->speedLight->value();
     tempConfig.sizeX = ui->xDimBox->value();
     tempConfig.sizeY = ui->yDimBox->value();
     tempConfig.sizeZ = ui->zDimBox->value();
@@ -92,4 +91,10 @@ void optionwindow::on_yDimBox_valueChanged(int arg1)
 void optionwindow::on_zDimBox_valueChanged(int arg1)
 {
     ui->zpositionBox->setRange(0,arg1);
+}
+
+void optionwindow::on_SourceBox_currentTextChanged(const QString &arg1)
+{
+    if (arg1 == QString("Particle")) ui->ppwFrame->hide();
+    else if (arg1 == QString("ricker")) ui->ppwFrame->show();
 }

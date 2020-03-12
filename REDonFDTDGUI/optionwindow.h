@@ -29,6 +29,8 @@ private slots:
     void on_yDimBox_valueChanged(int arg1);
     void on_zDimBox_valueChanged(int arg1);
 
+    void on_SourceBox_currentTextChanged(const QString &arg1);
+
 private:
     Ui::optionwindow *ui;
 };
