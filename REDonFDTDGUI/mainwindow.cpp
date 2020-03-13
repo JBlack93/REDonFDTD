@@ -6,13 +6,11 @@
 #include <QThread>
 #include <iostream>
 
-#include "REDonFDTD/config.hpp"
-
 #include "mainwindow.h"
 #include "optionwindow.h"
 #include "ui_mainwindow.h"
 #include "fdtdcalc.h"
-
+#include "guiconfig.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -35,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     QThread * calcThread = new QThread(this);
     calc->moveToThread(calcThread);
 
-    connect(ui->RunButton, SIGNAL(clicked()),
+    connect(this, SIGNAL(run()),
               calc, SLOT(runFDTDSim()));
 
     connect(calc, SIGNAL(newPlotAvailable(int)),
@@ -44,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(calc, SIGNAL(FDTDSimCompleted()),
               this, SLOT(simFinishedAlert()));
 
-    connect(options, SIGNAL(changeConfig(REDonFDTD::config)),
-            calc, SLOT(updateConfig(REDonFDTD::config)));
+    connect(options, SIGNAL(changeConfig(config::guiConfig)),
+            calc, SLOT(updateConfig(config::guiConfig)));
 
     connect(calc, SIGNAL(signalSlider(int)),
             this, SLOT(enableSlider(int)));
@@ -57,10 +55,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::simFinishedAlert(){
     QMessageBox::information(this, "FDTDSim","Simulation Finished!\n");
 }
+
+void MainWindow::on_RunButton_clicked()
+{
+    config::guiConfig MainConfig;
+    MainConfig.component = static_cast<config::Component>(ui->componentBox->currentIndex());
+    MainConfig.plane = static_cast<config::Plane>(ui->planeBox->currentIndex());
+    MainConfig.plot = static_cast<config::PlotType>(ui->plotBox->currentIndex());
+    options->gatherConfig(MainConfig);
+    emit run();
+}
+
 
 void MainWindow::on_pauseButton_clicked()
 {

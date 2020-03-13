@@ -22,19 +22,6 @@
      <height>421</height>
     </rect>
    </property>
-   <widget class="QDialogButtonBox" name="buttonBox">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>380</y>
-      <width>166</width>
-      <height>36</height>
-     </rect>
-    </property>
-    <property name="standardButtons">
-     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
@@ -804,6 +791,19 @@
      <zorder>velocityFrame</zorder>
      <zorder>accelerationFrame</zorder>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="closeButton">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>380</y>
+      <width>104</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Close</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar">

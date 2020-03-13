@@ -1,8 +1,10 @@
 #include <QMessageBox>
 
+#include "REDonFDTD/utilities.hpp"
+
 #include "optionwindow.h"
 #include "ui_optionwindow.h"
-#include "REDonFDTD/utilities.hpp"
+#include "guiconfig.h"
 
 optionwindow::optionwindow(QWidget *parent)
     : QDialog(parent)
@@ -10,22 +12,22 @@ optionwindow::optionwindow(QWidget *parent)
 , ui(new Ui::optionwindow)
 {
     ui->setupUi(this);
-    ui->xDimBox->setRange(0,99);
-    ui->yDimBox->setRange(0,99);
-    ui->zDimBox->setRange(0,99);
-    ui->stepNumberBox->setRange(0,99);
-    ui->timeStepBox->setRange(0,99);
+    ui->xDimBox->setRange(0,100);
+    ui->yDimBox->setRange(0,100);
+    ui->zDimBox->setRange(0,100);
+    ui->stepNumberBox->setRange(0,100);
+    ui->timeStepBox->setRange(0,150);
 
     ui->xDimBox->setValue(51);
     ui->yDimBox->setValue(50);
     ui->zDimBox->setValue(50);
-    ui->stepNumberBox->setValue(50);
+    ui->stepNumberBox->setValue(100);
     ui->timeStepBox->setValue(5.0);
 
     ui->speedLight->hide();
     ui->speedLight->setValue(2.99792458e8);
 
-    ui->xpositionBox->setRange(0,50);
+    ui->xpositionBox->setRange(0,51);
     ui->ypositionBox->setRange(0,50);
     ui->zpositionBox->setRange(0,50);
 
@@ -49,36 +51,44 @@ optionwindow::~optionwindow()
     delete ui;
 }
 
-void optionwindow::on_buttonBox_accepted()
+void optionwindow::on_closeButton_clicked()
 {
     std::array<double,3> vel = {ui->xvelocityBox->value(),ui->yvelocityBox->value(),ui->zvelocityBox->value()};
     if (REDonFDTD::util::magnitude(vel) > 1) {
         QMessageBox::information(this, "Velocity Error","Source cannot be faster than speed of light!\n");
         return;
     }
-
-    REDonFDTD::config tempConfig;
-    tempConfig.sizeX = ui->xDimBox->value();
-    tempConfig.sizeY = ui->yDimBox->value();
-    tempConfig.sizeZ = ui->zDimBox->value();
-    tempConfig.steps = ui->stepNumberBox->value();
-    tempConfig.timeStep = static_cast<long double>(ui->timeStepBox->value()*pow(10,-10));
-
-    tempConfig.position[0] = ui->xpositionBox->value();
-    tempConfig.position[1] = ui->ypositionBox->value();
-    tempConfig.position[2] = ui->zpositionBox->value();
-
-    tempConfig.velocity[0] = ui->xvelocityBox->value();
-    tempConfig.velocity[1] = ui->yvelocityBox->value();
-    tempConfig.velocity[2] = ui->zvelocityBox->value();
-    emit changeConfig(tempConfig);
     this->close();
 }
 
-void optionwindow::on_buttonBox_rejected()
-{
-    this->close();
+void optionwindow::gatherConfig(config::guiConfig MainConfig){
+    std::array<double,3> vel = {ui->xvelocityBox->value(),ui->yvelocityBox->value(),ui->zvelocityBox->value()};
+    if (REDonFDTD::util::magnitude(vel) > 1) {
+        QMessageBox::information(this, "Velocity Error","Source cannot be faster than speed of light!\n");
+        return;
+    }
+
+    MainConfig.sizeX = ui->xDimBox->value();
+    MainConfig.sizeY = ui->yDimBox->value();
+    MainConfig.sizeZ = ui->zDimBox->value();
+    MainConfig.steps = ui->stepNumberBox->value();
+    MainConfig.timeStep = static_cast<long double>(ui->timeStepBox->value()*pow(10,-10));
+
+    MainConfig.position[0] = ui->xpositionBox->value();
+    MainConfig.position[1] = ui->ypositionBox->value();
+    MainConfig.position[2] = ui->zpositionBox->value();
+
+    MainConfig.velocity[0] = ui->xvelocityBox->value();
+    MainConfig.velocity[1] = ui->yvelocityBox->value();
+    MainConfig.velocity[2] = ui->zvelocityBox->value();
+
+    MainConfig.source = static_cast<config::SourceType>(ui->SourceBox->currentIndex());
+
+    MainConfig.ppw = ui->ppwBox->value();
+
+    emit changeConfig(MainConfig);
 }
+
 
 void optionwindow::on_xDimBox_valueChanged(int arg1)
 {

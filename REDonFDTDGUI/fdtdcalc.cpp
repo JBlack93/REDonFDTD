@@ -7,8 +7,11 @@
 #include "REDonFDTD/particle.hpp"
 #include "REDonFDTD/EMfunctions.hpp"
 #include "REDonFDTD/output.hpp"
+
 #include "gnuplot/gnuplot.hpp"
+
 #include "fdtdcalc.h"
+#include "guiconfig.h"
 
 FDTDCalc::FDTDCalc(QObject *parent) : QObject(parent)
 {
@@ -41,7 +44,7 @@ void FDTDCalc::runFDTDSim(){
     emit FDTDSimCompleted();
 }
 
-void FDTDCalc::updateConfig(REDonFDTD::config tempConfig){
+void FDTDCalc::updateConfig(config::guiConfig tempConfig){
     meshConfig = tempConfig;
 }
 

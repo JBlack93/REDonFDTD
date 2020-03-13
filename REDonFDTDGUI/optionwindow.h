@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-#include "REDonFDTD/config.hpp"
+#include "guiconfig.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class optionwindow; }
@@ -17,19 +17,17 @@ public:
     optionwindow(QWidget *parent = nullptr);
     ~optionwindow();
 
+    void gatherConfig(config::guiConfig MainConfig);
+
 signals:
-    void changeConfig(REDonFDTD::config tempConfig);
+    void changeConfig(config::guiConfig tempConfig);
 
 private slots:
-    void on_buttonBox_accepted();
-
-    void on_buttonBox_rejected();
-
     void on_xDimBox_valueChanged(int arg1);
     void on_yDimBox_valueChanged(int arg1);
     void on_zDimBox_valueChanged(int arg1);
-
     void on_SourceBox_currentTextChanged(const QString &arg1);
+    void on_closeButton_clicked();
 
 private:
     Ui::optionwindow *ui;

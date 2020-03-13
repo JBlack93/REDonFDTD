@@ -7,9 +7,12 @@
 #include <QPushButton>
 #include <QThread>
 #include <QGraphicsPixmapItem>
-#include "optionwindow.h"
+
 #include "REDonFDTD/mesh.hpp"
+
+#include "optionwindow.h"
 #include "fdtdcalc.h"
+#include "guiconfig.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,12 +27,16 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_RunButton_clicked();
     void on_pauseButton_clicked();
     void updateGraphicsView(int step);
     void simFinishedAlert();
     void on_OptionButton_clicked();
     void enableSlider(int steps);
     void on_horizontalSlider_valueChanged(int position);
+
+signals:
+    void run();
 
 private:
     Ui::MainWindow *ui;

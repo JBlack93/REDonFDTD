@@ -2,11 +2,13 @@
 #define FDTDCALC_H
 
 #include <QObject>
+#include <memory>
+
 #include "REDonFDTD/mesh.hpp"
 #include "REDonFDTD/particle.hpp"
-#include "REDonFDTD/config.hpp"
 
-#include <memory>
+#include "guiconfig.h"
+
 
 class FDTDCalc : public QObject
 {
@@ -14,11 +16,11 @@ class FDTDCalc : public QObject
 public:
     explicit FDTDCalc(QObject *parent);
 
-    REDonFDTD::config meshConfig;
+    config::guiConfig meshConfig;
 
 public slots:
      void runFDTDSim();
-     void updateConfig(REDonFDTD::config tempConfig);
+     void updateConfig(config::guiConfig tempConfig);
 
 signals:
      void newPlotAvailable(int step);

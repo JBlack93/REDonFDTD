@@ -23,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     fdtdcalc.h \
+    guiconfig.h \
     mainwindow.h \
     optionwindow.h
 
