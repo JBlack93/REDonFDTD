@@ -2,6 +2,7 @@
  *  @brief Header file with all EM function declarations */
 
 #include <array>
+#include "REDonFDTD/source.hpp"
 #include "REDonFDTD/particle.hpp"
 #include "REDonFDTD/mesh.hpp"
 
@@ -11,5 +12,5 @@ namespace REDonFDTD {
  *  @param p        Particle to be advanced
  *  @param g        Mesh to be advanced
  */
-  void halfTimeStep(Particle *p, Mesh *g);
+  void halfTimeStep(source *p, Mesh *g);
 }

@@ -7,7 +7,7 @@
 
 /* ELECTROMAGNETIC EFFECTS */
 
-void REDonFDTD::halfTimeStep(Particle *p, Mesh *g){
+void REDonFDTD::halfTimeStep(source *p, Mesh *g){
   g->time += g->timeStep/2;
   p->timeAdvanceValues(g);
 }

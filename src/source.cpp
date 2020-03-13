@@ -3,10 +3,17 @@
 
 #include "REDonFDTD/source.hpp"
 #include "REDonFDTD/mesh.hpp"
-
+#include "REDonFDTD/particle.hpp"
+#include "REDonFDTD/ricker.hpp"
 
 REDonFDTD::source::source(Mesh *g){
   findCell(g);
+}
+
+REDonFDTD::source * REDonFDTD::source::Create(Mesh *g, config configuration, sourceType Type){
+    if (Type == src_Particle)   return new REDonFDTD::Particle(g, configuration);
+    if (Type == src_ricker)     return new REDonFDTD::ricker(g, configuration);
+    else return NULL;
 }
 
 void REDonFDTD::source::findCell(Mesh *g){

@@ -8,12 +8,17 @@
 
 namespace REDonFDTD {
 
+  enum sourceType: int {
+    src_Particle=0, src_ricker=1
+  };
+
 //! @brief Generic abstract virtual source class.
   class source {
   public:
     source() = default;
     source(Mesh *g);
     ~source() = default;
+    static source * Create(Mesh *g, config configuration, sourceType Type);
 
 /** @brief Calculate effect source has on neighbouring Mesh Points
  *  @param g        Mesh upon which the source's effects are felt
