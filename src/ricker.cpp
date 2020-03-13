@@ -11,6 +11,9 @@ REDonFDTD::ricker::ricker(Mesh *g, double pointspwave){
   position[0] = (static_cast<double>(g->sizeX)/2-0.05)*(g->dS);
   position[1] = (static_cast<double>(g->sizeY)/2-0.05)*(g->dS);
   position[2] = (static_cast<double>(g->sizeZ)/2-0.05)*(g->dS);
+  velocity[0], velocity[1], velocity[2] = 0;
+  acceleration[0], acceleration[1], acceleration[2] = 0;
+
   ppw = pointspwave;
   findCell(g);
 }

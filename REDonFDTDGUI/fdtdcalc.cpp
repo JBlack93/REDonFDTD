@@ -37,8 +37,17 @@ void FDTDCalc::runFDTDSim(){
       output(g.get());
       this->Plot(g.get(), calcConfig, fileSt);
       emit newPlotAvailable(step);
+      if (cancelled) {
+        cancelled = false;
+        emit FDTDSimCancelled();
+        return;
+      }
    }                               // end of time-stepping
-    emit FDTDSimCompleted();
+   emit FDTDSimCompleted();
+}
+
+void FDTDCalc::cancel(){
+    cancelled = true;
 }
 
 void FDTDCalc::updateConfig(config::guiConfig tempConfig){

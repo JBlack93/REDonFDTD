@@ -31,13 +31,13 @@ namespace REDonFDTD {
     double gamma =1.;
     double futGamma=1.;
 
-    std::array<double,3> prevPos = {0.,0.,0.};
-    std::array<double,3> prevVel = {0.,0.,0.};
-    std::array<double,3> prevAcc = {0.,0.,0.};
+    std::array<double,3> prevPos;
+    std::array<double,3> prevVel;
+    std::array<double,3> prevAcc;
 
-    std::array<double,3> futPos = {0.,0.,0.};
-    std::array<double,3> futVel = {0.,0.,0.};
-    std::array<double,3> futAcc = {0.,0.,0.};
+    std::array<double,3> futPos;
+    std::array<double,3> futVel;
+    std::array<double,3> futAcc;
 
 /** @brief Calculate gamma from a velocity
  *  @param g              Mesh particle is present in

@@ -34,9 +34,11 @@ private slots:
     void on_OptionButton_clicked();
     void enableSlider(int steps);
     void on_horizontalSlider_valueChanged(int position);
+    void cancelSuccessful();
 
 signals:
     void run();
+    void cancelRequest();
 
 private:
     Ui::MainWindow *ui;
@@ -45,5 +47,7 @@ private:
     QGraphicsPixmapItem* item;
     FDTDCalc * calc = new FDTDCalc(this);
     config::guiConfig currentRunConfig;
+    QThread * calcThread = new QThread(this);
+
 };
 #endif // MAINWINDOW_H

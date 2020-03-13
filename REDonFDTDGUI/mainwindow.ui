@@ -40,7 +40,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Pause/Resume</string>
+     <string>Stop</string>
     </property>
    </widget>
    <widget class="QToolButton" name="OptionButton">
@@ -354,6 +354,29 @@
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
+    <widget class="QFrame" name="graphicsRect">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>461</width>
+       <height>381</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <zorder>graphicsRect</zorder>
+    <zorder>StepLabel</zorder>
+    <zorder>StepValueLabel</zorder>
+    <zorder>MaxLabel</zorder>
+    <zorder>MaxValueLabel</zorder>
+    <zorder>graphicsView</zorder>
+    <zorder>horizontalSlider</zorder>
    </widget>
    <zorder>frame</zorder>
    <zorder>graphicViewControls</zorder>

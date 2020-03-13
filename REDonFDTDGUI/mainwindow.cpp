@@ -18,16 +18,22 @@ MainWindow::MainWindow(QWidget *parent)
 , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->graphicsRect->hide();
 
-    this->scene->setSceneRect(ui->graphicsView->rect());
+    this->scene->setSceneRect(ui->graphicsRect->rect());
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
 
-    QThread * calcThread = new QThread(this);
     calc->moveToThread(calcThread);
 
     connect(this, SIGNAL(run()),
               calc, SLOT(runFDTDSim()));
+
+    connect(this, SIGNAL(cancelRequest()),
+              calc, SLOT(cancel()));
+
+    connect(calc, SIGNAL(FDTDSimCancelled()),
+              this, SLOT(cancelSuccessful()));
 
     connect(calc, SIGNAL(newPlotAvailable(int)),
               this, SLOT(updateGraphicsView(int)));
@@ -47,6 +53,11 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::cancelSuccessful(){
+    QMessageBox::information(this, "FDTDSim","Simulation Stopped Successfully!\n");
+}
+
 
 void MainWindow::simFinishedAlert(){
     QMessageBox::information(this, "FDTDSim","Simulation Finished!\n");
@@ -71,7 +82,7 @@ void MainWindow::on_RunButton_clicked()
 
 void MainWindow::on_pauseButton_clicked()
 {
-    QMessageBox::information(this, "Title","This functionality is yet to be implemented\n");
+    emit cancelRequest();
 }
 
 void MainWindow::on_OptionButton_clicked()
@@ -85,7 +96,7 @@ void MainWindow::updateGraphicsView(int step){
     QString file = "output/"+component+plane+QString::number(step)+".png";
     QPixmap tmpmap (file, 0, Qt::AutoColor);
     ui->horizontalSlider->setSliderPosition(step);
-    item = scene->addPixmap( tmpmap.scaled (ui->graphicsView->width(), ui->graphicsView->height()) );
+    item = scene->addPixmap( tmpmap.scaled (ui->graphicsRect->width(), ui->graphicsRect->height()) );
     scene->update();
     QApplication::processEvents();
 }

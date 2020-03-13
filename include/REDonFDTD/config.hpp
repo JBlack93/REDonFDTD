@@ -15,8 +15,8 @@ namespace REDonFDTD {
     int steps = 100;                                    //!< Number of Steps
     long double timeStep = 5e-10;                       //!< Duration of each step
     double ppw = 15.;
-    std::array<double,3> position = {25.,25.,25.};
-    std::array<double,3> velocity = {0.,0.5,0.};
-    std::array<double,3> acceleration = {0.,0.,0.};
+    std::array<double,3> position;
+    std::array<double,3> velocity;
+    std::array<double,3> acceleration;
   };
 }
