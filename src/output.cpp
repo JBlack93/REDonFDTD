@@ -136,7 +136,7 @@ void REDonFDTD::writeHMagXY(Mesh *g, int mode){
   filename.append(std::to_string(step));
   filename.append(".txt");
   for (int mm = 0; mm < g->sizeX - 1; ++mm){
-    for (int nn = 0; nn < g->sizeY; ++nn){
+    for (int nn = 0; nn < g->sizeY -1; ++nn){
         std::array<double,3> hField{g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+zcoord],
                                    g->hy[(mm*(g->sizeY)+nn)*(g->sizeZ-1)+zcoord],
                                    g->hz[(mm*(g->sizeY-1)+nn)*(g->sizeZ)+zcoord]};
