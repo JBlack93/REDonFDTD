@@ -62,6 +62,7 @@ void MainWindow::on_RunButton_clicked()
     MainConfig.component = static_cast<config::Component>(ui->componentBox->currentIndex());
     MainConfig.plane = static_cast<config::Plane>(ui->planeBox->currentIndex());
     MainConfig.plot = static_cast<config::PlotType>(ui->plotBox->currentIndex());
+    MainConfig.interpolate = (! ui->interpCheckBox->isChecked());
     options->gatherConfig(MainConfig);
     currentRunConfig = MainConfig;
     emit run();

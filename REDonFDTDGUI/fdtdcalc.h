@@ -30,7 +30,7 @@ signals:
      void signalSlider(int steps);
 
 private:
-     void Plot(REDonFDTD::Mesh * g, std::string filename);
+     void Plot(REDonFDTD::Mesh * g, config::guiConfig calcConfig, std::string filename);
 };
 
 #endif // FDTDCALC_H

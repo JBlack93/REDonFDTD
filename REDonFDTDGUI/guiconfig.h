@@ -25,6 +25,7 @@ namespace config {
         Component component = Ex;
         Plane plane = XY;
         PlotType plot = HeatMap;
+        bool interpolate = true;
     };
 
 

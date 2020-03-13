@@ -74,9 +74,9 @@ void optionwindow::gatherConfig(config::guiConfig MainConfig){
     MainConfig.steps = ui->stepNumberBox->value();
     MainConfig.timeStep = static_cast<long double>(ui->timeStepBox->value()*pow(10,-10));
 
-    MainConfig.position[0] = ui->xpositionBox->value();
-    MainConfig.position[1] = ui->ypositionBox->value();
-    MainConfig.position[2] = ui->zpositionBox->value();
+    MainConfig.position[0] = ui->xpositionBox->value()-0.25;
+    MainConfig.position[1] = ui->ypositionBox->value()-0.25;
+    MainConfig.position[2] = ui->zpositionBox->value()-0.25;
 
     MainConfig.velocity[0] = ui->xvelocityBox->value();
     MainConfig.velocity[1] = ui->yvelocityBox->value();

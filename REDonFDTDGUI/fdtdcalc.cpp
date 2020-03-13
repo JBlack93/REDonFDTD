@@ -35,7 +35,7 @@ void FDTDCalc::runFDTDSim(){
       const int step = static_cast<int>(g->time/g->timeStep);
       std::string fileSt = calcConfig.getComponent()+calcConfig.getPlane()+std::to_string(step);
       output(g.get());
-      this->Plot(g.get(), fileSt);
+      this->Plot(g.get(), calcConfig, fileSt);
       emit newPlotAvailable(step);
    }                               // end of time-stepping
     emit FDTDSimCompleted();
@@ -75,18 +75,19 @@ void FDTDCalc::output(REDonFDTD::Mesh *g){
 }
 
 
-void FDTDCalc::Plot(REDonFDTD::Mesh * g, std::string filename){
+void FDTDCalc::Plot(REDonFDTD::Mesh * g, config::guiConfig calcConfig, std::string filename){
     gnuplot::GnuplotPipe gp;
     gp.sendLine("set terminal pngcairo");
     gp.sendLine("set view map");
-    std::string plotType = "set dgrid3d "+std::to_string(g->sizeX/4)+","+
-            std::to_string(g->sizeY/4)+","+std::to_string(g->dS*g->sizeX);
+    std::string plotType = "set dgrid3d "+std::to_string(g->sizeX)+","+
+            std::to_string(g->sizeY)+","+std::to_string(g->dS*g->sizeX);
     gp.sendLine(plotType);
     gp.sendLine("set cbrange [-5e-11:5e-11]");
     gp.sendLine("set cblabel ''");
     std::string output = "set output 'output/"+filename+".png'";
     gp.sendLine(output);
     std::string plot = "splot 'output/"+filename+".txt' using  1:2:3 with pm3";
+    if (calcConfig.interpolate)  gp.sendLine("set pm3d interpolate 15,15");
     gp.sendLine("set autoscale xfix; set autoscale yfix");
     gp.sendLine(plot);
     gp.sendLine("exit gnuplot");
