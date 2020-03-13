@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     REDonFDTDGUI.cpp \
     fdtdcalc.cpp \
+    guiconfig.cpp \
     mainwindow.cpp \
     optionwindow.cpp
 

@@ -82,7 +82,7 @@ void optionwindow::gatherConfig(config::guiConfig MainConfig){
     MainConfig.velocity[1] = ui->yvelocityBox->value();
     MainConfig.velocity[2] = ui->zvelocityBox->value();
 
-    MainConfig.source = static_cast<config::SourceType>(ui->SourceBox->currentIndex());
+    MainConfig.source = static_cast<REDonFDTD::sourceType>(ui->SourceBox->currentIndex());
 
     MainConfig.ppw = ui->ppwBox->value();
 

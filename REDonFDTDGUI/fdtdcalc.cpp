@@ -20,19 +20,17 @@ FDTDCalc::FDTDCalc(QObject *parent) : QObject(parent)
 
 void FDTDCalc::runFDTDSim(){
     std::unique_ptr<REDonFDTD::Mesh> g = std::make_unique<REDonFDTD::Mesh>(meshConfig);
-    std::unique_ptr<REDonFDTD::Particle> p = std::make_unique<REDonFDTD::Particle>(g.get(), meshConfig);
+    REDonFDTD::source * runSource = meshConfig.getSource(g.get());
     emit signalSlider(g->steps);
-
     /* do time stepping */
     for (g->time = 0; g->time < g->maxTime;){
-      g->updateH();                 // update magnetic fields in mesh
-      halfTimeStep(p.get(), g.get());
-      g->updateE();                 // update electric fields in mesh
-      halfTimeStep(p.get(), g.get());
-      p->sourceFunction(g.get());   // produce effects of source on local fields.
+      g->updateH();                         // update magnetic fields in mesh
+      halfTimeStep(runSource, g.get());
+      g->updateE();                         // update electric fields in mesh
+      halfTimeStep(runSource, g.get());
+      runSource->sourceFunction(g.get());   // produce effects of source on local fields.
 
-      g->updateABC();               // apply ABCs
-
+      g->updateABC();                       // apply ABCs
 
       const int step = static_cast<int>(g->time/g->timeStep);
       std::string fileSt = "Ex";

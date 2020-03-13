@@ -19,10 +19,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    QString filename = "/home/black/projects/REDonFDTD/REDonFDTDGUI/Ex1.png";
-
-    QPixmap tmpmap (filename, 0, Qt::AutoColor);
-    this->item = scene->addPixmap ( tmpmap.scaled (ui->graphicsView->width(), ui->graphicsView->height()) );
     this->scene->setSceneRect(ui->graphicsView->rect());
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
