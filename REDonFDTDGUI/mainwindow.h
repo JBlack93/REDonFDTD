@@ -44,5 +44,6 @@ private:
     QGraphicsScene * scene = new QGraphicsScene();
     QGraphicsPixmapItem* item;
     FDTDCalc * calc = new FDTDCalc(this);
+    config::guiConfig currentRunConfig;
 };
 #endif // MAINWINDOW_H

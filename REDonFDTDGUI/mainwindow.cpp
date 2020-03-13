@@ -19,9 +19,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    for (int i = 0; i<100; ++i){
-        ui->timeBox->addItem("Step "+ QString::number(i+1));
-    }
     QString filename = "/home/black/projects/REDonFDTD/REDonFDTDGUI/Ex1.png";
 
     QPixmap tmpmap (filename, 0, Qt::AutoColor);
@@ -66,6 +63,7 @@ void MainWindow::on_RunButton_clicked()
     MainConfig.plane = static_cast<config::Plane>(ui->planeBox->currentIndex());
     MainConfig.plot = static_cast<config::PlotType>(ui->plotBox->currentIndex());
     options->gatherConfig(MainConfig);
+    currentRunConfig = MainConfig;
     emit run();
 }
 
