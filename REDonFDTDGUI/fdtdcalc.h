@@ -16,11 +16,13 @@ class FDTDCalc : public QObject
 public:
     explicit FDTDCalc(QObject *parent);
 
-    config::guiConfig meshConfig;
+    config::guiConfig calcConfig;
+    void output(REDonFDTD::Mesh * g);
 
 public slots:
      void runFDTDSim();
      void updateConfig(config::guiConfig tempConfig);
+
 
 signals:
      void newPlotAvailable(int step);
@@ -28,7 +30,7 @@ signals:
      void signalSlider(int steps);
 
 private:
-     void Plot(REDonFDTD::Mesh * g, std::string filename, int step);
+     void Plot(REDonFDTD::Mesh * g, std::string filename);
 };
 
 #endif // FDTDCALC_H

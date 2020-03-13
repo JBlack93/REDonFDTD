@@ -54,6 +54,10 @@ void MainWindow::simFinishedAlert(){
 
 void MainWindow::on_RunButton_clicked()
 {
+    if (ui->planeBox->currentIndex() != 0) {
+        QMessageBox::information(this, "Plane Error", "Currently only XY plane can be outputted.");
+        return;
+    }
     config::guiConfig MainConfig;
     MainConfig.component = static_cast<config::Component>(ui->componentBox->currentIndex());
     MainConfig.plane = static_cast<config::Plane>(ui->planeBox->currentIndex());
@@ -75,7 +79,9 @@ void MainWindow::on_OptionButton_clicked()
 }
 
 void MainWindow::updateGraphicsView(int step){
-    QString file = "output/Ex"+QString::number(step)+".png";
+    QString component = QString::fromStdString(currentRunConfig.getComponent());
+    QString plane = QString::fromStdString(currentRunConfig.getPlane());
+    QString file = "output/"+component+plane+QString::number(step)+".png";
     QPixmap tmpmap (file, 0, Qt::AutoColor);
     ui->horizontalSlider->setSliderPosition(step);
     item = scene->addPixmap( tmpmap.scaled (ui->graphicsView->width(), ui->graphicsView->height()) );
