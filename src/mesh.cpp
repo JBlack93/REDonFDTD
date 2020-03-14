@@ -8,6 +8,9 @@ REDonFDTD::Mesh::Mesh(){
   std::filesystem::remove_all( "output" );
   std::filesystem::create_directory("output");
   abccoef = (cdtds - 1.0) / (cdtds + 1.0);
+  ExB[0] = 5;
+  ExB[1] = 0;
+  ExB[2] = 0;
   return;
 }
 
@@ -58,6 +61,8 @@ REDonFDTD::Mesh::Mesh(config configuration): REDonFDTD::Mesh::Mesh(){
   eyz0.resize(sizeX*(sizeY-1));
   exz1.resize((sizeX-1)*sizeY);
   eyz1.resize(sizeX*(sizeY-1));
+
+  ExB = configuration.ExB;
 }
 
 /* update magnetic field */

@@ -81,6 +81,9 @@ namespace REDonFDTD {
     std::vector<double> eyz0 = std::vector<double>(sizeX*(sizeY-1));
     std::vector<double> exz1 = std::vector<double>((sizeX-1)*sizeY);
     std::vector<double> eyz1 = std::vector<double>(sizeX*(sizeY-1));
-  };
 
+
+  /** @brief External B field in Mesh */
+  std::array<double,3> ExB;
+  };
 }

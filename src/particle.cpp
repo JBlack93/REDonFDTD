@@ -119,13 +119,13 @@ std::array<double,3> REDonFDTD::Particle::lorentzForce(Mesh *g){
 
   bField[0] = g->hx[(static_cast<int>(futPos[0]/(g->dS))*(g->sizeY-1)+
                      static_cast<int>(futPos[1]/(g->dS))*(g->sizeZ-1)+
-                     static_cast<int>(futPos[2]/(g->dS)))]+5;
+                     static_cast<int>(futPos[2]/(g->dS)))]+g->ExB[0];
   bField[1] = g->hy[(static_cast<int>(futPos[0]/(g->dS))*(g->sizeY)+
                      static_cast<int>(futPos[1]/(g->dS))*(g->sizeZ-1)+
-                     static_cast<int>(futPos[2]/(g->dS)))];
+                     static_cast<int>(futPos[2]/(g->dS)))]+g->ExB[1];
   bField[2] = g->hz[(static_cast<int>(futPos[0]/(g->dS))*(g->sizeY-1)+
                      static_cast<int>(futPos[1]/(g->dS))*(g->sizeZ)+
-                     static_cast<int>(futPos[2]/(g->dS)))];
+                     static_cast<int>(futPos[2]/(g->dS)))]+g->ExB[2];
 
   std::array<double,3> crossProduct = util::cross(futVel, bField);
   std::for_each(crossProduct.begin(), crossProduct.end(),
