@@ -195,6 +195,7 @@ void REDonFDTD::writeHField(Mesh *g, int mode){
 void REDonFDTD::Plot(Mesh *g){
   gnuplot::GnuplotPipe gp;
   const int step = static_cast<int>(g->time/g->timeStep);
+  gp.sendLine("set terminal pngcairo");
   gp.sendLine("set view map");
   std::string plotType = "set dgrid3d ";
   ((((plotType.append(std::to_string(g->sizeX/4))).append(",")).append(std::to_string(g->sizeY/4))).append(",")).append(std::to_string(g->dS*g->sizeX));
