@@ -44,6 +44,8 @@ optionwindow::optionwindow(QWidget *parent)
     ui->zvelocityBox->setValue(0.0);
 
     ui->ppwBox->setValue(15.0);
+
+    ui->analyticRangeBox->setRange(0,9);
 }
 
 optionwindow::~optionwindow()
@@ -89,6 +91,8 @@ void optionwindow::gatherConfig(config::guiConfig MainConfig){
     MainConfig.ExB[2] = ui->ExBzSpinBox->value();
 
     MainConfig.ppw = ui->ppwBox->value();
+
+    MainConfig.analyticRange = ui->analyticRangeBox->value();
 
     emit changeConfig(MainConfig);
 }

@@ -28,7 +28,7 @@ void FDTDCalc::runFDTDSim(){
       halfTimeStep(runSource, g.get());
       g->updateE();                         // update electric fields in mesh
       halfTimeStep(runSource, g.get());
-      runSource->sourceFunction(g.get());   // produce effects of source on local fields.
+      runSource->sourceFunction(g.get(), calcConfig.analyticRange);   // produce effects of source on local fields.
 
       g->updateABC();                       // apply ABCs
 

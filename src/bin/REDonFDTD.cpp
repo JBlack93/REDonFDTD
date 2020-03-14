@@ -21,7 +21,7 @@ int main(){
     halfTimeStep(p.get(), g.get());
     g->updateE();                 // update electric fields in mesh
     //halfTimeStep(p.get(), g.get());
-    p->sourceFunction(g.get());   // produce effects of source on local fields.
+    p->sourceFunction(g.get(),0);   // produce effects of source on local fields.
 
     g->updateABC();               // apply ABCs
     writeExXY(g.get(),1);           // take a slice

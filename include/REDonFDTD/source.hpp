@@ -21,9 +21,11 @@ namespace REDonFDTD {
     static source * Create(Mesh *g, config configuration, sourceType Type);
 
 /** @brief Calculate effect source has on neighbouring Mesh Points
- *  @param g        Mesh upon which the source's effects are felt
+ *  @param g                 Mesh upon which the source's effects are felt
+ *  @param analyticRange     Range for which sources effect calculated analytically
  */
-    void sourceFunction(Mesh *g);
+    void sourceFunction(Mesh *g, int analyticRange);
+
 
 /** @brief Update values of a source at the end of a timestep
  *  @param g        Mesh in which particle lives

@@ -26,6 +26,7 @@ namespace config {
         Plane plane = XY;
         PlotType plot = HeatMap;
         bool interpolate = true;
+        int analyticRange = 0;
     };
 
 
