@@ -17,7 +17,6 @@ jobs:
             - gnuplot
             - build-essential
             - libgl1-mesa-dev
-            - git-lfs
     - os: linux
       dist: bionic
       compiler: clang
@@ -32,7 +31,6 @@ jobs:
             - gnuplot
             - build-essential
             - libgl1-mesa-dev
-            - git-lfs
     - os: osx
       compiler: clang
       addons:
@@ -42,7 +40,6 @@ jobs:
             - glib
             - gettext
             - pkg-config
-            - git-lfs
             - llvm@9
     - os: osx
       compiler: gcc
@@ -53,15 +50,12 @@ jobs:
             - glib
             - gettext
             - pkg-config
-            - git-lfs
             - gcc@9
   allow_failures:
     - os: osx
     - compiler: clang
 
 before_install:
-  # pull lfs files
-  - git lfs pull
   # first we create a directory for the CMake binaries
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}

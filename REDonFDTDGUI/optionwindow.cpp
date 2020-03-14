@@ -84,6 +84,10 @@ void optionwindow::gatherConfig(config::guiConfig MainConfig){
 
     MainConfig.source = static_cast<REDonFDTD::sourceType>(ui->SourceBox->currentIndex());
 
+    MainConfig.ExB[0] = ui->ExBxSpinBox->value();
+    MainConfig.ExB[1] = ui->ExBySpinBox->value();
+    MainConfig.ExB[2] = ui->ExBzSpinBox->value();
+
     MainConfig.ppw = ui->ppwBox->value();
 
     emit changeConfig(MainConfig);
