@@ -23,6 +23,11 @@ double REDonFDTD::util::dot(std::array<double,3> array1, std::array<double,3> ar
   return dotProduct;
 }
 
+double REDonFDTD::util::theta(std::array<double,3> array1, std::array<double,3> array2){
+  const double cos=dot(array1, array2)/(magnitude(array1)*REDonFDTD::util::magnitude(array2));
+  return acos(cos);
+}
+
 double REDonFDTD::util::magnitude(std::array<double,3> a){
   const double mag = std::sqrt(dot(a,a));
   return mag;

@@ -29,5 +29,7 @@ namespace REDonFDTD {
  *  @returns     Magnitude of a (|a|)
  */
     double magnitude(std::array<double,3> a);
+
+    double theta(std::array<double,3> array1, std::array<double,3> array2);
   }
 }
