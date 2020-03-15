@@ -45,7 +45,8 @@ optionwindow::optionwindow(QWidget *parent)
 
     ui->ppwBox->setValue(15.0);
 
-    ui->analyticRangeBox->setRange(0,9);
+    ui->analyticRangeBox->setRange(0,15);
+    ui->analyticRangeBox->setValue(5);
 }
 
 optionwindow::~optionwindow()

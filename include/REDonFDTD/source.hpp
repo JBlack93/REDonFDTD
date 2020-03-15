@@ -26,7 +26,6 @@ namespace REDonFDTD {
  */
     void sourceFunction(Mesh *g, int analyticRange);
 
-
 /** @brief Update values of a source at the end of a timestep
  *  @param g        Mesh in which particle lives
  */
@@ -44,6 +43,14 @@ namespace REDonFDTD {
 /** @brief Calculate the 6 points on the axes which give closest grid points
  */
     void findCell(Mesh *g);
+
+/** @brief Calculate field produced by constant velocity particle (see Eq 4.12 Thesis)
+ *  @param g        Mesh upon which the particle's effects are felt
+ *  @param x        x-position of grid point
+ *  @param y        y-position of grid point
+ *  @param z        z-position of grid point
+ */
+    virtual std::array<double,3> velocityEField(Mesh *g, double x, double y, double z);
 
 /** @brief Calculate the E-Field produced by source on a particular point in S-T
  *  @param g        Mesh upon which the particle's effects are felt

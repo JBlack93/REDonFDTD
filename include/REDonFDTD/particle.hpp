@@ -57,6 +57,14 @@ namespace REDonFDTD {
  */
     std::array<double,3> lorentzForce(Mesh *g);
 
+/** @brief Calculate field produced by constant velocity particle (see Eq 4.12 Thesis)
+ *  @param g        Mesh upon which the particle's effects are felt
+ *  @param x        x-position of grid point
+ *  @param y        y-position of grid point
+ *  @param z        z-position of grid point
+ */
+    std::array<double,3> velocityEField(Mesh *g, double x, double y, double z);
+
 /** @brief Calculate the E-Field produced by Particle on a particular point in S-T
  *  @param g        Mesh upon which the particle's effects are felt
  *  @param x        x-position of grid point

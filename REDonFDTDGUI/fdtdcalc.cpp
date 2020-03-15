@@ -25,11 +25,11 @@ void FDTDCalc::runFDTDSim(){
     emit signalSlider(g->steps);
     /* do time stepping */
     for (g->time = 0; g->time < g->maxTime;){
+      runSource->sourceFunction(g.get(), calcConfig.analyticRange);   // produce effects of source on local fields.
       g->updateH();                         // update magnetic fields in mesh
       halfTimeStep(runSource, g.get());
       g->updateE();                         // update electric fields in mesh
       halfTimeStep(runSource, g.get());
-      runSource->sourceFunction(g.get(), calcConfig.analyticRange);   // produce effects of source on local fields.
 
       const int step = static_cast<int>(g->time/g->timeStep);
       std::string fileSt = calcConfig.getComponent()+calcConfig.getPlane()+std::to_string(step);

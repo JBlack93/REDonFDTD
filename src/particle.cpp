@@ -38,6 +38,23 @@ REDonFDTD::Particle::Particle(Mesh * g, config configuration)
   findCell(g);
 }
 
+std::array<double,3> REDonFDTD::Particle::velocityEField(Mesh *g, double x, double y, double z){
+  const std::array<double,3> R{x*(g->dS)-position[0], y*(g->dS)-position[1], z*(g->dS)-position[2]};
+
+  const double prefactor = (charge)/(4*M_PI*(g->epsilon_0));
+  const double vMag = util::magnitude(velocity);
+  const double theta = util::theta(velocity, R);
+
+  const double velFactor = (1 - pow(vMag/g->c,2)) / pow((1 - pow(vMag*sin(theta)/g->c,2)),1.5);
+
+  const double RMag = util::magnitude(R); // Current values, as required
+  std::array<double,3> velEField{prefactor*velFactor*R[0]/pow(RMag,3),
+                                 prefactor*velFactor*R[1]/pow(RMag,3),
+                                 prefactor*velFactor*R[2]/pow(RMag,3)};
+
+  return velEField;
+}
+
 std::array<double,3> REDonFDTD::Particle::eFieldProduced(Mesh *g, double x, double y, double z){
   const std::array<double,3> gToSource{x*(g->dS)-position[0], y*(g->dS)-position[1], z*(g->dS)-position[2]};
 

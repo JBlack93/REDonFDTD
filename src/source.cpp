@@ -25,13 +25,17 @@ void REDonFDTD::source::findCell(Mesh *g){
   coordinates[5] = ceil(position[2]/(g->dS));     // which the particle resides in
 }
 
+std::array<double,3> REDonFDTD::source::velocityEField(Mesh *g, double x, double y, double z){
+  return eFieldProduced(g,x,y,z);
+}
+
 void REDonFDTD::source::InitialiseMesh(Mesh * g){
   std::array<double,3> eField;
   std::array<double,3> bField;
   for (int mm = 0; mm < g->sizeX; ++mm){
     for (int nn = 0; nn < g->sizeY; ++nn){
       for (int pp = 0; pp < g->sizeZ; ++pp){
-        eField = eFieldProduced(g, mm, nn, pp);
+        eField = velocityEField(g, mm, nn, pp);
         bField = bFieldProduced(g, eField, mm, nn, pp);
 
         if(mm!=g->sizeX-1)   g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp] = eField[0];
