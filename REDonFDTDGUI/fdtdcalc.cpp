@@ -21,6 +21,7 @@ FDTDCalc::FDTDCalc(QObject *parent) : QObject(parent)
 void FDTDCalc::runFDTDSim(){
     std::unique_ptr<REDonFDTD::Mesh> g = std::make_unique<REDonFDTD::Mesh>(calcConfig);
     REDonFDTD::source * runSource = calcConfig.getSource(g.get());
+    runSource->InitialiseMesh(g.get());
     emit signalSlider(g->steps);
     /* do time stepping */
     for (g->time = 0; g->time < g->maxTime;){
@@ -29,8 +30,6 @@ void FDTDCalc::runFDTDSim(){
       g->updateE();                         // update electric fields in mesh
       halfTimeStep(runSource, g.get());
       runSource->sourceFunction(g.get(), calcConfig.analyticRange);   // produce effects of source on local fields.
-
-      g->updateABC();                       // apply ABCs
 
       const int step = static_cast<int>(g->time/g->timeStep);
       std::string fileSt = calcConfig.getComponent()+calcConfig.getPlane()+std::to_string(step);
@@ -91,7 +90,7 @@ void FDTDCalc::Plot(REDonFDTD::Mesh * g, config::guiConfig calcConfig, std::stri
     std::string plotType = "set dgrid3d "+std::to_string(g->sizeX)+","+
             std::to_string(g->sizeY)+","+std::to_string(g->dS*g->sizeX);
     gp.sendLine(plotType);
-    gp.sendLine("set cbrange [-5e-11:5e-11]");
+    //gp.sendLine("set cbrange [-5e-11:5e-11]");
     gp.sendLine("set cblabel ''");
     std::string output = "set output 'output/"+filename+".png'";
     gp.sendLine(output);

@@ -25,6 +25,27 @@ void REDonFDTD::source::findCell(Mesh *g){
   coordinates[5] = ceil(position[2]/(g->dS));     // which the particle resides in
 }
 
+void REDonFDTD::source::InitialiseMesh(Mesh * g){
+  std::array<double,3> eField;
+  std::array<double,3> bField;
+  for (int mm = 0; mm < g->sizeX; ++mm){
+    for (int nn = 0; nn < g->sizeY; ++nn){
+      for (int pp = 0; pp < g->sizeZ; ++pp){
+        eField = eFieldProduced(g, mm, nn, pp);
+        bField = bFieldProduced(g, eField, mm, nn, pp);
+
+        if(mm!=g->sizeX-1)   g->ex[(mm*g->sizeY+nn)*g->sizeZ+pp] = eField[0];
+        if(nn!=g->sizeY-1)   g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] = eField[1];
+        if(pp!=g->sizeZ-1)   g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] = eField[2];
+
+        if(nn!=g->sizeY-1 &&pp!=g->sizeZ-1)   g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] = bField[0];
+        if(mm!=g->sizeX-1 &&pp!=g->sizeZ-1)   g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp]     = bField[1];
+        if(nn!=g->sizeY-1 &&mm!=g->sizeX-1)   g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp]     = bField[2];
+      }
+    }
+  }
+}
+
 void REDonFDTD::source::sourceFunction(Mesh *g, int analyticRange){
   findCell(g);
 

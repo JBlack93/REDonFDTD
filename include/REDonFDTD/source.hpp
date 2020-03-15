@@ -32,11 +32,14 @@ namespace REDonFDTD {
  */
     virtual void timeAdvanceValues(Mesh *g) = 0;
 
+    void InitialiseMesh(Mesh *g);
+
   protected:
-    std::array<double,3> position;
-    std::array<double,3> velocity;
-    std::array<double,3> acceleration;
-    std::array<int,6> coordinates;
+    std::array<double,3> position = {0.};
+    std::array<double,3> velocity = {0.};
+    std::array<double,3> acceleration = {0.};
+    std::array<int,6> coordinates = {0};
+
 
 /** @brief Calculate the 6 points on the axes which give closest grid points
  */

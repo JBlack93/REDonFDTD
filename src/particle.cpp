@@ -16,19 +16,7 @@ REDonFDTD::Particle::Particle(Mesh * g){
   position[1] = (static_cast<double>(g->sizeY)/2-0.05)*(g->dS);
   position[2] = (static_cast<double>(g->sizeZ)/2-0.05)*(g->dS);
 
-  velocity[0] = 0;
   velocity[1] = 0.5*(g->c);
-  velocity[2] = 0;
-
-  acceleration[0],  acceleration[1],  acceleration[2] = 0;
-
-  prevPos[0],  prevPos[1],  prevPos[2] = 0;
-  prevVel[0],  prevVel[1],  prevVel[2] = 0;
-  prevAcc[0],  prevAcc[1],  prevAcc[2] = 0;
-
-  futPos[0],  futPos[1],  futPos[2] = 0;
-  futVel[0],  futVel[1],  futVel[2] = 0;
-  futAcc[0],  futAcc[1],  futAcc[2] = 0;
 
   findCell(g);
 }
