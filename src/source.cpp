@@ -38,9 +38,9 @@ void REDonFDTD::source::InitialiseMesh(Mesh * g){
         if(nn!=g->sizeY-1)   g->ey[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp] = eField[1];
         if(pp!=g->sizeZ-1)   g->ez[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp] = eField[2];
 
-        if(nn!=g->sizeY-1 &&pp!=g->sizeZ-1)   g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] = bField[0];
-        if(mm!=g->sizeX-1 &&pp!=g->sizeZ-1)   g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp]     = bField[1];
-        if(nn!=g->sizeY-1 &&mm!=g->sizeX-1)   g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp]     = bField[2];
+        if(nn!=g->sizeY-1 &&pp!=g->sizeZ-1)   g->hx[(mm*(g->sizeY-1)+nn)*(g->sizeZ-1)+pp] = bField[0]/(g->Mu_0);
+        if(mm!=g->sizeX-1 &&pp!=g->sizeZ-1)   g->hy[(mm*g->sizeY+nn)*(g->sizeZ-1)+pp]     = bField[1]/(g->Mu_0);
+        if(nn!=g->sizeY-1 &&mm!=g->sizeX-1)   g->hz[(mm*(g->sizeY-1)+nn)*g->sizeZ+pp]     = bField[2]/(g->Mu_0);
       }
     }
   }
@@ -56,13 +56,13 @@ void REDonFDTD::source::sourceFunction(Mesh *g, int analyticRange){
         std::array<double,3> eField = this->eFieldProduced(g, i, n, m);
         std::array<double,3> bField = this->bFieldProduced(g, eField, i, n, m);
 
-        g->ex[(i * g->sizeY + n) * g->sizeZ + m] += eField[0];
-        g->ey[(i * (g->sizeY - 1) + n) * g->sizeZ + m]+= eField[1];
-        g->ez[(i * g->sizeY + n) * (g->sizeZ - 1) + m]+= eField[2];
+        g->ex[(i * g->sizeY + n) * g->sizeZ + m]       = eField[0];
+        g->ey[(i * (g->sizeY - 1) + n) * g->sizeZ + m] = eField[1];
+        g->ez[(i * g->sizeY + n) * (g->sizeZ - 1) + m] = eField[2];
 
-        g->hx[(i * (g->sizeY - 1) + n) * (g->sizeZ - 1) + m]+= bField[0]/(g->Mu_0);
-        g->hy[(i * g->sizeY + n) * (g->sizeZ - 1) + m]+= bField[1]/(g->Mu_0);
-        g->hz[(i * (g->sizeY - 1) + n) * g->sizeZ + m]  += bField[2]/(g->Mu_0);
+        g->hx[(i * (g->sizeY - 1) + n) * (g->sizeZ - 1) + m] = bField[0]/(g->Mu_0);
+        g->hy[(i * g->sizeY + n) * (g->sizeZ - 1) + m]       = bField[1]/(g->Mu_0);
+        g->hz[(i * (g->sizeY - 1) + n) * g->sizeZ + m]       = bField[2]/(g->Mu_0);
       }
     }
   }// amplitude of change in field due to source

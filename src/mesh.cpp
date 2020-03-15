@@ -20,7 +20,7 @@ REDonFDTD::Mesh::Mesh(config configuration): REDonFDTD::Mesh::Mesh(){
   sizeZ = configuration.sizeZ;
   steps = configuration.steps;
   timeStep = configuration.timeStep;
-  dS = c*timeStep;
+  dS = c*timeStep/cdtds;
   maxTime = steps*timeStep;
 
   hx.resize(sizeX*(sizeY-1)*(sizeZ-1), 0);

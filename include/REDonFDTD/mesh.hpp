@@ -27,13 +27,13 @@ namespace REDonFDTD {
     int sizeZ = 50;                                     //!< z-dimension of Mesh
     int steps = 100;                                    //!< Number of Steps
     long double timeStep = 5e-10;                       //!< Duration of each step
+    const long double cdtds = 1.0 / sqrt(3.0);          //!< Courant Number (see Eq: 4.13)
     const double c = 2.99792458e8;                      //!< Speed of light
     const double epsilon_0 = 8.85418782e-12;            //!< Permittivity of free space
     const double Mu_0 = M_PI*4e-7;                      //!< Magnetic Permeability
-    double dS = c*timeStep;                             //!< Grid Spacing
+    double dS = c*timeStep/cdtds;                       //!< Grid Spacing
     long double maxTime = steps*timeStep;               //!< Duration of simulation
 
-    const long double cdtds = 1.0 / sqrt(3.0);
 
     std::vector<double> hx   = std::vector<double>(sizeX*(sizeY-1)*(sizeZ-1), 0);           //!< H_x field
     std::vector<double> chxh = std::vector<double>(sizeX*(sizeY-1)*(sizeZ-1), 1.0);         //!< Hx H coefficient

@@ -46,15 +46,12 @@ std::array<double,3> REDonFDTD::Particle::eFieldProduced(Mesh *g, double x, doub
                            (g->c)*gToSource[1]/(gToSourceMag) - velocity[1],
                            (g->c)*gToSource[2]/(gToSourceMag) - velocity[2]};
 
-  const double dotgToSourceU = util::dot(gToSource, dirU);
-
   const double prefactor = (charge)/(4*M_PI*(g->epsilon_0));
-  const double secFactor = gToSourceMag/(pow(dotgToSourceU/gToSourceMag,3));
-  const double firstFactor = ((g->c)*(g->c)-util::dot(velocity,velocity));
+  const double secFactor = gToSourceMag/pow(util::dot(gToSource, dirU),3);
+  const double firstFactor = ((g->c)*(g->c) - util::dot(velocity,velocity));
   const std::array<double,3> firstTerm{firstFactor*dirU[0], firstFactor*dirU[1], firstFactor*dirU[2]};
   std::array<double,3> secTerm = util::cross(gToSource, util::cross(dirU, acceleration));
-  std::for_each(secTerm.begin(),secTerm.end(),
-                [&gToSourceMag](double & element){element/=gToSourceMag;});
+
   const std::array<double,3> eField{prefactor*secFactor*(firstTerm[0]+secTerm[0]),
                              prefactor*secFactor*(firstTerm[1]+secTerm[1]),
                              prefactor*secFactor*(firstTerm[2]+secTerm[2])};
