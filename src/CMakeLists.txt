@@ -1,6 +1,6 @@
 file(GLOB srcs *.cpp)
 
-## hej source
+## REDonFDTD source
 add_library(REDonFDTD SHARED ${srcs})
 set_target_properties(REDonFDTD PROPERTIES OUTPUT_NAME "REDonFDTD")
 target_include_directories(REDonFDTD PUBLIC ${REDonFDTD_INCLUDE_DIR})
