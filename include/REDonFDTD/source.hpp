@@ -1,5 +1,5 @@
-/** @file particle.hpp
- *  @brief Contains the Particle class */
+/** @file source.hpp
+ *  @brief Contains the abstract source class, which also includes factory method */
 #pragma once
 #include <algorithm>
 
@@ -34,10 +34,10 @@ namespace REDonFDTD {
     void InitialiseMesh(Mesh *g);
 
   protected:
-    std::array<double,3> position = {0.};
-    std::array<double,3> velocity = {0.};
-    std::array<double,3> acceleration = {0.};
-    std::array<int,6> coordinates = {0};
+    std::array<double,3> position = {0.};       //!< @brief Position of source
+    std::array<double,3> velocity = {0.};       //!< @brief Velocity of source
+    std::array<double,3> acceleration = {0.};   //!< @brief Acceleration of source
+    std::array<int,6> coordinates = {0};        //!< @brief grid coordinates surrounding source
 
 
 /** @brief Calculate the 6 points on the axes which give closest grid points

@@ -25,19 +25,19 @@ namespace REDonFDTD {
     void timeAdvanceValues(Mesh *g);
 
   private:
-    double charge = 1.6e-19;
-    double mass = 1.67262178e-27;
-    double prevGamma =1.;
-    double gamma =1.;
-    double futGamma=1.;
+    double charge = 1.6e-19;                //!< Electric Charge of particle
+    double mass = 1.67262178e-27;           //!< Mass of Particle
+    double prevGamma =1.;                   //!< Previous \gamma of particle
+    double gamma =1.;                       //!< Current \gamma of particle
+    double futGamma=1.;                     //!< Future \gamma of particle
 
-    std::array<double,3> prevPos = {0.};
-    std::array<double,3> prevVel = {0.};
-    std::array<double,3> prevAcc = {0.};
+    std::array<double,3> prevPos = {0.};    //!< Previous position of particle
+    std::array<double,3> prevVel = {0.};    //!< Previous velocity of particle
+    std::array<double,3> prevAcc = {0.};    //!< Previous acceleration of particle
 
-    std::array<double,3> futPos = {0.};
-    std::array<double,3> futVel = {0.};
-    std::array<double,3> futAcc = {0.};
+    std::array<double,3> futPos = {0.};    //!< Future position of particle
+    std::array<double,3> futVel = {0.};    //!< Future velocity of particle
+    std::array<double,3> futAcc = {0.};    //!< Future acceleration of particle
 
 /** @brief Calculate gamma from a velocity
  *  @param g              Mesh particle is present in

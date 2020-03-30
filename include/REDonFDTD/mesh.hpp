@@ -62,25 +62,24 @@ namespace REDonFDTD {
     long double time;          //!< Current time in simulation
 
 /** @brief function that applies ABC -- called once per time step
- *  @param g        Space-time mesh to be updated
  */
     void updateABC();
 
-    double abccoef;
-    std::vector<double> eyx0 = std::vector<double>((sizeY-1)*sizeZ);
-    std::vector<double> ezx0 = std::vector<double>(sizeY*(sizeZ-1));
-    std::vector<double> eyx1 = std::vector<double>((sizeY-1)*sizeZ);
-    std::vector<double> ezx1 = std::vector<double>(sizeY*(sizeZ-1));
+    double abccoef;                                                  //!< coeficient pertaining to ABC boundary
+    std::vector<double> eyx0 = std::vector<double>((sizeY-1)*sizeZ); //!< coeficient pertaining to E Field
+    std::vector<double> ezx0 = std::vector<double>(sizeY*(sizeZ-1)); //!< coeficient pertaining to E Field
+    std::vector<double> eyx1 = std::vector<double>((sizeY-1)*sizeZ); //!< coeficient pertaining to E Field
+    std::vector<double> ezx1 = std::vector<double>(sizeY*(sizeZ-1)); //!< coeficient pertaining to E Field
 
-    std::vector<double> exy0 = std::vector<double>((sizeX-1)*sizeZ);
-    std::vector<double> ezy0 = std::vector<double>(sizeX*(sizeZ-1));
-    std::vector<double> exy1 = std::vector<double>((sizeX-1)*sizeZ);
-    std::vector<double> ezy1 = std::vector<double>(sizeX*(sizeZ-1));
+    std::vector<double> exy0 = std::vector<double>((sizeX-1)*sizeZ); //!< coeficient pertaining to E Field
+    std::vector<double> ezy0 = std::vector<double>(sizeX*(sizeZ-1)); //!< coeficient pertaining to E Field
+    std::vector<double> exy1 = std::vector<double>((sizeX-1)*sizeZ); //!< coeficient pertaining to E Field
+    std::vector<double> ezy1 = std::vector<double>(sizeX*(sizeZ-1)); //!< coeficient pertaining to E Field
 
-    std::vector<double> exz0 = std::vector<double>((sizeX-1)*sizeY);
-    std::vector<double> eyz0 = std::vector<double>(sizeX*(sizeY-1));
-    std::vector<double> exz1 = std::vector<double>((sizeX-1)*sizeY);
-    std::vector<double> eyz1 = std::vector<double>(sizeX*(sizeY-1));
+    std::vector<double> exz0 = std::vector<double>((sizeX-1)*sizeY); //!< coeficient pertaining to E Field
+    std::vector<double> eyz0 = std::vector<double>(sizeX*(sizeY-1)); //!< coeficient pertaining to E Field
+    std::vector<double> exz1 = std::vector<double>((sizeX-1)*sizeY); //!< coeficient pertaining to E Field
+    std::vector<double> eyz1 = std::vector<double>(sizeX*(sizeY-1)); //!< coeficient pertaining to E Field
 
 
   /** @brief External B field in Mesh */

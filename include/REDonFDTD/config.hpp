@@ -5,6 +5,7 @@
 #include <cmath>
 #include <array>
 
+//! @brief Namespace containing all relevant functions and classes of REDonFDTD library.
 namespace REDonFDTD {
 
 //! @brief Class containing the configuration of the run of REDonFDTD

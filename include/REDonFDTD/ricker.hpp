@@ -9,15 +9,14 @@
 
 namespace REDonFDTD {
 
+//! @brief Class containint basic ricker source
   class ricker: public source {
   public:
     ricker(Mesh *g, double pointspwave);
     ricker(Mesh *g, config configuration);
     ~ricker() = default;
 
-/** @brief Advance values pertaining to ricker source
- *  @param g       Space-time Mesh in which source will be present
- */
+//! @brief Advance values pertaining to ricker source
     void timeAdvanceValues(Mesh * /*g*/);
 
 private:
@@ -30,6 +29,7 @@ private:
  */
     double ezInc(Mesh * g, double location);
 
+//! @brief Basic Points-per-wave parameter of the ricker source.
     double ppw;
 
   };

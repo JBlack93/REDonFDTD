@@ -35,10 +35,18 @@ REDonFDTD::ricker::ricker(Mesh * g, config configuration){
 }
 
 
+/** @brief Update values of ricker source at the end of a timestep
+ */
 void REDonFDTD::ricker::timeAdvanceValues(Mesh */*g*/){
   return;
 }
 
+/** @brief Calculate the E-Field produced by ricker source on a particular point in S-T
+ *  @param g        Mesh upon which the ricker's effects are felt
+ *  @param x        x-position of grid point
+ *  @param y        y-position of grid point
+ *  @param z        z-position of grid point
+ */
 std::array<double,3> REDonFDTD::ricker::eFieldProduced(Mesh *g, double x, double y, double z){
   std::array<double,3> vect{position[0]-x,position[1]-y,position[2]-z};
   const double eZ = ezInc(g, util::magnitude(vect));
@@ -46,6 +54,8 @@ std::array<double,3> REDonFDTD::ricker::eFieldProduced(Mesh *g, double x, double
   return eField;
 }
 
+/** @brief Calculate the B-Field produced by ricker source on a particular point in S-T
+ */
 std::array<double,3> REDonFDTD::ricker::bFieldProduced(Mesh * /*g*/, std::array<double,3> /*eField*/,
                                                        double /*x*/, double /*y*/, double /*z*/){
   const std::array<double,3> bField{0,0,0};

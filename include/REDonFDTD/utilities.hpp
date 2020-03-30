@@ -5,6 +5,7 @@
 
 namespace REDonFDTD {
 
+//! @brief Various functions to manipulate vectors and arrays for use within REDonFDTD
   namespace util {
 //! @{
 /** @brief Calculate the Cross product between two 3-arrays
