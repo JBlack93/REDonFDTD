@@ -1,0 +1,51 @@
+name:  code_checks
+
+on: push
+
+jobs:
+  tests:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        name: [ubuntu-16.04-gcc9, ubuntu-18.04-gcc9, macOS-latest]
+        include:
+          - name: ubuntu-16.04-gcc9
+            os: ubuntu-16.04
+            CC: gcc-9
+            CXX: g++-9
+          - name: ubuntu-18.04-gcc9
+            os: ubuntu-18.04
+            CC: gcc-9
+            CXX: g++-9
+          - name: macOS-latest
+            os: macos-latest
+            xcode: 10
+            CC: clang
+            CXX: clang++
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install (Ubuntu GCC)
+        if: startsWith(matrix.os, 'ubuntu') && startsWith(matrix.CC, 'gcc')
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+          sudo apt-get install -y ${{ matrix.CXX }}
+      - name: Install (macOS)
+        if: startsWith(matrix.os, 'macOS')
+        run: |
+          brew install ninja llvm
+          sudo ln -s /usr/local/opt/llvm/bin/clang-tidy /usr/local/bin/clang-tidy
+
+      - name: configure
+        run: |
+          mkdir build
+          cd build
+          cmake -DCMAKE_CXX_FLAGS="-Werror" \
+                -DCMAKE_C_COMPILER=${{ matrix.CC }} \
+                -DCMAKE_CXX_COMPILER=${{ matrix.CXX }} ..
+      - name: build
+        run: cmake --build build
+      - name: test
+        if: startsWith(matrix.os, 'ubuntu')
+        run: cd build && ctest
